@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부록: 자주 쓰이는 한국어 낱말 850</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; background: #f8f9fa; color: #202122; }
+        .header { background: #fff; border-bottom: 1px solid #a2a9b1; padding: 1rem 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 1.8rem; color: #000; margin-bottom: 0.5rem; }
+        .header p { color: #54595d; font-size: 0.95rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .intro { background: #fff; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem; border: 1px solid #a2a9b1; }
+        .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+        .word-card { background: #fff; border: 1px solid #a2a9b1; border-radius: 4px; padding: 1rem; cursor: pointer; transition: all 0.2s; position: relative; }
+        .word-card:hover { background: #f8f9fa; border-color: #0645ad; transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .word-card.selected { box-shadow: 0 0 0 3px rgba(6, 69, 173, 0.3); }
+        .word-card.color-green { background: #d4edda; border-color: #28a745; }
+        .word-card.color-pink { background: #f8d7da; border-color: #dc3545; }
+        .word-rank { font-size: 0.8rem; color: #72777d; margin-bottom: 0.3rem; }
+        .word-main { font-size: 1.3rem; font-weight: bold; color: #0645ad; margin-bottom: 0.3rem; }
+        .word-chinese { font-size: 0.85rem; color: #54595d; }
+        
+        /* Floating Menu */
+        .floating-menu { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); background: #fff; border: 2px solid #0645ad; border-radius: 8px; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 999; }
+        .floating-menu h3 { font-size: 0.9rem; margin-bottom: 0.8rem; color: #0645ad; }
+        .color-option { width: 40px; height: 40px; border-radius: 50%; margin: 0.5rem 0; cursor: pointer; border: 2px solid #ccc; transition: all 0.2s; }
+        .color-option:hover { transform: scale(1.1); border-color: #0645ad; }
+        .color-option.default { background: #fff; }
+        .color-option.green { background: #d4edda; }
+        .color-option.pink { background: #f8d7da; }
+        .mode-toggle { margin-top: 1rem; padding: 0.5rem; background: #0645ad; color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 0.9rem; }
+        .mode-toggle:hover { background: #053d8a; }
+        .mode-toggle.view-mode { background: #28a745; }
+        
+        /* Export Buttons */
+        .export-section { margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+        .export-btn { padding: 0.7rem 1.5rem; background: #0645ad; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .export-btn:hover { background: #053d8a; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; overflow-y: auto; }
+        .modal.active { display: flex; align-items: flex-start; justify-content: center; padding: 2rem; }
+        .modal-content { background: #fff; max-width: 800px; width: 100%; border-radius: 8px; padding: 2rem; position: relative; margin: 2rem auto; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 2rem; cursor: pointer; color: #72777d; background: none; border: none; width: 40px; height: 40px; line-height: 1; }
+        .close-btn:hover { color: #000; }
+        .word-detail h2 { color: #000; font-size: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #0645ad; }
+        .phrase-section { margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-left: 4px solid #0645ad; border-radius: 4px; }
+        .phrase-section h3 { color: #0645ad; font-size: 1.3rem; margin-bottom: 1rem; }
+        .quote { background: #fff; padding: 1rem; border-left: 3px solid #72777d; margin: 1rem 0; font-style: italic; color: #54595d; }
+        .audio-btn { background: #28a745; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-left: 1rem; }
+        .audio-btn:hover { background: #218838; }
+        .explanation { margin: 1rem 0; }
+        .explanation strong { color: #000; display: block; margin-bottom: 0.5rem; }
+        .usage-list { list-style: none; padding-left: 1.5rem; }
+        .usage-list li { margin: 0.5rem 0; position: relative; }
+        .usage-list li:before { content: "•"; position: absolute; left: -1rem; color: #0645ad; }
+        .search-box { margin: 1.5rem 0; padding: 1rem; background: #fff; border: 1px solid #a2a9b1; border-radius: 4px; }
+        .search-box input { width: 100%; padding: 0.7rem; font-size: 1rem; border: 1px solid #a2a9b1; border-radius: 4px; }
+        .search-box input:focus { outline: none; border-color: #0645ad; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>부록: 자주 쓰이는 한국어 낱말 850</h1>
+        <p>한국어 학습을 위한 기본 850개 단어 목록 | Korean Basic 850 Words List</p>
+    </div>
+    
+    <div class="floating-menu">
+        <h3>單字標記</h3>
+        <div class="color-option default" onclick="selectColor('default')" title="預設"></div>
+        <div class="color-option green" onclick="selectColor('green')" title="已學習"></div>
+        <div class="color-option pink" onclick="selectColor('pink')" title="需要複習"></div>
+        <button class="mode-toggle" onclick="toggleMode()">標記模式</button>
+    </div>
+    
+    <div class="container">
+        <div class="intro">
+            <h2>소개</h2>
+            <p>이 목록은 한국어에서 가장 자주 사용되는 850개의 기본 단어를 포함하고 있습니다. 각 단어를 클릭하면 실제 대화와 문장에서 어떻게 사용되는지 확인할 수 있습니다.</p>
+        </div>
+        
+        <div class="export-section">
+            <button class="export-btn" onclick="exportRange(1, 100)">匯出 1-100</button>
+            <button class="export-btn" onclick="exportRange(101, 200)">匯出 101-200</button>
+            <button class="export-btn" onclick="exportRange(201, 300)">匯出 201-300</button>
+            <button class="export-btn" onclick="exportRange(301, 400)">匯出 301-400</button>
+            <button class="export-btn" onclick="exportRange(401, 500)">匯出 401-500</button>
+            <button class="export-btn" onclick="exportRange(501, 600)">匯出 501-600</button>
+            <button class="export-btn" onclick="exportRange(601, 700)">匯出 601-700</button>
+            <button class="export-btn" onclick="exportRange(701, 800)">匯出 701-800</button>
+            <button class="export-btn" onclick="exportRange(801, 850)">匯出 801-850</button>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="단어 검색... (예: 하다, 있다, 사람)">
+        </div>
+        <div class="word-grid" id="wordGrid"></div>
+    </div>
+    
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="word-detail" id="wordDetail"></div>
+        </div>
+    </div>
+    
+    <script>
+        let colorMode = false;
+        let selectedColor = 'default';
+        let wordColors = {};
+        
+        // ===== 完整資料區 (前 10 個單字) =====
+        const COMPLETE_WORDS = [
+            {
+                rank: 1, word: "것", chinese: "東西/事",
+                examples: [
+                    {phrase: "~는 것", quote: "중요한 것은 포기하지 않는 것이에요.", meaning: "명사형 어미로, 동작이나 상태를 명사처럼 만들 때 사용합니다.", chinese: "名詞化語尾，將動作或狀態變成名詞時使用", usage: ["제가 좋아하는 것은 음악이에요.", "그것을 하는 것이 어려워요."]},
+                    {phrase: "것 같다", quote: "비가 올 것 같아요.", meaning: "추측이나 불확실한 생각을 표현할 때 사용하는 표현입니다.", chinese: "表達推測或不確定的想法時使用的表達方式", usage: ["그 사람 아는 것 같아요.", "맛있을 것 같은데요?"]}
+                ]
+            },
+            {
+                rank: 2, word: "하다", chinese: "做",
+                examples: [
+                    {phrase: "~을/를 하다", quote: "오늘 뭐 해요?", meaning: "동작이나 행동을 나타내는 가장 기본적인 동사입니다.", chinese: "表示動作或行為的最基本動詞", usage: ["숙제를 하다", "운동을 하다"]},
+                    {phrase: "어떻게 하다", quote: "이거 어떻게 해요?", meaning: "방법을 묻거나 상황 처리를 물을 때 사용합니다.", chinese: "詢問方法或如何處理情況時使用", usage: ["어떻게 하면 좋을까요?", "그럼 어떻게 할 거예요?"]}
+                ]
+            },
+            {
+                rank: 3, word: "있다", chinese: "有/存在",
+                examples: [
+                    {phrase: "~이/가 있다", quote: "시간 있어요?", meaning: "존재나 소유를 나타낼 때 사용하는 동사입니다.", chinese: "表示存在或擁有時使用的動詞", usage: ["돈이 있어요.", "집에 사람이 있어요."]},
+                    {phrase: "~고 있다", quote: "지금 뭐 하고 있어요?", meaning: "현재 진행 중인 동작을 표현할 때 사용합니다.", chinese: "表達正在進行的動作時使用", usage: ["밥 먹고 있어요.", "공부하고 있어요."]}
+                ]
+            },
+            {rank: 4, word: "있다 (보조동사)", chinese: "有(輔助)", examples: [{phrase: "~고 있다", quote: "계속 생각하고 있어요.", meaning: "동작의 지속을 나타냅니다.", chinese: "表示動作的持續", usage: ["기다리고 있어요."]}]},
+            {rank: 5, word: "되다", chinese: "成為", examples: [{phrase: "~이/가 되다", quote: "의사가 되고 싶어요.", meaning: "어떤 상태나 신분으로 변화함을 나타냅니다.", chinese: "表示變成某種狀態或身份", usage: ["친구가 됐어요."]}]},
+            {rank: 6, word: "수", chinese: "數/能", examples: [{phrase: "~ㄹ 수 있다", quote: "한국어를 할 수 있어요.", meaning: "능력이나 가능성을 나타냅니다.", chinese: "表示能力或可能性", usage: ["갈 수 있어요."]}]},
+            {rank: 7, word: "하다", chinese: "做", examples: [{phrase: "~을 하다", quote: "일을 하다", meaning: "동작을 나타냅니다.", chinese: "表示動作", usage: ["공부를 하다"]}]},
+            {rank: 8, word: "나", chinese: "我", examples: [{phrase: "나는", quote: "나는 학생이에요.", meaning: "자기 자신을 가리킵니다.", chinese: "指稱自己", usage: ["나도 가요."]}]},
+            {rank: 9, word: "그", chinese: "他/那", examples: [{phrase: "그 사람", quote: "그 사람 어디 갔어요?", meaning: "앞에서 언급된 사람을 가리킵니다.", chinese: "指稱前面提到的人", usage: ["그것 주세요."]}]},
+            {rank: 10, word: "없다", chinese: "沒有", examples: [{phrase: "~이/가 없다", quote: "시간이 없어요.", meaning: "부재나 부족함을 나타냅니다.", chinese: "表示不存在或缺乏", usage: ["돈이 없어요."]}]}
+        ];
+        
+        // ===== 基礎單字列表 (11-850) =====
+        const BASIC_WORD_LIST = [
+            {rank: 11, word: "않다", chinese: "不"},
+            {rank: 12, word: "사람", chinese: "人"},
+            {rank: 13, word: "우리", chinese: "我們"},
+            {rank: 14, word: "이", chinese: "這"},
+            {rank: 15, word: "그", chinese: "那"},
+            {rank: 16, word: "아니다", chinese: "不是"},
+            {rank: 17, word: "보다", chinese: "看"},
+            {rank: 18, word: "등", chinese: "等"},
+            {rank: 19, word: "때", chinese: "時候"},
+            {rank: 20, word: "거", chinese: "東西"},
+            {rank: 21, word: "보다", chinese: "比"},
+            {rank: 22, word: "같다", chinese: "一樣"},
+            {rank: 23, word: "주다", chinese: "給"},
+            {rank: 24, word: "대하다", chinese: "對於"},
+            {rank: 25, word: "가다", chinese: "去"}
+            // 這裡可以繼續添加到 850
+        ];
+        
+        // ===== 生成佔位資料 (26-850) =====
+        function generatePlaceholderWords() {
+            const placeholders = [];
+            for (let i = 26; i <= 850; i++) {
+                placeholders.push({
+                    rank: i,
+                    word: `단어${i}`,
+                    chinese: `單字${i}`,
+                    examples: [{
+                        phrase: `단어${i}의 표현`,
+                        quote: `이것은 단어 ${i}의 예문입니다.`,
+                        meaning: "이 단어는 아직 내용이 추가되지 않았습니다.",
+                        chinese: "此單字尚未添加內容",
+                        usage: [`단어${i}를 사용한 예시입니다.`]
+                    }]
+                });
+            }
+            return placeholders;
+        }
+        
+        // ===== 合併所有單字資料 =====
+        const ALL_WORDS = [
+            ...COMPLETE_WORDS,
+            ...BASIC_WORD_LIST.map(w => ({
+                ...w,
+                examples: [{
+                    phrase: w.word,
+                    quote: `${w.word}를 사용한 예문입니다.`,
+                    meaning: "일상 대화에서 자주 사용되는 단어입니다.",
+                    chinese: w.chinese,
+                    usage: [`${w.word}를 문장에서 사용해 보세요.`]
+                }]
+            })),
+            ...generatePlaceholderWords()
+        ];
+        
+        // ===== 功能函數 =====
+        function toggleMode() {
+            colorMode = !colorMode;
+            const btn = document.querySelector('.mode-toggle');
+            if (colorMode) {
+                btn.textContent = '查看模式 (X)';
+                btn.classList.add('view-mode');
+            } else {
+                btn.textContent = '標記模式';
+                btn.classList.remove('view-mode');
+            }
+        }
+        
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.color-option').forEach(el => el.style.borderWidth = '2px');
+            document.querySelector(`.color-option.${color}`).style.borderWidth = '4px';
+        }
+        
+        function renderWords(wordsToRender) {
+            const grid = document.getElementById('wordGrid');
+            grid.innerHTML = '';
+            wordsToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                if (wordColors[item.rank]) {
+                    card.classList.add(`color-${wordColors[item.rank]}`);
+                }
+                card.innerHTML = `
+                    <div class="word-rank">#${item.rank}</div>
+                    <div class="word-main">${item.word}</div>
+                    <div class="word-chinese">${item.chinese}</div>
+                `;
+                card.onclick = () => {
+                    if (colorMode) {
+                        wordColors[item.rank] = selectedColor;
+                        renderWords(wordsToRender);
+                    } else {
+                        showDetail(item);
+                    }
+                };
+                grid.appendChild(card);
+            });
+        }
+        
+        function speakKorean(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+        
+        function showDetail(item) {
+            const detail = document.getElementById('wordDetail');
+            const examplesHTML = item.examples.map(ex => `
+                <div class="phrase-section">
+                    <h3>${ex.phrase} <button class="audio-btn" onclick="speakKorean('${ex.quote}')">🔊 發音</button></h3>
+                    <div class="quote">${ex.quote}</div>
+                    <div class="explanation">
+                        <strong>의미 설명:</strong>
+                        <p>${ex.meaning}</p>
+                    </div>
+                    <div class="explanation">
+                        <strong>中文翻譯:</strong>
+                        <p>${ex.chinese}</p>
+                    </div>
+                    <div class="explanation">
+                        <strong>延伸用法:</strong>
+                        <ul class="usage-list">
+                            ${ex.usage.map(u => `<li>${u} <button class="audio-btn" onclick="speakKorean('${u}')" style="font-size:0.8rem; padding:0.2rem 0.5rem;">🔊</button></li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+            detail.innerHTML = `
+                <h2>${item.word} <button class="audio-btn" onclick="speakKorean('${item.word}')">🔊 發音</button></h2>
+                <p style="color: #72777d; margin-bottom: 1.5rem;">순위: #${item.rank} | 中文: ${item.chinese}</p>
+                ${examplesHTML}
+            `;
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        function exportRange(start, end) {
+            const rangeWords = ALL_WORDS.filter(w => w.rank >= start && w.rank <= end);
+            let exportText = `韓文單字 ${start}-${end}\n\n`;
+            rangeWords.forEach(w => {
+                exportText += `#${w.rank} ${w.word} (${w.chinese})\n`;
+                w.examples.forEach(ex => {
+                    exportText += `  片語: ${ex.phrase}\n`;
+                    exportText += `  例句: ${ex.quote}\n`;
+                    exportText += `  說明: ${ex.meaning}\n`;
+                    exportText += `  中文: ${ex.chinese}\n`;
+                    exportText += `  用法: ${ex.usage.join(', ')}\n\n`;
+                });
+            });
+            
+            const blob = new Blob([exportText], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `korean_words_${start}-${end}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        document.getElementById('modal').onclick = (e) => {
+            if (e.target.id === 'modal') closeModal();
+        };
+        
+        document.getElementById('searchInput').oninput = (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = ALL_WORDS.filter(w => 
+                w.word.toLowerCase().includes(query) || 
+                w.chinese.toLowerCase().includes(query)
+            );
+            renderWords(filtered);
+        };
+        
+        renderWords(ALL_WORDS);
+        selectColor('default');
+    </script>
+</body>
+</html>
