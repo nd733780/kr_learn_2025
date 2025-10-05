@@ -16,14 +16,13 @@
         .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
         .word-card { background: #fff; border: 1px solid #a2a9b1; border-radius: 4px; padding: 1rem; cursor: pointer; transition: all 0.2s; position: relative; }
         .word-card:hover { background: #f8f9fa; border-color: #0645ad; transform: translateY(-2px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .word-card.selected { box-shadow: 0 0 0 3px rgba(6, 69, 173, 0.3); }
         .word-card.color-green { background: #d4edda; border-color: #28a745; }
         .word-card.color-pink { background: #f8d7da; border-color: #dc3545; }
         .word-rank { font-size: 0.8rem; color: #72777d; margin-bottom: 0.3rem; }
         .word-main { font-size: 1.3rem; font-weight: bold; color: #0645ad; margin-bottom: 0.3rem; }
         .word-chinese { font-size: 0.85rem; color: #54595d; }
+        .word-pos { font-size: 0.75rem; color: #999; margin-top: 0.3rem; }
         
-        /* Floating Menu */
         .floating-menu { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); background: #fff; border: 2px solid #0645ad; border-radius: 8px; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 999; }
         .floating-menu h3 { font-size: 0.9rem; margin-bottom: 0.8rem; color: #0645ad; }
         .color-option { width: 40px; height: 40px; border-radius: 50%; margin: 0.5rem 0; cursor: pointer; border: 2px solid #ccc; transition: all 0.2s; }
@@ -35,7 +34,6 @@
         .mode-toggle:hover { background: #053d8a; }
         .mode-toggle.view-mode { background: #28a745; }
         
-        /* Export Buttons */
         .export-section { margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; }
         .export-btn { padding: 0.7rem 1.5rem; background: #0645ad; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .export-btn:hover { background: #053d8a; }
@@ -46,16 +44,15 @@
         .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 2rem; cursor: pointer; color: #72777d; background: none; border: none; width: 40px; height: 40px; line-height: 1; }
         .close-btn:hover { color: #000; }
         .word-detail h2 { color: #000; font-size: 2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #0645ad; }
-        .phrase-section { margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-left: 4px solid #0645ad; border-radius: 4px; }
-        .phrase-section h3 { color: #0645ad; font-size: 1.3rem; margin-bottom: 1rem; }
-        .quote { background: #fff; padding: 1rem; border-left: 3px solid #72777d; margin: 1rem 0; font-style: italic; color: #54595d; }
-        .audio-btn { background: #28a745; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-left: 1rem; }
+        .detail-info { margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-radius: 4px; }
+        .detail-info p { margin: 0.5rem 0; line-height: 1.8; }
+        .detail-info strong { color: #0645ad; }
+        .example-section { margin: 2rem 0; }
+        .example-section h3 { color: #0645ad; font-size: 1.2rem; margin-bottom: 1rem; }
+        .example-item { margin: 1rem 0; padding: 1rem; background: #fff; border-left: 3px solid #0645ad; }
+        .example-item p { margin: 0.5rem 0; }
+        .audio-btn { background: #28a745; color: #fff; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; margin-left: 0.5rem; font-size: 0.85rem; }
         .audio-btn:hover { background: #218838; }
-        .explanation { margin: 1rem 0; }
-        .explanation strong { color: #000; display: block; margin-bottom: 0.5rem; }
-        .usage-list { list-style: none; padding-left: 1.5rem; }
-        .usage-list li { margin: 0.5rem 0; position: relative; }
-        .usage-list li:before { content: "•"; position: absolute; left: -1rem; color: #0645ad; }
         .search-box { margin: 1.5rem 0; padding: 1rem; background: #fff; border: 1px solid #a2a9b1; border-radius: 4px; }
         .search-box input { width: 100%; padding: 0.7rem; font-size: 1rem; border: 1px solid #a2a9b1; border-radius: 4px; }
         .search-box input:focus { outline: none; border-color: #0645ad; }
@@ -78,23 +75,15 @@
     <div class="container">
         <div class="intro">
             <h2>소개</h2>
-            <p>이 목록은 한국어에서 가장 자주 사용되는 850개의 기본 단어를 포함하고 있습니다. 각 단어를 클릭하면 실제 대화와 문장에서 어떻게 사용되는지 확인할 수 있습니다.</p>
+            <p>這個列表包含韓語中最常用的 850 個基本單字。目前已上線前 10 個單字，點擊任何單字卡片查看詳細例句和用法。剩餘單字請在 WORD_DATA 中繼續添加。</p>
         </div>
         
         <div class="export-section">
-            <button class="export-btn" onclick="exportRange(1, 100)">匯出 1-100</button>
-            <button class="export-btn" onclick="exportRange(101, 200)">匯出 101-200</button>
-            <button class="export-btn" onclick="exportRange(201, 300)">匯出 201-300</button>
-            <button class="export-btn" onclick="exportRange(301, 400)">匯出 301-400</button>
-            <button class="export-btn" onclick="exportRange(401, 500)">匯出 401-500</button>
-            <button class="export-btn" onclick="exportRange(501, 600)">匯出 501-600</button>
-            <button class="export-btn" onclick="exportRange(601, 700)">匯出 601-700</button>
-            <button class="export-btn" onclick="exportRange(701, 800)">匯出 701-800</button>
-            <button class="export-btn" onclick="exportRange(801, 850)">匯出 801-850</button>
+            <button class="export-btn" onclick="exportRange(1, 10)">匯出 1-10</button>
         </div>
         
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="단어 검색... (예: 하다, 있다, 사람)">
+            <input type="text" id="searchInput" placeholder="단어 검색... (例: 하다, 있다, 做, 有)">
         </div>
         <div class="word-grid" id="wordGrid"></div>
     </div>
@@ -111,92 +100,858 @@
         let selectedColor = 'default';
         let wordColors = {};
         
-        // ===== 完整資料區 (前 10 個單字) =====
-        const COMPLETE_WORDS = [
-            {
-                rank: 1, word: "것", chinese: "東西/事",
-                examples: [
-                    {phrase: "~는 것", quote: "중요한 것은 포기하지 않는 것이에요.", meaning: "명사형 어미로, 동작이나 상태를 명사처럼 만들 때 사용합니다.", chinese: "名詞化語尾，將動作或狀態變成名詞時使用", usage: ["제가 좋아하는 것은 음악이에요.", "그것을 하는 것이 어려워요."]},
-                    {phrase: "것 같다", quote: "비가 올 것 같아요.", meaning: "추측이나 불확실한 생각을 표현할 때 사용하는 표현입니다.", chinese: "表達推測或不確定的想法時使用的表達方式", usage: ["그 사람 아는 것 같아요.", "맛있을 것 같은데요?"]}
-                ]
-            },
-            {
-                rank: 2, word: "하다", chinese: "做",
-                examples: [
-                    {phrase: "~을/를 하다", quote: "오늘 뭐 해요?", meaning: "동작이나 행동을 나타내는 가장 기본적인 동사입니다.", chinese: "表示動作或行為的最基本動詞", usage: ["숙제를 하다", "운동을 하다"]},
-                    {phrase: "어떻게 하다", quote: "이거 어떻게 해요?", meaning: "방법을 묻거나 상황 처리를 물을 때 사용합니다.", chinese: "詢問方法或如何處理情況時使用", usage: ["어떻게 하면 좋을까요?", "그럼 어떻게 할 거예요?"]}
-                ]
-            },
-            {
-                rank: 3, word: "있다", chinese: "有/存在",
-                examples: [
-                    {phrase: "~이/가 있다", quote: "시간 있어요?", meaning: "존재나 소유를 나타낼 때 사용하는 동사입니다.", chinese: "表示存在或擁有時使用的動詞", usage: ["돈이 있어요.", "집에 사람이 있어요."]},
-                    {phrase: "~고 있다", quote: "지금 뭐 하고 있어요?", meaning: "현재 진행 중인 동작을 표현할 때 사용합니다.", chinese: "表達正在進行的動作時使用", usage: ["밥 먹고 있어요.", "공부하고 있어요."]}
-                ]
-            },
-            {rank: 4, word: "있다 (보조동사)", chinese: "有(輔助)", examples: [{phrase: "~고 있다", quote: "계속 생각하고 있어요.", meaning: "동작의 지속을 나타냅니다.", chinese: "表示動作的持續", usage: ["기다리고 있어요."]}]},
-            {rank: 5, word: "되다", chinese: "成為", examples: [{phrase: "~이/가 되다", quote: "의사가 되고 싶어요.", meaning: "어떤 상태나 신분으로 변화함을 나타냅니다.", chinese: "表示變成某種狀態或身份", usage: ["친구가 됐어요."]}]},
-            {rank: 6, word: "수", chinese: "數/能", examples: [{phrase: "~ㄹ 수 있다", quote: "한국어를 할 수 있어요.", meaning: "능력이나 가능성을 나타냅니다.", chinese: "表示能力或可能性", usage: ["갈 수 있어요."]}]},
-            {rank: 7, word: "하다", chinese: "做", examples: [{phrase: "~을 하다", quote: "일을 하다", meaning: "동작을 나타냅니다.", chinese: "表示動作", usage: ["공부를 하다"]}]},
-            {rank: 8, word: "나", chinese: "我", examples: [{phrase: "나는", quote: "나는 학생이에요.", meaning: "자기 자신을 가리킵니다.", chinese: "指稱自己", usage: ["나도 가요."]}]},
-            {rank: 9, word: "그", chinese: "他/那", examples: [{phrase: "그 사람", quote: "그 사람 어디 갔어요?", meaning: "앞에서 언급된 사람을 가리킵니다.", chinese: "指稱前面提到的人", usage: ["그것 주세요."]}]},
-            {rank: 10, word: "없다", chinese: "沒有", examples: [{phrase: "~이/가 없다", quote: "시간이 없어요.", meaning: "부재나 부족함을 나타냅니다.", chinese: "表示不存在或缺乏", usage: ["돈이 없어요."]}]}
-        ];
-        
-        // ===== 基礎單字列表 (11-850) =====
-        const BASIC_WORD_LIST = [
-            {rank: 11, word: "않다", chinese: "不"},
-            {rank: 12, word: "사람", chinese: "人"},
-            {rank: 13, word: "우리", chinese: "我們"},
-            {rank: 14, word: "이", chinese: "這"},
-            {rank: 15, word: "그", chinese: "那"},
-            {rank: 16, word: "아니다", chinese: "不是"},
-            {rank: 17, word: "보다", chinese: "看"},
-            {rank: 18, word: "등", chinese: "等"},
-            {rank: 19, word: "때", chinese: "時候"},
-            {rank: 20, word: "거", chinese: "東西"},
-            {rank: 21, word: "보다", chinese: "比"},
-            {rank: 22, word: "같다", chinese: "一樣"},
-            {rank: 23, word: "주다", chinese: "給"},
-            {rank: 24, word: "대하다", chinese: "對於"},
-            {rank: 25, word: "가다", chinese: "去"}
-            // 這裡可以繼續添加到 850
-        ];
-        
-        // ===== 生成佔位資料 (26-850) =====
-        function generatePlaceholderWords() {
-            const placeholders = [];
-            for (let i = 26; i <= 850; i++) {
-                placeholders.push({
-                    rank: i,
-                    word: `단어${i}`,
-                    chinese: `單字${i}`,
-                    examples: [{
-                        phrase: `단어${i}의 표현`,
-                        quote: `이것은 단어 ${i}의 예문입니다.`,
-                        meaning: "이 단어는 아직 내용이 추가되지 않았습니다.",
-                        chinese: "此單字尚未添加內容",
-                        usage: [`단어${i}를 사용한 예시입니다.`]
-                    }]
-                });
-            }
-            return placeholders;
-        }
-        
-        // ===== 合併所有單字資料 =====
-        const ALL_WORDS = [
-            ...COMPLETE_WORDS,
-            ...BASIC_WORD_LIST.map(w => ({
-                ...w,
-                examples: [{
-                    phrase: w.word,
-                    quote: `${w.word}를 사용한 예문입니다.`,
-                    meaning: "일상 대화에서 자주 사용되는 단어입니다.",
-                    chinese: w.chinese,
-                    usage: [`${w.word}를 문장에서 사용해 보세요.`]
-                }]
-            })),
-            ...generatePlaceholderWords()
+        // ===== 單字資料 - 你可以在這裡繼續添加 11-850 =====
+        const WORD_DATA = [
+            {"rank":1,"word":"것","meaning_zh":"東西、事情","meaning_kr":"사물이나 일","examples_zh":["這是件好事。","他說的是事實。"],"examples_kr":["이건 좋은 것이야.","그가 말한 것은 사실이야."],"pos":"명사","note":"最常用的名詞之一"},
+            {"rank":2,"word":"하다","meaning_zh":"做","meaning_kr":"어떤 행동이나 일을 하다","examples_zh":["學習。","運動。"],"examples_kr":["공부를 하다.","운동을 하다."],"pos":"동사","note":"最常用的動詞"},
+            {"rank":3,"word":"있다 (자동사)","meaning_zh":"存在、有（自動詞）","meaning_kr":"어떤 곳에 존재하다","examples_zh":["桌上有書。","那個人在家。"],"examples_kr":["책상 위에 책이 있다.","그 사람이 집에 있다."],"pos":"자동사","note":"表示存在"},
+            {"rank":4,"word":"있다 (보조동사)","meaning_zh":"有（助動詞）","meaning_kr":"행위나 상태가 계속됨을 나타내다","examples_zh":["我正在學習。"],"examples_kr":["나는 공부하고 있다."],"pos":"보조동사","note":"表示進行時態"},
+            {"rank":5,"word":"되다","meaning_zh":"成為、變成","meaning_kr":"어떤 상태가 되다","examples_zh":["他成為了醫生。"],"examples_kr":["그는 의사가 되었다."],"pos":"동사","note":"表示變化"},
+            {"rank":6,"word":"수","meaning_zh":"方法、能力、可能性","meaning_kr":"어떤 일을 할 수 있는 능력이나 가능성","examples_zh":["有辦法。"],"examples_kr":["방법이 있다."],"pos":"명사","note":""},
+            {"rank":7,"word":"하다","meaning_zh":"做","meaning_kr":"어떤 행동이나 일을 하다","examples_zh":["運動。","學習。"],"examples_kr":["운동을 하다.","공부를 하다."],"pos":"동사","note":""},
+            {"rank":8,"word":"나","meaning_zh":"我","meaning_kr":"화자가 자신을 가리키는 1인칭 대명사","examples_zh":["我是學生。"],"examples_kr":["나는 학생이다."],"pos":"대명사","note":""},
+            {"rank":9,"word":"그","meaning_zh":"那、他","meaning_kr":"말하는 사람이 아닌 다른 사람이나 사물","examples_zh":["那個人是老師。"],"examples_kr":["그 사람은 선생님이다."],"pos":"대명사","note":""},
+            {"rank":10,"word":"없다","meaning_zh":"沒有","meaning_kr":"존재하지 않다","examples_zh":["沒有錢。"],"examples_kr":["돈이 없다."],"pos":"형용사","note":""},
+            {"rank":11,"word":"않다","meaning_zh":"不","meaning_kr":"부정을 나타내다","examples_zh":["他不來。","我不是那樣。"],"examples_kr":["그는 오지 않았다.","나는 그렇지 않다."],"pos":"보조형용사","note":""},
+            {"rank":12,"word":"사람","meaning_zh":"人","meaning_kr":"인간","examples_zh":["好人","很多人聚集了。"],"examples_kr":["좋은 사람","많은 사람들이 모였다."],"pos":"명사","note":""},
+            {"rank":13,"word":"우리","meaning_zh":"我們","meaning_kr":"화자를 포함한 집단","examples_zh":["我們國家","我們家"],"examples_kr":["우리나라","우리 집"],"pos":"대명사","note":""},
+            {"rank":14,"word":"이","meaning_zh":"這","meaning_kr":"가까이 있는 대상을 가리킴","examples_zh":["這本書","這個人"],"examples_kr":["이 책","이 사람"],"pos":"관형사","note":""},
+            {"rank":15,"word":"그","meaning_zh":"那","meaning_kr":"멀리 있는 대상을 가리킴","examples_zh":["那本書","那個人"],"examples_kr":["그 책","그 사람"],"pos":"관형사","note":""},
+            {"rank":16,"word":"아니다","meaning_zh":"不是","meaning_kr":"부정을 나타내다","examples_zh":["我不是學生。","這不是書。"],"examples_kr":["나는 학생이 아니다.","이것은 책이 아니다."],"pos":"형용사","note":""},
+            {"rank":17,"word":"보다","meaning_zh":"看","meaning_kr":"눈으로 무엇을 인식하다","examples_zh":["看電影","看書"],"examples_kr":["영화를 보다","책을 보다"],"pos":"동사","note":""},
+            {"rank":18,"word":"등","meaning_zh":"等等","meaning_kr":"여러 가지를 예시할 때 사용","examples_zh":["蘋果、梨、葡萄等","書、筆記本、文具等"],"examples_kr":["사과, 배, 포도 등","책, 공책, 필기구 등"],"pos":"의존명사","note":""},
+            {"rank":19,"word":"때","meaning_zh":"時候","meaning_kr":"시간의 한 지점","examples_zh":["小時候","吃飯的時候"],"examples_kr":["어렸을 때","밥 먹을 때"],"pos":"명사","note":""},
+            {"rank":20,"word":"거","meaning_zh":"東西、事情","meaning_kr":"것의 구어체 표현","examples_zh":["這是什麼？","那是個好主意。"],"examples_kr":["이거 뭐야?","그거 좋은 생각이야."],"pos":"명사","note":"구어체에서 주로 사용"},
+            {"rank":21,"word":"보다","meaning_zh":"比","meaning_kr":"비교를 나타냄","examples_zh":["這個比那個好。","他比我高。"],"examples_kr":["이것이 그것보다 좋다.","그는 나보다 키가 크다."],"pos":"조사","note":"比較助詞"},
+            {"rank":22,"word":"같다","meaning_zh":"一樣、相同","meaning_kr":"서로 다르지 아니하다","examples_zh":["我們的想法一樣。","這兩個顏色相同。"],"examples_kr":["우리 생각이 같다.","이 두 색깔이 같다."],"pos":"형용사","note":""},
+            {"rank":23,"word":"주다","meaning_zh":"給","meaning_kr":"무엇을 남에게 건네다","examples_zh":["給我禮物。","給朋友幫忙。"],"examples_kr":["선물을 주다.","친구에게 도움을 주다."],"pos":"동사","note":""},
+            {"rank":24,"word":"대하다","meaning_zh":"對待、關於","meaning_kr":"어떤 대상에 관하여 행동하거나 생각하다","examples_zh":["對待客人要親切。","關於這個問題。"],"examples_kr":["손님을 친절하게 대하다.","이 문제에 대하다."],"pos":"동사","note":""},
+            {"rank":25,"word":"가다","meaning_zh":"去","meaning_kr":"어떤 곳으로 향하다","examples_zh":["去學校。","回家。"],"examples_kr":["학교에 가다.","집에 가다."],"pos":"동사","note":""},
+            {"rank":26,"word":"년","meaning_zh":"年","meaning_kr":"해를 세는 단위","examples_zh":["2023年","明年"],"examples_kr":["2023년","내년"],"pos":"의존명사","note":""},
+            {"rank":27,"word":"한","meaning_zh":"一、某","meaning_kr":"하나, 어느","examples_zh":["一個人","某一天"],"examples_kr":["한 사람","한 날"],"pos":"관형사","note":""},
+            {"rank":28,"word":"말","meaning_zh":"話語、語言","meaning_kr":"의사를 나타내는 소리","examples_zh":["說韓語。","聽他的話。"],"examples_kr":["한국말을 하다.","그의 말을 듣다."],"pos":"명사","note":""},
+            {"rank":29,"word":"일","meaning_zh":"工作、事情","meaning_kr":"해야 할 일","examples_zh":["有很多工作。","做家事。"],"examples_kr":["할 일이 많다.","집안일을 하다."],"pos":"명사","note":""},
+            {"rank":30,"word":"이","meaning_zh":"二","meaning_kr":"하나에 하나를 더한 수","examples_zh":["兩個蘋果","第二"],"examples_kr":["사과 두 개","이 번째"],"pos":"관형사","note":""},
+            {"rank":31,"word":"때문이다","meaning_zh":"因為","meaning_kr":"어떤 일의 원인이나 이유를 나타냄","examples_zh":["因為下雨所以遲到了。","因為忙所以沒去。"],"examples_kr":["비가 왔기 때문에 지각했다.","바빠서 가지 못했다."],"pos":"구","note":""},
+            {"rank":32,"word":"말하다","meaning_zh":"說","meaning_kr":"말로 의사를 표현하다","examples_zh":["說實話。","說再見。"],"examples_kr":["진실을 말하다.","작별 인사를 말하다."],"pos":"동사","note":""},
+            {"rank":33,"word":"위하다","meaning_zh":"為了","meaning_kr":"어떤 대상의 이익을 도모하다","examples_zh":["為了孩子的未來。","為了健康運動。"],"examples_kr":["아이들의 미래를 위하다.","건강을 위해 운동하다."],"pos":"동사","note":""},
+            {"rank":34,"word":"그러나","meaning_zh":"但是","meaning_kr":"앞의 내용과 반대되는 내용을 이을 때 쓰는 말","examples_zh":["很累，但是要繼續。","價格貴，但是質量好。"],"examples_kr":["피곤하지만 계속해야 한다.","비싸지만 질이 좋다."],"pos":"접속사","note":""},
+            {"rank":35,"word":"오다","meaning_zh":"來","meaning_kr":"어떤 곳을 향해 다가가다","examples_zh":["來我家吧。","春天來了。"],"examples_kr":["우리 집에 오세요.","봄이 왔다."],"pos":"동사","note":""},
+            {"rank":36,"word":"알다","meaning_zh":"知道","meaning_kr":"어떤 사실을 인식하거나 이해하다","examples_zh":["我知道那個消息。","不知道路。"],"examples_kr":["그 소식을 안다.","길을 모르다."],"pos":"동사","note":""},
+            {"rank":37,"word":"씨","meaning_zh":"先生、小姐","meaning_kr":"사람의 이름 뒤에 붙여 부르는 말","examples_zh":["金先生","李小姐"],"examples_kr":["김씨","이씨"],"pos":"접미사","note":""},
+            {"rank":38,"word":"그렇다","meaning_zh":"那樣","meaning_kr":"어떤 상태나 사실을 인정함","examples_zh":["是那樣的。","如果那樣的話。"],"examples_kr":["그렇다.","그렇다면"],"pos":"형용사","note":""},
+            {"rank":39,"word":"크다","meaning_zh":"大","meaning_kr":"규모나 정도가 보통 이상이다","examples_zh":["房子很大。","聲音大。"],"examples_kr":["집이 크다.","소리가 크다."],"pos":"형용사","note":""},
+            {"rank":40,"word":"또","meaning_zh":"又、再","meaning_kr":"같은 일이 거듭됨","examples_zh":["又見面了。","再試一次。"],"examples_kr":["또 만났다.","또 한 번 해보자."],"pos":"부사","note":""},
+            {"rank":41,"word":"일","meaning_zh":"一天、日期","meaning_kr":"하루","examples_zh":["星期一","生日"],"examples_kr":["월요일","생일"],"pos":"의존명사","note":""},
+            {"rank":42,"word":"사회","meaning_zh":"社會","meaning_kr":"사람들이 모여 사는 공동체","examples_zh":["現代社會","社會問題"],"examples_kr":["현대 사회","사회 문제"],"pos":"명사","note":""},
+            {"rank":43,"word":"많다","meaning_zh":"多","meaning_kr":"수량이나 정도가 보통 이상이다","examples_zh":["很多人","事情很多"],"examples_kr":["사람이 많다.","일이 많다."],"pos":"형용사","note":""},
+            {"rank":44,"word":"안","meaning_zh":"裡面","meaning_kr":"어떤 범위나 공간의 내부","examples_zh":["房間裡面","箱子裡面"],"examples_kr":["방 안","상자 안"],"pos":"명사","note":""},
+            {"rank":45,"word":"좋다","meaning_zh":"好","meaning_kr":"마음에 들거나 만족스럽다","examples_zh":["天氣很好。","這是個好主意。"],"examples_kr":["날씨가 좋다.","좋은 생각이다."],"pos":"형용사","note":""},
+            {"rank":46,"word":"더","meaning_zh":"更","meaning_kr":"정도나 수량이 늘어남","examples_zh":["更努力。","更漂亮。"],"examples_kr":["더 열심히 하다.","더 예쁘다."],"pos":"부사","note":""},
+            {"rank":47,"word":"받다","meaning_zh":"收到、接受","meaning_kr":"남이 주는 것을 취하다","examples_zh":["收到禮物。","接受教育。"],"examples_kr":["선물을 받다.","교육을 받다."],"pos":"동사","note":""},
+            {"rank":48,"word":"그것","meaning_zh":"那個","meaning_kr":"말하는 사람과 듣는 사람이 아는 그것","examples_zh":["那是什麼？","我需要那個。"],"examples_kr":["그것이 뭐예요?","그것이 필요해요."],"pos":"대명사","note":""},
+            {"rank":49,"word":"집","meaning_zh":"家、房子","meaning_kr":"사람이 살거나 물건을 보관하는 건물","examples_zh":["我的家","新房子"],"examples_kr":["내 집","새 집"],"pos":"명사","note":""},
+            {"rank":50,"word":"나오다","meaning_zh":"出來","meaning_kr":"안에서 밖으로 향하다","examples_zh":["從房間出來。","結果出來了。"],"examples_kr":["방에서 나오다.","결과가 나오다."],"pos":"동사","note":""},
+            {"rank":51,"word":"따르다","meaning_zh":"跟隨、按照","meaning_kr":"뒤를 쫓아가다 또는 지시에 맞게 행동하다","examples_zh":["跟隨老師。","按照說明做。"],"examples_kr":["선생님을 따라가다.","설명에 따라 하다."],"pos":"동사","note":""},
+            {"rank":52,"word":"그리고","meaning_zh":"而且、然後","meaning_kr":"앞의 내용에 더하여 이어지는 내용을 연결할 때 쓰는 말","examples_zh":["我吃飯，然後看電視。","他很聰明，而且很努力。"],"examples_kr":["나는 밥을 먹고, 그리고 TV를 봤다.","그는 똑똑하고 그리고 열심히 한다."],"pos":"접속사","note":""},
+            {"rank":53,"word":"문제","meaning_zh":"問題","meaning_kr":"해결해야 할 과제나 어려운 점","examples_zh":["解決問題。","數學問題很難。"],"examples_kr":["문제를 해결하다.","수학 문제가 어렵다."],"pos":"명사","note":""},
+            {"rank":54,"word":"그런","meaning_zh":"那樣的","meaning_kr":"어떤 상태나 성질을 가리키는 말","examples_zh":["那樣的人","那樣的事情"],"examples_kr":["그런 사람","그런 일"],"pos":"관형사","note":""},
+            {"rank":55,"word":"살다","meaning_zh":"生活、居住","meaning_kr":"생명을 유지하며 존재하다","examples_zh":["在首爾生活。","幸福地生活。"],"examples_kr":["서울에서 살다.","행복하게 살다."],"pos":"동사","note":""},
+            {"rank":56,"word":"저","meaning_zh":"我（謙稱）","meaning_kr":"화자가 겸손하게 자신을 가리킬 때 쓰는 말","examples_zh":["我是學生。","我會做的。"],"examples_kr":["저는 학생입니다.","제가 하겠습니다."],"pos":"대명사","note":"敬語形式"},
+            {"rank":57,"word":"못하다","meaning_zh":"不能、做不到","meaning_kr":"능력이 없어서 하지 못하다","examples_zh":["不能去。","做不到那件事。"],"examples_kr":["가지 못하다.","그 일을 못하다."],"pos":"보조형용사","note":""},
+            {"rank":58,"word":"생각하다","meaning_zh":"想、思考","meaning_kr":"머리로 무엇을 고려하거나 판단하다","examples_zh":["想問題。","我認為那樣。"],"examples_kr":["문제를 생각하다.","그렇게 생각하다."],"pos":"동사","note":""},
+            {"rank":59,"word":"모르다","meaning_zh":"不知道","meaning_kr":"알지 못하다","examples_zh":["不知道那個消息。","不認識那個人。"],"examples_kr":["그 소식을 모르다.","그 사람을 모르다."],"pos":"동사","note":""},
+            {"rank":60,"word":"속","meaning_zh":"裡面、內部","meaning_kr":"어떤 것의 내부","examples_zh":["箱子裡面","心裡"],"examples_kr":["상자 속","마음 속"],"pos":"명사","note":""},
+            {"rank":61,"word":"만들다","meaning_zh":"製作、製造","meaning_kr":"재료를 이용하여 새로운 것을 생산하다","examples_zh":["做飯。","製造汽車。"],"examples_kr":["밥을 만들다.","자동차를 만들다."],"pos":"동사","note":""},
+            {"rank":62,"word":"데","meaning_zh":"地方、場合","meaning_kr":"장소나 경우를 나타냄","examples_zh":["去過的地方","那種情況"],"examples_kr":["가 본 데","그런 데"],"pos":"의존명사","note":""},
+            {"rank":63,"word":"두","meaning_zh":"二","meaning_kr":"하나에 하나를 더한 수","examples_zh":["兩個","第二"],"examples_kr":["두 개","두 번째"],"pos":"관형사","note":""},
+            {"rank":64,"word":"앞","meaning_zh":"前面","meaning_kr":"정면 방향","examples_zh":["房子前面","往前走"],"examples_kr":["집 앞","앞으로 가다"],"pos":"명사","note":""},
+            {"rank":65,"word":"경우","meaning_zh":"情況、場合","meaning_kr":"어떤 상황이나 조건","examples_zh":["在這種情況下","特殊情況"],"examples_kr":["이런 경우","특별한 경우"],"pos":"명사","note":""},
+            {"rank":66,"word":"중","meaning_zh":"中、之間","meaning_kr":"어떤 범위나 집단의 안","examples_zh":["其中","會議中"],"examples_kr":["그 중","회의 중"],"pos":"의존명사","note":""},
+            {"rank":67,"word":"어떤","meaning_zh":"什麼樣的、某個","meaning_kr":"어떠한 성질이나 상태인지 물을 때 쓰는 말","examples_zh":["什麼樣的人？","某個人"],"examples_kr":["어떤 사람?","어떤 사람"],"pos":"관형사","note":""},
+            {"rank":68,"word":"잘","meaning_zh":"好地、熟練地","meaning_kr":"능숙하게 또는 훌륭하게","examples_zh":["做得很好。","韓語說得很好。"],"examples_kr":["잘 하다.","한국어를 잘 한다."],"pos":"부사","note":""},
+            {"rank":69,"word":"그녀","meaning_zh":"她","meaning_kr":"여성 3인칭 대명사","examples_zh":["她是老師。","我喜歡她。"],"examples_kr":["그녀는 선생님이다.","나는 그녀를 좋아한다."],"pos":"대명사","note":""},
+            {"rank":70,"word":"먹다","meaning_zh":"吃","meaning_kr":"음식을 섭취하다","examples_zh":["吃飯。","吃水果。"],"examples_kr":["밥을 먹다.","과일을 먹다."],"pos":"동사","note":""},
+            {"rank":71,"word":"오다","meaning_zh":"來","meaning_kr":"어떤 곳을 향해 다가가다","examples_zh":["來這裡。","客人來了。"],"examples_kr":["여기로 오다.","손님이 오다."],"pos":"동사","note":""},
+            {"rank":72,"word":"자신","meaning_zh":"自己","meaning_kr":"바로 그 사람","examples_zh":["相信自己。","他親自做了。"],"examples_kr":["자신을 믿다.","그가 자신이 했다."],"pos":"명사","note":""},
+            {"rank":73,"word":"문화","meaning_zh":"文化","meaning_kr":"한 민족이나 사회의 생활 양식","examples_zh":["韓國文化","傳統文化"],"examples_kr":["한국 문화","전통 문화"],"pos":"명사","note":""},
+            {"rank":74,"word":"원","meaning_zh":"元（貨幣單位）、願望","meaning_kr":"돈의 단위 또는 바람","examples_zh":["1000元","願望"],"examples_kr":["1000원","소원"],"pos":"의존명사","note":""},
+            {"rank":75,"word":"생각","meaning_zh":"想法、思想","meaning_kr":"머리로 무엇을 고려하거나 판단하는 것","examples_zh":["好想法","改變想法"],"examples_kr":["좋은 생각","생각을 바꾸다"],"pos":"명사","note":""},
+            {"rank":76,"word":"어떻다","meaning_zh":"怎麼樣","meaning_kr":"상태나 성질이 어떠한지 물을 때 쓰는 말","examples_zh":["天氣怎麼樣？","那個人怎麼樣？"],"examples_kr":["날씨가 어떻다?","그 사람이 어떻다?"],"pos":"형용사","note":""},
+            {"rank":77,"word":"명","meaning_zh":"名（人數單位）","meaning_kr":"사람을 세는 단위","examples_zh":["三名學生","很多人"],"examples_kr":["학생 세 명","많은 명"],"pos":"의존명사","note":""},
+            {"rank":78,"word":"통하다","meaning_zh":"通過、相通","meaning_kr":"어떤 곳을 지나가다 또는 연결되다","examples_zh":["通過隧道。","心意相通。"],"examples_kr":["터널을 통하다.","마음이 통하다."],"pos":"동사","note":""},
+            {"rank":79,"word":"그러다","meaning_zh":"那樣做","meaning_kr":"그와 같이 행동하거나 상태에 있음","examples_zh":["不要那樣做。","如果那樣的話。"],"examples_kr":["그러지 마라.","그러면"],"pos":"동사","note":""},
+            {"rank":80,"word":"소리","meaning_zh":"聲音","meaning_kr":"들리는 음파","examples_zh":["大的聲音","鳥叫聲"],"examples_kr":["큰 소리","새 소리"],"pos":"명사","note":""},
+            {"rank":81,"word":"다시","meaning_zh":"再次","meaning_kr":"한 번 더","examples_zh":["再次見面。","重新開始。"],"examples_kr":["다시 만나다.","다시 시작하다."],"pos":"부사","note":""},
+            {"rank":82,"word":"다른","meaning_zh":"不同的","meaning_kr":"같지 아니한","examples_zh":["不同的意見","其他國家"],"examples_kr":["다른 의견","다른 나라"],"pos":"관형사","note":""},
+            {"rank":83,"word":"이런","meaning_zh":"這樣的","meaning_kr":"이와 같은","examples_zh":["這樣的人","這樣的事情"],"examples_kr":["이런 사람","이런 일"],"pos":"관형사","note":""},
+            {"rank":84,"word":"여자","meaning_zh":"女子、女人","meaning_kr":"여성","examples_zh":["那個女人","女學生"],"examples_kr":["그 여자","여자 학생"],"pos":"명사","note":""},
+            {"rank":85,"word":"개","meaning_zh":"個（單位）、狗","meaning_kr":"물건을 세는 단위 또는 동물","examples_zh":["三個蘋果","狗"],"examples_kr":["사과 세 개","개"],"pos":"의존명사","note":"同音異義"},
+            {"rank":86,"word":"정도","meaning_zh":"程度","meaning_kr":"어느 한계나 수준","examples_zh":["某種程度","適當的程度"],"examples_kr":["어느 정도","적당한 정도"],"pos":"명사","note":""},
+            {"rank":87,"word":"뒤","meaning_zh":"後面","meaning_kr":"정반대 방향","examples_zh":["房子後面","往後看"],"examples_kr":["집 뒤","뒤를 보다"],"pos":"명사","note":""},
+            {"rank":88,"word":"듣다","meaning_zh":"聽","meaning_kr":"소리를 귀로 받아들이다","examples_zh":["聽音樂。","聽課。"],"examples_kr":["음악을 듣다.","수업을 듣다."],"pos":"동사","note":""},
+            {"rank":89,"word":"다","meaning_zh":"全部、都","meaning_kr":"전부","examples_zh":["全部都來了。","吃完了。"],"examples_kr":["다 왔다.","다 먹었다."],"pos":"부사","note":""},
+            {"rank":90,"word":"좀","meaning_zh":"稍微、一點","meaning_kr":"조금","examples_zh":["請稍等一下。","有點冷。"],"examples_kr":["좀 기다리세요.","좀 춥다."],"pos":"부사","note":"줄임말"},
+            {"rank":91,"word":"들다","meaning_zh":"進入、參加","meaning_kr":"안으로 들어가다","examples_zh":["進入房間。","參加大學。"],"examples_kr":["방에 들다.","대학에 들다."],"pos":"동사","note":""},
+            {"rank":92,"word":"싶다","meaning_zh":"想（希望）","meaning_kr":"원하거나 바람","examples_zh":["我想去。","想吃飯。"],"examples_kr":["가고 싶다.","밥 먹고 싶다."],"pos":"보조형용사","note":""},
+            {"rank":93,"word":"보이다","meaning_zh":"被看見、顯得","meaning_kr":"눈에 띄다","examples_zh":["看不見。","看起來很累。"],"examples_kr":["보이지 않다.","피곤해 보이다."],"pos":"동사","note":""},
+            {"rank":94,"word":"가지다","meaning_zh":"擁有、持有","meaning_kr":"소유하다","examples_zh":["有錢。","擁有房子。"],"examples_kr":["돈을 가지다.","집을 가지다."],"pos":"동사","note":""},
+            {"rank":95,"word":"함께","meaning_zh":"一起","meaning_kr":"같이","examples_zh":["一起工作。","和朋友一起。"],"examples_kr":["함께 일하다.","친구와 함께."],"pos":"부사","note":""},
+            {"rank":96,"word":"아이","meaning_zh":"孩子","meaning_kr":"어린이","examples_zh":["小孩子","我的孩子"],"examples_kr":["작은 아이","내 아이"],"pos":"명사","note":""},
+            {"rank":97,"word":"지나다","meaning_zh":"經過、過去","meaning_kr":"어떤 곳을 통과하다","examples_zh":["經過學校。","時間過去了。"],"examples_kr":["학교를 지나다.","시간이 지나다."],"pos":"동사","note":""},
+            {"rank":98,"word":"많이","meaning_zh":"很多地","meaning_kr":"수량이나 정도가 크게","examples_zh":["吃很多。","很多人來了。"],"examples_kr":["많이 먹다.","많이 왔다."],"pos":"부사","note":""},
+            {"rank":99,"word":"시간","meaning_zh":"時間","meaning_kr":"시각이나 기간","examples_zh":["沒有時間。","學習時間"],"examples_kr":["시간이 없다.","공부 시간"],"pos":"명사","note":""},
+            {"rank":100,"word":"너","meaning_zh":"你","meaning_kr":"상대방을 가리키는 2인칭 대명사","examples_zh":["你是誰？","你來了。"],"examples_kr":["너는 누구야?","너 왔니?"],"pos":"대명사","note":"非敬語"},
+            {"rank":101,"word":"주다","meaning_zh":"給","meaning_kr":"무엇을 남에게 건네다","examples_zh":["給我水。","給建議。"],"examples_kr":["물을 주다.","조언을 주다."],"pos":"동사","note":""},
+            {"rank":102,"word":"인간","meaning_zh":"人類","meaning_kr":"사람","examples_zh":["人類的尊嚴","作為人類"],"examples_kr":["인간의 존엄","인간으로서"],"pos":"명사","note":""},
+            {"rank":103,"word":"사실","meaning_zh":"事實","meaning_kr":"실제로 있었던 일","examples_zh":["這是事實。","事實上"],"examples_kr":["이것은 사실이다.","사실은"],"pos":"명사","note":""},
+            {"rank":104,"word":"나다","meaning_zh":"產生、出現","meaning_kr":"생기거나 나타나다","examples_zh":["出現問題。","長痘痘。"],"examples_kr":["문제가 나다.","여드름이 나다."],"pos":"동사","note":""},
+            {"rank":105,"word":"이렇다","meaning_zh":"這樣","meaning_kr":"이와 같은 상태이다","examples_zh":["這樣的情況","像這樣"],"examples_kr":["이런 상황","이렇게"],"pos":"형용사","note":""},
+            {"rank":106,"word":"어머니","meaning_zh":"母親","meaning_kr":"자식을 낳은 여성","examples_zh":["我的母親","母親的愛"],"examples_kr":["내 어머니","어머니의 사랑"],"pos":"명사","note":""},
+            {"rank":107,"word":"눈","meaning_zh":"眼睛、雪","meaning_kr":"시각 기관 또는 날리는 얼음 결정","examples_zh":["大眼睛","下雪"],"examples_kr":["큰 눈","눈이 오다"],"pos":"명사","note":"同音異義"},
+            {"rank":108,"word":"뭐","meaning_zh":"什麼","meaning_kr":"무엇의 줄임말","examples_zh":["這是什麼？","在做什麼？"],"examples_kr":["이게 뭐야?","뭐 하고 있어?"],"pos":"대명사","note":"구어체"},
+            {"rank":109,"word":"점","meaning_zh":"點、分數","meaning_kr":"작은 표시 또는 성적","examples_zh":["重點","得到高分"],"examples_kr":["중요한 점","높은 점수를 받다"],"pos":"명사","note":""},
+            {"rank":110,"word":"의하다","meaning_zh":"根據、依據","meaning_kr":"어떤 것을 근거로 하다","examples_zh":["根據法律","依據資料"],"examples_kr":["법에 의하다.","자료에 의하다."],"pos":"동사","note":""},
+            {"rank":111,"word":"시대","meaning_zh":"時代","meaning_kr":"역사의 한時期","examples_zh":["現代","朝鮮時代"],"examples_kr":["현대","조선 시대"],"pos":"명사","note":""},
+            {"rank":112,"word":"다음","meaning_zh":"下次、接下來","meaning_kr":"이어지는 때나 것","examples_zh":["下週","接下來的事情"],"examples_kr":["다음 주","다음 일"],"pos":"명사","note":""},
+            {"rank":113,"word":"이러하다","meaning_zh":"如此","meaning_kr":"이와 같다","examples_zh":["情況如此。","如此這般"],"examples_kr":["상황이 이러하다.","이러저러하다"],"pos":"형용사","note":""},
+            {"rank":114,"word":"누구","meaning_zh":"誰","meaning_kr":"어떤 사람인지 물을 때 쓰는 말","examples_zh":["那是誰？","誰來了？"],"examples_kr":["그게 누구야?","누구 왔어?"],"pos":"대명사","note":""},
+            {"rank":115,"word":"전","meaning_zh":"前、全部","meaning_kr":"앞 또는 모두","examples_zh":["戰前","全世界"],"examples_kr":["전쟁 전","전 세계"],"pos":"명사","note":"同音異義"},
+            {"rank":116,"word":"곳","meaning_zh":"地方","meaning_kr":"장소","examples_zh":["好地方","去過的地方"],"examples_kr":["좋은 곳","가 본 곳"],"pos":"명사","note":""},
+            {"rank":117,"word":"여러","meaning_zh":"多個、各種","meaning_kr":"많은 수","examples_zh":["很多人","各種方法"],"examples_kr":["여러 사람","여러 방법"],"pos":"관형사","note":""},
+            {"rank":118,"word":"안","meaning_zh":"不","meaning_kr":"부정을 나타냄","examples_zh":["不去。","不吃。"],"examples_kr":["안 가다.","안 먹다."],"pos":"부사","note":""},
+            {"rank":119,"word":"하나","meaning_zh":"一","meaning_kr":"첫째 수","examples_zh":["一個","第一"],"examples_kr":["하나","하나째"],"pos":"수사","note":""},
+            {"rank":120,"word":"세계","meaning_zh":"世界","meaning_kr":"지구상의 모든 나라","examples_zh":["世界和平","世界地圖"],"examples_kr":["세계 평화","세계 지도"],"pos":"명사","note":""},
+            {"rank":121,"word":"버리다","meaning_zh":"扔掉、放棄","meaning_kr":"필요 없는 것을 내던지다","examples_zh":["扔垃圾。","放棄希望。"],"examples_kr":["쓰레기를 버리다.","희망을 버리다."],"pos":"동사","note":""},
+            {"rank":122,"word":"위","meaning_zh":"上面","meaning_kr":"높은 곳","examples_zh":["桌子上面","世界上"],"examples_kr":["책상 위","세계 위"],"pos":"명사","note":""},
+            {"rank":123,"word":"운동","meaning_zh":"運動、活動","meaning_kr":"몸을 움직이는 활동","examples_zh":["做運動","民主化運動"],"examples_kr":["운동을 하다.","민주화 운동"],"pos":"명사","note":""},
+            {"rank":124,"word":"퍼센트","meaning_zh":"百分比","meaning_kr":"백분율","examples_zh":["50%","百分比很高"],"examples_kr":["50퍼센트","퍼센트가 높다"],"pos":"의존명사","note":""},
+            {"rank":125,"word":"학교","meaning_zh":"學校","meaning_kr":"교육을 하는 기관","examples_zh":["去學校","學校生活"],"examples_kr":["학교에 가다.","학교 생활"],"pos":"명사","note":""},
+            {"rank":126,"word":"자기","meaning_zh":"自己","meaning_kr":"그 사람 자신","examples_zh":["自己的事情","自我介紹"],"examples_kr":["자기 일","자기 소개"],"pos":"명사","note":""},
+            {"rank":127,"word":"가장","meaning_zh":"最","meaning_kr":"제일","examples_zh":["最重要","最喜歡"],"examples_kr":["가장 중요하다.","가장 좋아하다."],"pos":"부사","note":""},
+            {"rank":128,"word":"대통령","meaning_zh":"總統","meaning_kr":"나라의 원수","examples_zh":["韓國總統","總統選舉"],"examples_kr":["한국 대통령","대통령 선거"],"pos":"명사","note":""},
+            {"rank":129,"word":"가지","meaning_zh":"種類、分支","meaning_kr":"종류 또는 나뭇가지","examples_zh":["各種顏色","樹枝"],"examples_kr":["여러 가지 색","나뭇가지"],"pos":"의존명사","note":""},
+            {"rank":130,"word":"들다","meaning_zh":"拿、攜帶","meaning_kr":"손에 쥐거나 옮기다","examples_zh":["拿行李。","帶錢。"],"examples_kr":["짐을 들다.","돈을 들다."],"pos":"동사","note":"多義詞"},
+            {"rank":131,"word":"시작하다","meaning_zh":"開始","meaning_kr":"무엇을 처음으로 하다","examples_zh":["開始學習。","會議開始。"],"examples_kr":["공부를 시작하다.","회의가 시작하다."],"pos":"동사","note":""},
+            {"rank":132,"word":"바로","meaning_zh":"正是、直接","meaning_kr":"정확히 또는 곧바로","examples_zh":["正是那個人。","直接去。"],"examples_kr":["바로 그 사람이다.","바로 가다."],"pos":"부사","note":""},
+            {"rank":133,"word":"어느","meaning_zh":"哪個、某個","meaning_kr":"여럿 중에서 특정하지 않을 때","examples_zh":["哪個國家？","某一天"],"examples_kr":["어느 나라?","어느 날"],"pos":"관형사","note":""},
+            {"rank":134,"word":"그래서","meaning_zh":"所以","meaning_kr":"앞의 내용의 결과를 이을 때","examples_zh":["下雨了，所以沒去。","很累，所以休息了。"],"examples_kr":["비가 와서, 그래서 못 갔다.","피곤해서, 그래서 쉬었다."],"pos":"접속사","note":""},
+            {"rank":135,"word":"무엇","meaning_zh":"什麼","meaning_kr":"사물이나 현상을 물을 때","examples_zh":["這是什麼？","在做什麼？"],"examples_kr":["이것은 무엇인가?","무엇을 하고 있나?"],"pos":"대명사","note":"正式用語"},
+            {"rank":136,"word":"정부","meaning_zh":"政府","meaning_kr":"나라를 다스리는 기관","examples_zh":["韓國政府","政府政策"],"examples_kr":["한국 정부","정부 정책"],"pos":"명사","note":""},
+            {"rank":137,"word":"모든","meaning_zh":"所有","meaning_kr":"전부","examples_zh":["所有的人","所有事情"],"examples_kr":["모든 사람","모든 일"],"pos":"관형사","note":""},
+            {"rank":138,"word":"번","meaning_zh":"次、回","meaning_kr":"횟수를 세는 단위","examples_zh":["第一次","好幾次"],"examples_kr":["첫 번째","여러 번"],"pos":"의존명사","note":""},
+            {"rank":139,"word":"그거","meaning_zh":"那個","meaning_kr":"그것의 구어체","examples_zh":["那是什麼？","我需要那個。"],"examples_kr":["그거 뭐야?","그거 필요해."],"pos":"대명사","note":"구어체"},
+            {"rank":140,"word":"돈","meaning_zh":"錢","meaning_kr":"화폐","examples_zh":["有很多錢。","需要錢。"],"examples_kr":["돈이 많다.","돈이 필요하다."],"pos":"명사","note":""},
+            {"rank":141,"word":"국가","meaning_zh":"國家","meaning_kr":"나라","examples_zh":["發達國家","國家安全"],"examples_kr":["선진 국가","국가 안보"],"pos":"명사","note":""},
+            {"rank":142,"word":"그런데","meaning_zh":"但是、可是","meaning_kr":"화제를 전환할 때","examples_zh":["很累。但是還要繼續。","想去。可是沒有時間。"],"examples_kr":["피곤하다. 그런데 계속해야 한다.","가고 싶다. 그런데 시간이 없다."],"pos":"접속사","note":""},
+            {"rank":143,"word":"날","meaning_zh":"日子","meaning_kr":"하루","examples_zh":["好日子","下雨的日子"],"examples_kr":["좋은 날","비 오는 날"],"pos":"명사","note":""},
+            {"rank":144,"word":"여기","meaning_zh":"這裡","meaning_kr":"말하는 사람이 있는 곳","examples_zh":["來這裡。","這裡很漂亮。"],"examples_kr":["여기로 오세요.","여기가 예쁘다."],"pos":"대명사","note":""},
+            {"rank":145,"word":"모두","meaning_zh":"全部、大家","meaning_kr":"전부","examples_zh":["全部都來了。","大家都很努力。"],"examples_kr":["모두 왔다.","모두 열심히 한다."],"pos":"명사","note":""},
+            {"rank":146,"word":"여성","meaning_zh":"女性","meaning_kr":"여자","examples_zh":["女性權利","職業女性"],"examples_kr":["여성의 권리","직장 여성"],"pos":"명사","note":""},
+            {"rank":147,"word":"친구","meaning_zh":"朋友","meaning_kr":"서로 친한 사이","examples_zh":["好朋友","和朋友見面"],"examples_kr":["좋은 친구","친구를 만나다"],"pos":"명사","note":""},
+            {"rank":148,"word":"마음","meaning_zh":"心、心意","meaning_kr":"감정과 의지의 중심","examples_zh":["心情好","改變心意"],"examples_kr":["마음이 좋다.","마음을 바꾸다"],"pos":"명사","note":""},
+            {"rank":149,"word":"후","meaning_zh":"後","meaning_kr":"뒤","examples_zh":["戰後","一個小時後"],"examples_kr":["전쟁 후","한 시간 후"],"pos":"명사","note":""},
+            {"rank":150,"word":"가다","meaning_zh":"去","meaning_kr":"어떤 곳으로 향하다","examples_zh":["去公司。","回家。"],"examples_kr":["회사에 가다.","집에 가다."],"pos":"동사","note":""},
+            {"rank":151,"word":"놓다","meaning_zh":"放置","meaning_kr":"어떤 곳에 두다","examples_zh":["把書放在桌子上。","放下行李。"],"examples_kr":["책을 책상에 놓다.","짐을 놓다."],"pos":"동사","note":""},
+            {"rank":152,"word":"관계","meaning_zh":"關係","meaning_kr":"사이","examples_zh":["人際關係","兩國關係"],"examples_kr":["인간 관계","두 나라 관계"],"pos":"명사","note":""},
+            {"rank":153,"word":"아버지","meaning_zh":"父親","meaning_kr":"자식을 낳은 남성","examples_zh":["我的父親","父親的話"],"examples_kr":["내 아버지","아버지의 말씀"],"pos":"명사","note":""},
+            {"rank":154,"word":"남자","meaning_zh":"男子、男人","meaning_kr":"남성","examples_zh":["那個男人","男學生"],"examples_kr":["그 남자","남자 학생"],"pos":"명사","note":""},
+            {"rank":155,"word":"어디","meaning_zh":"哪裡","meaning_kr":"장소를 물을 때","examples_zh":["去哪裡？","在哪裡？"],"examples_kr":["어디 가요?","어디 있나요?"],"pos":"대명사","note":""},
+            {"rank":156,"word":"몸","meaning_zh":"身體","meaning_kr":"신체","examples_zh":["身體健康","身體不舒服"],"examples_kr":["몸이 건강하다.","몸이 안 좋다."],"pos":"명사","note":""},
+            {"rank":157,"word":"얼굴","meaning_zh":"臉","meaning_kr":"낯","examples_zh":["漂亮的臉","臉色不好"],"examples_kr":["예쁜 얼굴","얼굴이 안 좋다."],"pos":"명사","note":""},
+            {"rank":158,"word":"들어가다","meaning_zh":"進去","meaning_kr":"안으로 가다","examples_zh":["進入房間。","進入大學。"],"examples_kr":["방에 들어가다.","대학에 들어가다."],"pos":"동사","note":""},
+            {"rank":159,"word":"왜","meaning_zh":"為什麼","meaning_kr":"이유를 물을 때","examples_zh":["為什麼那樣做？","為什麼不來？"],"examples_kr":["왜 그렇게 해?","왜 안 와?"],"pos":"부사","note":""},
+            {"rank":160,"word":"나타나다","meaning_zh":"出現","meaning_kr":"보이게 되다","examples_zh":["太陽出來了。","問題出現了。"],"examples_kr":["해가 나타나다.","문제가 나타나다."],"pos":"동사","note":""},
+            {"rank":161,"word":"말다","meaning_zh":"停止、不做了","meaning_kr":"그만두다","examples_zh":["別那樣做。","停止工作。"],"examples_kr":["그러지 말다.","일을 말다."],"pos":"동사","note":""},
+            {"rank":162,"word":"지역","meaning_zh":"地區","meaning_kr":"어느 한 곳","examples_zh":["首爾地區","農村地區"],"examples_kr":["서울 지역","농촌 지역"],"pos":"명사","note":""},
+            {"rank":163,"word":"다르다","meaning_zh":"不同","meaning_kr":"같지 않다","examples_zh":["意見不同。","與眾不同。"],"examples_kr":["의견이 다르다.","다른 사람과 다르다."],"pos":"형용사","note":""},
+            {"rank":164,"word":"모습","meaning_zh":"模樣、樣子","meaning_kr":"생김새","examples_zh":["漂亮的模樣","改變樣子"],"examples_kr":["아름다운 모습","모습을 바꾸다"],"pos":"명사","note":""},
+            {"rank":165,"word":"물","meaning_zh":"水","meaning_kr":"H₂O","examples_zh":["喝水","乾淨的水"],"examples_kr":["물을 마시다.","깨끗한 물"],"pos":"명사","note":""},
+            {"rank":166,"word":"만나다","meaning_zh":"見面","meaning_kr":"대상을 뵙다","examples_zh":["見朋友。","初次見面。"],"examples_kr":["친구를 만나다.","처음 만나다."],"pos":"동사","note":""},
+            {"rank":167,"word":"내다","meaning_zh":"拿出、支付","meaning_kr":"밖으로 꺼내다","examples_zh":["付錢。","提出意見。"],"examples_kr":["돈을 내다.","의견을 내다."],"pos":"동사","note":""},
+            {"rank":168,"word":"보이다","meaning_zh":"被看見","meaning_kr":"눈에 띄다","examples_zh":["看不見山。","看起來很年輕。"],"examples_kr":["산이 보이지 않다.","젊어 보이다."],"pos":"동사","note":""},
+            {"rank":169,"word":"쓰다","meaning_zh":"寫、使用","meaning_kr":"글자를 적다","examples_zh":["寫字。","用筆寫。"],"examples_kr":["글자를 쓰다.","펜을 써서 쓰다."],"pos":"동사","note":"多義詞"},
+            {"rank":170,"word":"이것","meaning_zh":"這個","meaning_kr":"가까이 있는 이것","examples_zh":["這是什麼？","這個很好。"],"examples_kr":["이것이 뭐예요?","이것이 좋아요."],"pos":"대명사","note":""},
+            {"rank":171,"word":"없이","meaning_zh":"沒有地","meaning_kr":"-없이","examples_zh":["沒有錢地生活。","沒有問題地完成。"],"examples_kr":["돈 없이 살다.","문제없이 끝내다."],"pos":"부사","note":""},
+            {"rank":172,"word":"이번","meaning_zh":"這次","meaning_kr":"이번째","examples_zh":["這次考試","這次機會"],"examples_kr":["이번 시험","이번 기회"],"pos":"명사","note":""},
+            {"rank":173,"word":"길","meaning_zh":"路、道路","meaning_kr":"다닐 수 있는 곳","examples_zh":["長路","迷路"],"examples_kr":["긴 길","길을 잃다"],"pos":"명사","note":""},
+            {"rank":174,"word":"생활","meaning_zh":"生活","meaning_kr":"살아가는 것","examples_zh":["日常生活","學校生活"],"examples_kr":["일상 생활","학교 생활"],"pos":"명사","note":""},
+            {"rank":175,"word":"쓰다","meaning_zh":"戴、苦","meaning_kr":"머리에 쓰거나 맛이 쓴","examples_zh":["戴帽子。","味道苦。"],"examples_kr":["모자를 쓰다.","맛이 쓰다."],"pos":"동사","note":"多義詞"},
+            {"rank":176,"word":"지금","meaning_zh":"現在","meaning_kr":"현재","examples_zh":["現在幾點？","現在在做什麼？"],"examples_kr":["지금 몇 시예요?","지금 뭐 해요?"],"pos":"명사","note":""},
+            {"rank":177,"word":"뿐","meaning_zh":"只、僅","meaning_kr":"오직","examples_zh":["只有一個。","不僅如此。"],"examples_kr":["하나뿐이다.","그뿐만 아니라."],"pos":"의존명사","note":""},
+            {"rank":178,"word":"사이","meaning_zh":"之間","meaning_kr":"두 대상의 중간","examples_zh":["朋友之間","兩國之間"],"examples_kr":["친구 사이","두 나라 사이"],"pos":"명사","note":""},
+            {"rank":179,"word":"방법","meaning_zh":"方法","meaning_kr":"어떤 일을 하는 방식","examples_zh":["好的方法","解決方法"],"examples_kr":["좋은 방법","해결 방법"],"pos":"명사","note":""},
+            {"rank":180,"word":"새롭다","meaning_zh":"新","meaning_kr":"처음이다","examples_zh":["新想法","新開始"],"examples_kr":["새로운 생각","새로운 시작"],"pos":"형용사","note":""},
+            {"rank":181,"word":"우리나라","meaning_zh":"我們國家","meaning_kr":"한국","examples_zh":["我們國家的歷史","我們國家的文化"],"examples_kr":["우리나라 역사","우리나라 문화"],"pos":"명사","note":""},
+            {"rank":182,"word":"내다","meaning_zh":"產生","meaning_kr":"만들어 내다","examples_zh":["產生結果。","發出聲音。"],"examples_kr":["결과를 내다.","소리를 내다."],"pos":"동사","note":"多義詞"},
+            {"rank":183,"word":"앉다","meaning_zh":"坐","meaning_kr":"몸을 둔다","examples_zh":["坐在椅子上。","請坐。"],"examples_kr":["의자에 앉다.","앉으세요."],"pos":"동사","note":""},
+            {"rank":184,"word":"처음","meaning_zh":"第一次、最初","meaning_kr":"첫 번째","examples_zh":["第一次見面","最初的想法"],"examples_kr":["처음 만나다.","처음 생각"],"pos":"명사","note":""},
+            {"rank":185,"word":"손","meaning_zh":"手","meaning_kr":"팔의 끝 부분","examples_zh":["大手","舉手"],"examples_kr":["큰 손","손을 들다"],"pos":"명사","note":""},
+            {"rank":186,"word":"몇","meaning_zh":"幾、多少","meaning_kr":"수량을 물을 때","examples_zh":["幾個人？","多少錢？"],"examples_kr":["몇 사람?","몇 원?"],"pos":"관형사","note":""},
+            {"rank":187,"word":"그때","meaning_zh":"那時候","meaning_kr":"그 때","examples_zh":["那時候的事情","那時候我還小"],"examples_kr":["그때 일","그때 나는 어렸다."],"pos":"명사","note":""},
+            {"rank":188,"word":"과정","meaning_zh":"過程","meaning_kr":"지나는 길","examples_zh":["學習過程","發展過程"],"examples_kr":["학습 과정","발전 과정"],"pos":"명사","note":""},
+            {"rank":189,"word":"삶","meaning_zh":"人生、生活","meaning_kr":"살아감","examples_zh":["有意義的人生","幸福的生活"],"examples_kr":["의미 있는 삶","행복한 삶"],"pos":"명사","note":""},
+            {"rank":190,"word":"갖다","meaning_zh":"擁有","meaning_kr":"가지다의 준말","examples_zh":["有錢。","擁有房子。"],"examples_kr":["돈을 갖다.","집을 갖다."],"pos":"동사","note":"구어체"},
+            {"rank":191,"word":"찾다","meaning_zh":"尋找","meaning_kr":"찾아내다","examples_zh":["找工作。","找鑰匙。"],"examples_kr":["일을 찾다.","열쇠를 찾다."],"pos":"동사","note":""},
+            {"rank":192,"word":"특히","meaning_zh":"特別地","meaning_kr":"특별히","examples_zh":["特別重要","特別喜歡"],"examples_kr":["특히 중요하다.","특히 좋아하다."],"pos":"부사","note":""},
+            {"rank":193,"word":"시","meaning_zh":"詩、時","meaning_kr":"시적 표현 또는 시간","examples_zh":["寫詩","三點"],"examples_kr":["시를 쓰다.","세 시"],"pos":"명사","note":"同音異義"},
+            {"rank":194,"word":"이상","meaning_zh":"以上、異常","meaning_kr":"그 이상 또는 이상한","examples_zh":["十人以上","情況異常"],"examples_kr":["열 명 이상","상태가 이상하다."],"pos":"명사","note":"多義詞"},
+            {"rank":195,"word":"지금","meaning_zh":"現在","meaning_kr":"현재","examples_zh":["現在開始。","現在馬上。"],"examples_kr":["지금 시작하다.","지금 바로."],"pos":"명사","note":""},
+            {"rank":196,"word":"나가다","meaning_zh":"出去","meaning_kr":"밖으로 가다","examples_zh":["走出房間。","出去散步。"],"examples_kr":["방에서 나가다.","산책 나가다."],"pos":"동사","note":""},
+            {"rank":197,"word":"이야기","meaning_zh":"故事、談話","meaning_kr":"이야기","examples_zh":["有趣的故事","和朋友聊天"],"examples_kr":["재미있는 이야기","친구와 이야기하다"],"pos":"명사","note":""},
+            {"rank":198,"word":"교육","meaning_zh":"教育","meaning_kr":"가르침","examples_zh":["學校教育","高等教育"],"examples_kr":["학교 교육","고등 교육"],"pos":"명사","note":""},
+            {"rank":199,"word":"사다","meaning_zh":"買","meaning_kr":"구매하다","examples_zh":["買書。","買衣服。"],"examples_kr":["책을 사다.","옷을 사다."],"pos":"동사","note":""},
+            {"rank":200,"word":"경제","meaning_zh":"經濟","meaning_kr":"재정 관련 활동","examples_zh":["韓國經濟","經濟發展"],"examples_kr":["한국 경제","경제 발전"],"pos":"명사","note":""},
+            {"rank":201,"word":"아직","meaning_zh":"還、尚","meaning_kr":"지금까지","examples_zh":["還沒來。","還不知道。"],"examples_kr":["아직 안 왔다.","아직 모른다."],"pos":"부사","note":""},
+            {"rank":202,"word":"잡다","meaning_zh":"抓、握","meaning_kr":"손으로 쥐다","examples_zh":["抓住手。","抓住機會。"],"examples_kr":["손을 잡다.","기회를 잡다."],"pos":"동사","note":""},
+            {"rank":203,"word":"같이","meaning_zh":"一起","meaning_kr":"함께","examples_zh":["一起工作。","和朋友一起。"],"examples_kr":["같이 일하다.","친구와 같이."],"pos":"부사","note":""},
+            {"rank":204,"word":"선생님","meaning_zh":"老師","meaning_kr":"가르치는 사람","examples_zh":["學校老師","尊敬老師"],"examples_kr":["학교 선생님","선생님을 존경하다"],"pos":"명사","note":"敬語形式"},
+            {"rank":205,"word":"예술","meaning_zh":"藝術","meaning_kr":"미적 표현","examples_zh":["現代藝術","藝術作品"],"examples_kr":["현대 예술","예술 작품"],"pos":"명사","note":""},
+            {"rank":206,"word":"서다","meaning_zh":"站","meaning_kr":"몸을 똑바로 하다","examples_zh":["站起來。","站在前面。"],"examples_kr":["일어서다.","앞에 서다."],"pos":"동사","note":""},
+            {"rank":207,"word":"못","meaning_zh":"不能","meaning_kr":"-할 수 없음","examples_zh":["不能去。","不能吃。"],"examples_kr":["못 가다.","못 먹다."],"pos":"부사","note":""},
+            {"rank":208,"word":"역사","meaning_zh":"歷史","meaning_kr":"과거의 사건","examples_zh":["韓國歷史","歷史教育"],"examples_kr":["한국 역사","역사 교육"],"pos":"명사","note":""},
+            {"rank":209,"word":"읽다","meaning_zh":"讀","meaning_kr":"글을 보다","examples_zh":["讀書。","讀報紙。"],"examples_kr":["책을 읽다.","신문을 읽다."],"pos":"동사","note":""},
+            {"rank":210,"word":"이제","meaning_zh":"現在","meaning_kr":"지금부터","examples_zh":["現在開始。","現在明白了。"],"examples_kr":["이제 시작하다.","이제 알겠다."],"pos":"명사","note":""},
+            {"rank":211,"word":"결과","meaning_zh":"結果","meaning_kr":"끝맺음","examples_zh":["考試結果","好的結果"],"examples_kr":["시험 결과","좋은 결과"],"pos":"명사","note":""},
+            {"rank":212,"word":"내용","meaning_zh":"內容","meaning_kr":"안에 담긴 것","examples_zh":["書的內容","重要內容"],"examples_kr":["책 내용","중요한 내용"],"pos":"명사","note":""},
+            {"rank":213,"word":"물론","meaning_zh":"當然","meaning_kr":"당연히","examples_zh":["當然要去。","當然知道。"],"examples_kr":["물론 가야 한다.","물론 안다."],"pos":"부사","note":""},
+            {"rank":214,"word":"동안","meaning_zh":"期間","meaning_kr":"어느 때부터 때까지","examples_zh":["一年期間","等待期間"],"examples_kr":["일 년 동안","기다리는 동안"],"pos":"의존명사","note":""},
+            {"rank":215,"word":"책","meaning_zh":"書","meaning_kr":"책자","examples_zh":["有趣的書","買書"],"examples_kr":["재미있는 책","책을 사다"],"pos":"명사","note":""},
+            {"rank":216,"word":"일어나다","meaning_zh":"起床、發生","meaning_kr":"자리에서 떠오르다","examples_zh":["早上起床。","發生事故。"],"examples_kr":["아침에 일어나다.","사고가 일어나다."],"pos":"동사","note":"多義詞"},
+            {"rank":217,"word":"당신","meaning_zh":"你","meaning_kr":"상대방을 높여 부름","examples_zh":["你是誰？","我愛你。"],"examples_kr":["당신은 누구세요?","당신을 사랑해요."],"pos":"대명사","note":"敬語形式"},
+            {"rank":218,"word":"시장","meaning_zh":"市場、市長","meaning_kr":"거래 장소 또는 도시의 수장","examples_zh":["傳統市場","首爾市長"],"examples_kr":["전통 시장","서울 시장"],"pos":"명사","note":"同音異義"},
+            {"rank":219,"word":"넣다","meaning_zh":"放進","meaning_kr":"안에 두다","examples_zh":["放進口袋。","放進箱子。"],"examples_kr":["주머니에 넣다.","상자에 넣다."],"pos":"동사","note":""},
+            {"rank":220,"word":"중요하다","meaning_zh":"重要","meaning_kr":"매우 필요하다","examples_zh":["很重要。","重要的決定"],"examples_kr":["중요하다.","중요한 결정"],"pos":"형용사","note":""},
+            {"rank":221,"word":"무슨","meaning_zh":"什麼","meaning_kr":"어떤","examples_zh":["什麼事情？","什麼意思？"],"examples_kr":["무슨 일?","무슨 뜻?"],"pos":"관형사","note":""},
+            {"rank":222,"word":"느끼다","meaning_zh":"感覺","meaning_kr":"감각을 받다","examples_zh":["感覺幸福。","感覺疼痛。"],"examples_kr":["행복을 느끼다.","아픔을 느끼다."],"pos":"동사","note":""},
+            {"rank":223,"word":"어렵다","meaning_zh":"難","meaning_kr":"쉽지 않다","examples_zh":["問題很難。","難學的語言"],"examples_kr":["문제가 어렵다.","어려운 언어"],"pos":"형용사","note":""},
+            {"rank":224,"word":"힘","meaning_zh":"力量","meaning_kr":"세력","examples_zh":["很大的力量","用力量"],"examples_kr":["큰 힘","힘을 쓰다"],"pos":"명사","note":""},
+            {"rank":225,"word":"너무","meaning_zh":"太","meaning_kr":"매우","examples_zh":["太貴了。","太累了。"],"examples_kr":["너무 비싸다.","너무 피곤하다."],"pos":"부사","note":""},
+            {"rank":226,"word":"나라","meaning_zh":"國家","meaning_kr":"국가","examples_zh":["發達國家","我們國家"],"examples_kr":["선진 나라","우리 나라"],"pos":"명사","note":""},
+            {"rank":227,"word":"부르다","meaning_zh":"叫、唱","meaning_kr":"이름을 말하거나 노래하다","examples_zh":["叫名字。","唱歌。"],"examples_kr":["이름을 부르다.","노래를 부르다."],"pos":"동사","note":"多義詞"},
+            {"rank":228,"word":"의미","meaning_zh":"意義","meaning_kr":"뜻","examples_zh":["重要的意義","沒有意義"],"examples_kr":["중요한 의미","의미가 없다."],"pos":"명사","note":""},
+            {"rank":229,"word":"자리","meaning_zh":"位置、座位","meaning_kr":"앉는 곳","examples_zh":["空座位","找到位置"],"examples_kr":["빈 자리","자리를 찾다"],"pos":"명사","note":""},
+            {"rank":230,"word":"밝히다","meaning_zh":"照亮、闡明","meaning_kr":"빛을 내다","examples_zh":["照亮道路。","闡明事實。"],"examples_kr":["길을 밝히다.","사실을 밝히다."],"pos":"동사","note":""},
+            {"rank":231,"word":"죽다","meaning_zh":"死","meaning_kr":"생명을 잃다","examples_zh":["植物死了。","因事故死亡。"],"examples_kr":["식물이 죽다.","사고로 죽다."],"pos":"동사","note":""},
+            {"rank":232,"word":"이미","meaning_zh":"已經","meaning_kr":"벌써","examples_zh":["已經來了。","已經結束了。"],"examples_kr":["이미 왔다.","이미 끝났다."],"pos":"부사","note":""},
+            {"rank":233,"word":"쪽","meaning_zh":"方向、邊","meaning_kr":"방향","examples_zh":["那邊","這一邊"],"examples_kr":["그 쪽","이 쪽"],"pos":"의존명사","note":""},
+            {"rank":234,"word":"정치","meaning_zh":"政治","meaning_kr":"나라를 다스리는 일","examples_zh":["民主政治","政治人物"],"examples_kr":["민주 정치","정치인"],"pos":"명사","note":""},
+            {"rank":235,"word":"국민","meaning_zh":"國民","meaning_kr":"나라의 사람","examples_zh":["韓國國民","國民權利"],"examples_kr":["한국 국민","국민의 권리"],"pos":"명사","note":""},
+            {"rank":236,"word":"생명","meaning_zh":"生命","meaning_kr":"삶","examples_zh":["寶貴的生命","生命保險"],"examples_kr":["소중한 생명","생명 보험"],"pos":"명사","note":""},
+            {"rank":237,"word":"얘기","meaning_zh":"話","meaning_kr":"이야기의 준말","examples_zh":["有趣的話","聊天"],"examples_kr":["재미있는 얘기","얘기하다"],"pos":"명사","note":"구어체"},
+            {"rank":238,"word":"학생","meaning_zh":"學生","meaning_kr":"배우는 사람","examples_zh":["大學生","好學生"],"examples_kr":["대학생","좋은 학생"],"pos":"명사","note":""},
+            {"rank":239,"word":"연구","meaning_zh":"研究","meaning_kr":"깊이 알아보는 일","examples_zh":["科學研究","研究結果"],"examples_kr":["과학 연구","연구 결과"],"pos":"명사","note":""},
+            {"rank":240,"word":"엄마","meaning_zh":"媽媽","meaning_kr":"어머니의 구어체","examples_zh":["我媽媽","媽媽做的飯"],"examples_kr":["우리 엄마","엄마가 하는 밥"],"pos":"명사","note":"구어體"},
+            {"rank":241,"word":"이름","meaning_zh":"名字","meaning_kr":"명칭","examples_zh":["什麼名字？","改名字"],"examples_kr":["이름이 뭐예요?","이름을 바꾸다"],"pos":"명사","note":""},
+            {"rank":242,"word":"하나","meaning_zh":"一","meaning_kr":"첫째 수","examples_zh":["一個蘋果","第一"],"examples_kr":["사과 하나","하나부터"],"pos":"수사","note":""},
+            {"rank":243,"word":"내리다","meaning_zh":"下來、下（雨等）","meaning_kr":"위에서 아래로 오다","examples_zh":["下樓梯。","下雨。"],"examples_kr":["계단을 내리다.","비가 내리다."],"pos":"동사","note":""},
+            {"rank":244,"word":"사건","meaning_zh":"事件","meaning_kr":"일어난 일","examples_zh":["重要事件","歷史事件"],"examples_kr":["중요한 사건","역사적 사건"],"pos":"명사","note":""},
+            {"rank":245,"word":"및","meaning_zh":"及、和","meaning_kr":"그리고","examples_zh":["首爾及周邊","A及B"],"examples_kr":["서울 및 주변","A 및 B"],"pos":"조사","note":"書面語"},
+            {"rank":246,"word":"쉽다","meaning_zh":"容易","meaning_kr":"어렵지 않다","examples_zh":["問題很容易。","容易學的語言"],"examples_kr":["문제가 쉽다.","쉬운 언어"],"pos":"형용사","note":""},
+            {"rank":247,"word":"짓다","meaning_zh":"建造、做","meaning_kr":"만들다","examples_zh":["建房子。","做表情。"],"examples_kr":["집을 짓다.","표정을 짓다."],"pos":"동사","note":""},
+            {"rank":248,"word":"또한","meaning_zh":"也、並且","meaning_kr":"그리고 또한","examples_zh":["也很重要。","並且很漂亮。"],"examples_kr":["또한 중요하다.","또한 예쁘다."],"pos":"부사","note":""},
+            {"rank":249,"word":"이유","meaning_zh":"理由","meaning_kr":"까닭","examples_zh":["什麼理由？","充分的理由"],"examples_kr":["무슨 이유?","충분한 이유"],"pos":"명사","note":""},
+            {"rank":250,"word":"또는","meaning_zh":"或者","meaning_kr":"아니면","examples_zh":["A或者B","今天或者明天"],"examples_kr":["A 또는 B","오늘 또는 내일"],"pos":"접속사","note":""},
+            {"rank":251,"word":"필요하다","meaning_zh":"需要","meaning_kr":"필요로 하다","examples_zh":["需要幫助。","需要時間。"],"examples_kr":["도움이 필요하다.","시간이 필요하다."],"pos":"형용사","note":""},
+            {"rank":252,"word":"글","meaning_zh":"文字、文章","meaning_kr":"문자나 문서","examples_zh":["寫文章。","讀文字。"],"examples_kr":["글을 쓰다.","글을 읽다."],"pos":"명사","note":""},
+            {"rank":253,"word":"생기다","meaning_zh":"產生、發生","meaning_kr":"발생하다","examples_zh":["產生問題。","發生變化。"],"examples_kr":["문제가 생기다.","변화가 생기다."],"pos":"동사","note":""},
+            {"rank":254,"word":"사용하다","meaning_zh":"使用","meaning_kr":"써서 이용하다","examples_zh":["使用電腦。","使用新方法。"],"examples_kr":["컴퓨터를 사용하다.","새 방법을 사용하다."],"pos":"동사","note":""},
+            {"rank":255,"word":"남편","meaning_zh":"丈夫","meaning_kr":"배우자 중 남성","examples_zh":["我的丈夫","丈夫的公司"],"examples_kr":["제 남편","남편 회사"],"pos":"명사","note":""},
+            {"rank":256,"word":"들어오다","meaning_zh":"進來","meaning_kr":"안으로 오다","examples_zh":["請進來。","客人進來了。"],"examples_kr":["들어오세요.","손님이 들어오다."],"pos":"동사","note":""},
+            {"rank":257,"word":"밖","meaning_zh":"外面","meaning_kr":"바깥","examples_zh":["房子外面","去外面"],"examples_kr":["집 밖","밖에 나가다"],"pos":"명사","note":""},
+            {"rank":258,"word":"세상","meaning_zh":"世界、世間","meaning_kr":"세계","examples_zh":["廣闊的世界","世間的事情"],"examples_kr":["넓은 세상","세상 일"],"pos":"명사","note":""},
+            {"rank":259,"word":"작다","meaning_zh":"小","meaning_kr":"크기가 적다","examples_zh":["小房子","小手"],"examples_kr":["작은 집","작은 손"],"pos":"형용사","note":""},
+            {"rank":260,"word":"타다","meaning_zh":"乘坐、燃燒","meaning_kr":"탈것에 오르거나 불이 붙다","examples_zh":["坐巴士。","火在燃燒。"],"examples_kr":["버스를 타다.","불이 타다."],"pos":"동사","note":"多義詞"},
+            {"rank":261,"word":"대학","meaning_zh":"大學","meaning_kr":"고등 교육 기관","examples_zh":["首爾大學","大學生活"],"examples_kr":["서울 대학","대학 생활"],"pos":"명사","note":""},
+            {"rank":262,"word":"작품","meaning_zh":"作品","meaning_kr":"예술적 산물","examples_zh":["藝術作品","文學作品"],"examples_kr":["예술 작품","문학 작품"],"pos":"명사","note":""},
+            {"rank":263,"word":"상황","meaning_zh":"情況","meaning_kr":"형편","examples_zh":["困難的情況","當前情況"],"examples_kr":["어려운 상황","현재 상황"],"pos":"명사","note":""},
+            {"rank":264,"word":"가운데","meaning_zh":"中間","meaning_kr":"중심","examples_zh":["房間中間","人群中間"],"examples_kr":["방 가운데","사람들 가운데"],"pos":"명사","note":""},
+            {"rank":265,"word":"보내다","meaning_zh":"送、寄","meaning_kr":"보내다","examples_zh":["送禮物。","寄信。"],"examples_kr":["선물을 보내다.","편지를 보내다."],"pos":"동사","note":""},
+            {"rank":266,"word":"두다","meaning_zh":"放、置","meaning_kr":"놓다","examples_zh":["放在桌子上。","留下訊息。"],"examples_kr":["책상에 두다.","메시지를 두다."],"pos":"동사","note":""},
+            {"rank":267,"word":"즉","meaning_zh":"即","meaning_kr":"곧","examples_zh":["換句話說","即時"],"examples_kr":["다시 말하면","즉시"],"pos":"부사","note":"書面語"},
+            {"rank":268,"word":"따라서","meaning_zh":"因此","meaning_kr":"그러므로","examples_zh":["下雨了，因此沒去。","很忙，因此不能去。"],"examples_kr":["비가 왔다. 따라서 못 갔다.","바쁘다. 따라서 갈 수 없다."],"pos":"접속사","note":""},
+            {"rank":269,"word":"상태","meaning_zh":"狀態","meaning_kr":"형편","examples_zh":["健康狀態","良好狀態"],"examples_kr":["건강 상태","좋은 상태"],"pos":"명사","note":""},
+            {"rank":270,"word":"이후","meaning_zh":"以後","meaning_kr":"그 뒤","examples_zh":["戰爭以後","那以後"],"examples_kr":["전쟁 이후","그 이후"],"pos":"명사","note":""},
+            {"rank":271,"word":"당시","meaning_zh":"當時","meaning_kr":"그 때","examples_zh":["當時的情況","當時的總統"],"examples_kr":["당시 상황","당시 대통령"],"pos":"명사","note":""},
+            {"rank":272,"word":"문학","meaning_zh":"文學","meaning_kr":"글과 관련된 예술","examples_zh":["韓國文學","古典文學"],"examples_kr":["한국 문학","고전 문학"],"pos":"명사","note":""},
+            {"rank":273,"word":"더욱","meaning_zh":"更加","meaning_kr":"한층 더","examples_zh":["更加努力。","更加漂亮。"],"examples_kr":["더욱 열심히 하다.","더욱 예쁘다."],"pos":"부사","note":""},
+            {"rank":274,"word":"아주","meaning_zh":"非常","meaning_kr":"매우","examples_zh":["非常好。","非常困難。"],"examples_kr":["아주 좋다.","아주 어렵다."],"pos":"부사","note":""},
+            {"rank":275,"word":"지방","meaning_zh":"地方、地區","meaning_kr":"수도 외의 지역","examples_zh":["地方城市","全羅道地區"],"examples_kr":["지방 도시","전라도 지방"],"pos":"명사","note":""},
+            {"rank":276,"word":"밤","meaning_zh":"夜晚","meaning_kr":"해가 진 뒤","examples_zh":["深夜","夜晚的天空"],"examples_kr":["깊은 밤","밤 하늘"],"pos":"명사","note":""},
+            {"rank":277,"word":"높다","meaning_zh":"高","meaning_kr":"위치가 높다","examples_zh":["高山","價格高"],"examples_kr":["높은 산","가격이 높다."],"pos":"형용사","note":""},
+            {"rank":278,"word":"최근","meaning_zh":"最近","meaning_kr":"가까운 과거","examples_zh":["最近的消息","最近幾年"],"examples_kr":["최근 소식","최근 몇 년"],"pos":"명사","note":""},
+            {"rank":279,"word":"채","meaning_zh":"原樣、保持","meaning_kr":"그대로","examples_zh":["穿著衣服睡。","保持原樣。"],"examples_kr":["옷을 입은 채 자다.","그대로 채 두다."],"pos":"의존명사","note":""},
+            {"rank":280,"word":"현실","meaning_zh":"現實","meaning_kr":"실제 상황","examples_zh":["殘酷的現實","現實問題"],"examples_kr":["냉혹한 현실","현실 문제"],"pos":"명사","note":""},
+            {"rank":281,"word":"환경","meaning_zh":"環境","meaning_kr":"주변 조건","examples_zh":["自然環境","學習環境"],"examples_kr":["자연 환경","학습 환경"],"pos":"명사","note":""},
+            {"rank":282,"word":"컴퓨터","meaning_zh":"電腦","meaning_kr":"전자 계산기","examples_zh":["使用電腦。","買新電腦。"],"examples_kr":["컴퓨터를 사용하다.","새 컴퓨터를 사다."],"pos":"명사","note":""},
+            {"rank":283,"word":"먼저","meaning_zh":"首先","meaning_kr":"제일 처음","examples_zh":["首先吃飯。","首先介紹。"],"examples_kr":["먼저 밥을 먹다.","먼저 소개하다."],"pos":"부사","note":""},
+            {"rank":284,"word":"다니다","meaning_zh":"來往、上下（學/班）","meaning_kr":"오가다","examples_zh":["去學校。","去公司上班。"],"examples_kr":["학교를 다니다.","회사를 다니다."],"pos":"동사","note":""},
+            {"rank":285,"word":"얼마나","meaning_zh":"多麼、多少","meaning_kr":"어느 정도","examples_zh":["多麼漂亮啊！","多少錢？"],"examples_kr":["얼마나 예쁜가!","얼마나 해요?"],"pos":"부사","note":""},
+            {"rank":286,"word":"자체","meaning_zh":"本身","meaning_kr":"그것 자신","examples_zh":["問題本身","公司本身"],"examples_kr":["문제 자체","회사 자체"],"pos":"명사","note":""},
+            {"rank":287,"word":"열다","meaning_zh":"打開","meaning_kr":"닫힌 것을 벌리다","examples_zh":["開門。","開窗戶。"],"examples_kr":["문을 열다.","창문을 열다."],"pos":"동사","note":""},
+            {"rank":288,"word":"머리","meaning_zh":"頭、頭髮","meaning_kr":"몸의 위쪽","examples_zh":["頭痛","長頭髮"],"examples_kr":["머리가 아프다.","긴 머리"],"pos":"명사","note":"多義詞"},
+            {"rank":289,"word":"묻다","meaning_zh":"問","meaning_kr":"질문하다","examples_zh":["問問題。","問路。"],"examples_kr":["질문을 묻다.","길을 묻다."],"pos":"동사","note":""},
+            {"rank":290,"word":"남다","meaning_zh":"剩下","meaning_kr":"남아 있다","examples_zh":["剩下食物。","時間剩下不多。"],"examples_kr":["음식이 남다.","시간이 많이 남다."],"pos":"동사","note":""},
+            {"rank":291,"word":"부분","meaning_zh":"部分","meaning_kr":"일부","examples_zh":["重要部分","一部分"],"examples_kr":["중요한 부분","일부분"],"pos":"명사","note":""},
+            {"rank":292,"word":"기업","meaning_zh":"企業","meaning_kr":"사업체","examples_zh":["大企業","企業經營"],"examples_kr":["대기업","기업 경영"],"pos":"명사","note":""},
+            {"rank":293,"word":"거기","meaning_zh":"那裡","meaning_kr":"그 곳","examples_zh":["去那裡。","在那裡見面。"],"examples_kr":["거기에 가다.","거기에서 만나다."],"pos":"대명사","note":""},
+            {"rank":294,"word":"변화","meaning_zh":"變化","meaning_kr":"바뀜","examples_zh":["氣候變化","社會變化"],"examples_kr":["기후 변화","사회 변화"],"pos":"명사","note":""},
+            {"rank":295,"word":"아들","meaning_zh":"兒子","meaning_kr":"남자 자식","examples_zh":["大兒子","我的兒子"],"examples_kr":["큰 아들","내 아들"],"pos":"명사","note":""},
+            {"rank":296,"word":"뜻","meaning_zh":"意思、意圖","meaning_kr":"의미","examples_zh":["單詞的意思","好的意圖"],"examples_kr":["단어의 뜻","좋은 뜻"],"pos":"명사","note":""},
+            {"rank":297,"word":"아","meaning_zh":"啊","meaning_kr":"감탄사","examples_zh":["啊！好漂亮！","啊，原來如此。"],"examples_kr":["아! 예쁘다!","아, 그렇구나."],"pos":"감탄사","note":""},
+            {"rank":298,"word":"기다리다","meaning_zh":"等待","meaning_kr":"기다리다","examples_zh":["等待朋友。","等待機會。"],"examples_kr":["친구를 기다리다.","기회를 기다리다."],"pos":"동사","note":""},
+            {"rank":299,"word":"떨어지다","meaning_zh":"掉下、落榜","meaning_kr":"아래로 내려오다","examples_zh":["樹葉掉落。","考試落榜。"],"examples_kr":["나뭇잎이 떨어지다.","시험에 떨어지다."],"pos":"동사","note":""},
+            {"rank":300,"word":"선거","meaning_zh":"選舉","meaning_kr":"뽑는 일","examples_zh":["總統選舉","選舉運動"],"examples_kr":["대통령 선거","선거 운동"],"pos":"명사","note":""},
+            {"rank":301,"word":"관하다","meaning_zh":"關於","meaning_kr":"관련되다","examples_zh":["關於這個問題","關於歷史"],"examples_kr":["이 문제에 관하다.","역사에 관하다."],"pos":"동사","note":""},
+            {"rank":302,"word":"그냥","meaning_zh":"就那樣、直接","meaning_kr":"별다른 조치 없이","examples_zh":["就那樣做吧。","直接回家。"],"examples_kr":["그냥 해라.","그냥 집에 가다."],"pos":"부사","note":""},
+            {"rank":303,"word":"나누다","meaning_zh":"分享、分開","meaning_kr":"갈라서다","examples_zh":["分享食物。","分開房間。"],"examples_kr":["음식을 나누다.","방을 나누다."],"pos":"동사","note":""},
+            {"rank":304,"word":"이용하다","meaning_zh":"利用","meaning_kr":"사용하다","examples_zh":["利用時間。","利用公共交通工具。"],"examples_kr":["시간을 이용하다.","대중교통을 이용하다."],"pos":"동사","note":""},
+            {"rank":305,"word":"거의","meaning_zh":"幾乎","meaning_kr":"대부분","examples_zh":["幾乎完成了。","幾乎所有人都來了。"],"examples_kr":["거의 끝났다.","거의 모두 왔다."],"pos":"부사","note":""},
+            {"rank":306,"word":"곧","meaning_zh":"馬上","meaning_kr":"이내","examples_zh":["馬上回來。","馬上開始。"],"examples_kr":["곧 돌아오다.","곧 시작하다."],"pos":"부사","note":""},
+            {"rank":307,"word":"중심","meaning_zh":"中心","meaning_kr":"가운데","examples_zh":["城市中心","問題的核心"],"examples_kr":["도시 중심","문제의 중심"],"pos":"명사","note":""},
+            {"rank":308,"word":"활동","meaning_zh":"活動","meaning_kr":"움직이는 일","examples_zh":["社團活動","文化活動"],"examples_kr":["동아리 활동","문화 활동"],"pos":"명사","note":""},
+            {"rank":309,"word":"오늘","meaning_zh":"今天","meaning_kr":"금일","examples_zh":["今天天氣很好。","今天很忙。"],"examples_kr":["오늘 날씨가 좋다.","오늘 바쁘다."],"pos":"명사","note":""},
+            {"rank":310,"word":"서로","meaning_zh":"互相","meaning_kr":"상호","examples_zh":["互相幫助。","互相理解。"],"examples_kr":["서로 도와주다.","서로 이해하다."],"pos":"부사","note":""},
+            {"rank":311,"word":"관심","meaning_zh":"關心、興趣","meaning_kr":"주의를 기울임","examples_zh":["對音樂有興趣。","關心政治。"],"examples_kr":["음악에 관심이 있다.","정치에 관심을 가지다."],"pos":"명사","note":""},
+            {"rank":312,"word":"역시","meaning_zh":"果然、還是","meaning_kr":"예상대로","examples_zh":["果然是他。","還是這個最好。"],"examples_kr":["역시 그 사람이다.","역시 이게 제일 좋다."],"pos":"부사","note":""},
+            {"rank":313,"word":"이거","meaning_zh":"這個（이것의 구어체）","meaning_kr":"이것의 구어체","examples_zh":["這是什麼？","這個很好。"],"examples_kr":["이거 뭐야?","이거 좋다."],"pos":"대명사","note":"구어체"},
+            {"rank":314,"word":"애","meaning_zh":"孩子、小孩","meaning_kr":"어린이","examples_zh":["小孩子","我的孩子"],"examples_kr":["작은 애","내 애"],"pos":"명사","note":"구어체"},
+            {"rank":315,"word":"광고","meaning_zh":"廣告","meaning_kr":"상품 소개","examples_zh":["電視廣告","網路廣告"],"examples_kr":["TV 광고","인터넷 광고"],"pos":"명사","note":""},
+            {"rank":316,"word":"나다","meaning_zh":"產生（重複）","meaning_kr":"생기다","examples_zh":["長痘痘。","產生興趣。"],"examples_kr":["여드름이 나다.","흥미가 나다."],"pos":"동사","note":""},
+            {"rank":317,"word":"방","meaning_zh":"房間","meaning_kr":"집의 한 칸","examples_zh":["我的房間","客廳"],"examples_kr":["내 방","거실 방"],"pos":"명사","note":""},
+            {"rank":318,"word":"정신","meaning_zh":"精神、注意力","meaning_kr":"마음의 작용","examples_zh":["精神健康","集中注意力"],"examples_kr":["정신 건강","정신을 집중하다"],"pos":"명사","note":""},
+            {"rank":319,"word":"이르다","meaning_zh":"到達、說","meaning_kr":"도착하다 또는 말하다","examples_zh":["到達目的地。","說出真相。"],"examples_kr":["목적지에 이르다.","진실을 이르다."],"pos":"동사","note":"多義詞"},
+            {"rank":320,"word":"땅","meaning_zh":"土地","meaning_kr":"흙","examples_zh":["肥沃的土地","買土地"],"examples_kr":["비옥한 땅","땅을 사다"],"pos":"명사","note":""},
+            {"rank":321,"word":"이루다","meaning_zh":"實現、組成","meaning_kr":"성취하다","examples_zh":["實現夢想。","由三個人組成。"],"examples_kr":["꿈을 이루다.","세 사람으로 이루어지다."],"pos":"동사","note":""},
+            {"rank":322,"word":"아침","meaning_zh":"早晨、早餐","meaning_kr":"아침 시간 또는 아침 식사","examples_zh":["早晨運動","吃早餐"],"examples_kr":["아침 운동","아침을 먹다"],"pos":"명사","note":"多義詞"},
+            {"rank":323,"word":"웃다","meaning_zh":"笑","meaning_kr":"옷다","examples_zh":["大聲笑。","開心地笑。"],"examples_kr":["큰 소리로 웃다.","기쁘게 웃다."],"pos":"동사","note":""},
+            {"rank":324,"word":"현상","meaning_zh":"現象","meaning_kr":"나타난 모양","examples_zh":["自然現象","社會現象"],"examples_kr":["자연 현상","사회 현상"],"pos":"명사","note":""},
+            {"rank":325,"word":"두다","meaning_zh":"放置（重複）","meaning_kr":"놓다","examples_zh":["把書放在桌子上。","留下聯絡方式。"],"examples_kr":["책을 책상에 두다.","연락처를 두다."],"pos":"동사","note":""},
+            {"rank":326,"word":"떠나다","meaning_zh":"離開","meaning_kr":"발걸음을 옮기다","examples_zh":["離開家。","離開韓國。"],"examples_kr":["집을 떠나다.","한국을 떠나다."],"pos":"동사","note":""},
+            {"rank":327,"word":"기술","meaning_zh":"技術","meaning_kr":"기능과 방법","examples_zh":["現代技術","科學技術"],"examples_kr":["현대 기술","과학 기술"],"pos":"명사","note":""},
+            {"rank":328,"word":"전체","meaning_zh":"全體","meaning_kr":"모두","examples_zh":["全體成員","全體會議"],"examples_kr":["전체 구성원","전체 회의"],"pos":"명사","note":""},
+            {"rank":329,"word":"그래","meaning_zh":"是的、那樣","meaning_kr":"그렇다","examples_zh":["是的，我知道了。","那樣做吧。"],"examples_kr":["그래, 알겠다.","그래 하자."],"pos":"감탄사","note":""},
+            {"rank":330,"word":"얻다","meaning_zh":"得到","meaning_kr":"획득하다","examples_zh":["得到工作。","得到好成績。"],"examples_kr":["일을 얻다.","좋은 성적을 얻다."],"pos":"동사","note":""},
+            {"rank":331,"word":"분","meaning_zh":"位（敬稱）、分","meaning_kr":"사람을 높여 부르는 말","examples_zh":["那位老師","這位客人"],"examples_kr":["그 분 선생님","이 분 손님"],"pos":"의존명사","note":"敬語"},
+            {"rank":332,"word":"아름답다","meaning_zh":"美麗","meaning_kr":"예쁘다","examples_zh":["美麗的風景","美麗的心靈"],"examples_kr":["아름다운 경치","아름다운 마음"],"pos":"형용사","note":""},
+            {"rank":333,"word":"끝","meaning_zh":"結尾","meaning_kr":"마지막","examples_zh":["電影結尾","學期結束"],"examples_kr":["영화 끝","학기 끝"],"pos":"명사","note":""},
+            {"rank":334,"word":"민족","meaning_zh":"民族","meaning_kr":"한 혈통의 집단","examples_zh":["韓國民族","少數民族"],"examples_kr":["한국 민족","소수 민족"],"pos":"명사","note":""},
+            {"rank":335,"word":"간","meaning_zh":"期間、肝臟","meaning_kr":"기간 또는 간장","examples_zh":["短暫期間","肝臟健康"],"examples_kr":["짧은 간","간 건강"],"pos":"명사","note":"同音異義"},
+            {"rank":336,"word":"조사","meaning_zh":"調查","meaning_kr":"알아보는 일","examples_zh":["市場調查","社會調查"],"examples_kr":["시장 조사","사회 조사"],"pos":"명사","note":""},
+            {"rank":337,"word":"듯","meaning_zh":"好像","meaning_kr":"것처럼","examples_zh":["好像要下雨。","好像很累。"],"examples_kr":["비가 올 듯하다.","피곤한 듯하다."],"pos":"의존명사","note":""},
+            {"rank":338,"word":"입","meaning_zh":"嘴","meaning_kr":"입술과 이가 있는 곳","examples_zh":["張開嘴。","閉上嘴。"],"examples_kr":["입을 벌리다.","입을 다물다."],"pos":"명사","note":""},
+            {"rank":339,"word":"뭐","meaning_zh":"什麼（重複）","meaning_kr":"무엇","examples_zh":["那是什麼？","在做什麼？"],"examples_kr":["그게 뭐야?","뭐 하고 있어?"],"pos":"대명사","note":"구어체"},
+            {"rank":340,"word":"그대로","meaning_zh":"就那樣","meaning_kr":"변함없이","examples_zh":["就那樣放著。","就那樣做吧。"],"examples_kr":["그대로 두다.","그대로 해라."],"pos":"부사","note":""},
+            {"rank":341,"word":"영화","meaning_zh":"電影","meaning_kr":"영상 작품","examples_zh":["看電影。","韓國電影。"],"examples_kr":["영화를 보다.","한국 영화"],"pos":"명사","note":""},
+            {"rank":342,"word":"필요","meaning_zh":"需要","meaning_kr":"필요함","examples_zh":["有需要。","沒有需要。"],"examples_kr":["필요가 있다.","필요가 없다."],"pos":"명사","note":""},
+            {"rank":343,"word":"줄","meaning_zh":"線、排","meaning_kr":"실이나 줄","examples_zh":["一根線","排隊"],"examples_kr":["한 줄","줄을 서다"],"pos":"명사","note":""},
+            {"rank":344,"word":"하늘","meaning_zh":"天空","meaning_kr":"위쪽 공간","examples_zh":["藍天","夜晚的天空"],"examples_kr":["푸른 하늘","밤 하늘"],"pos":"명사","note":""},
+            {"rank":345,"word":"년대","meaning_zh":"年代","meaning_kr":"시대","examples_zh":["1990年代","新年代"],"examples_kr":["1990년대","새로운 년대"],"pos":"명사","note":""},
+            {"rank":346,"word":"과학","meaning_zh":"科學","meaning_kr":"체계적인 학문","examples_zh":["自然科學","科學技術"],"examples_kr":["자연 과학","과학 기술"],"pos":"명사","note":""},
+            {"rank":347,"word":"듯하다","meaning_zh":"好像","meaning_kr":"것처럼 보이다","examples_zh":["好像要下雨。","好像很開心。"],"examples_kr":["비가 올 듯하다.","기쁜 듯하다."],"pos":"형용사","note":""},
+            {"rank":348,"word":"자연","meaning_zh":"自然","meaning_kr":"인공이 아닌 것","examples_zh":["自然環境","自然現象"],"examples_kr":["자연 환경","자연 현상"],"pos":"명사","note":""},
+            {"rank":349,"word":"정말","meaning_zh":"真的","meaning_kr":"참으로","examples_zh":["真的很好。","真的嗎？"],"examples_kr":["정말 좋다.","정말이야?"],"pos":"부사","note":""},
+            {"rank":350,"word":"구조","meaning_zh":"結構、救助","meaning_kr":"틀 또는 구출","examples_zh":["建築結構","救助人員"],"examples_kr":["건물 구조","구조 대원"],"pos":"명사","note":"多義詞"},
+            {"rank":351,"word":"결국","meaning_zh":"最終","meaning_kr":"마침내","examples_zh":["最終成功了。","最終還是去了。"],"examples_kr":["결국 성공했다.","결국 갔다."],"pos":"부사","note":""},
+            {"rank":352,"word":"밥","meaning_zh":"飯","meaning_kr":"주식","examples_zh":["吃飯","煮飯"],"examples_kr":["밥을 먹다","밥을 짓다"],"pos":"명사","note":""},
+            {"rank":353,"word":"입다","meaning_zh":"穿","meaning_kr":"옷을 몸에 걸치다","examples_zh":["穿衣服","穿鞋子"],"examples_kr":["옷을 입다","신발을 입다"],"pos":"동사","note":""},
+            {"rank":354,"word":"오히려","meaning_zh":"反而","meaning_kr":"도리어","examples_zh":["反而更好。","反而更便宜。"],"examples_kr":["오히려 좋다.","오히려 싸다."],"pos":"부사","note":""},
+            {"rank":355,"word":"프로그램","meaning_zh":"節目、程序","meaning_kr":"방송 내용이나 컴퓨터 소프트웨어","examples_zh":["電視節目","電腦程序"],"examples_kr":["TV 프로그램","컴퓨터 프로그램"],"pos":"명사","note":""},
+            {"rank":356,"word":"네","meaning_zh":"是、好的","meaning_kr":"긍정의 대답","examples_zh":["是的，我知道了。","好的，我會做的。"],"examples_kr":["네, 알겠습니다.","네, 하겠습니다."],"pos":"감탄사","note":"敬語"},
+            {"rank":357,"word":"이루어지다","meaning_zh":"實現、完成","meaning_kr":"성사되다","examples_zh":["計劃實現了。","會議完成了。"],"examples_kr":["계획이 이루어지다.","회의가 이루어지다."],"pos":"동사","note":""},
+            {"rank":358,"word":"남","meaning_zh":"別人、剩餘","meaning_kr":"다른 사람 또는 남은 것","examples_zh":["關心別人","剩餘時間"],"examples_kr":["남을 배려하다","남은 시간"],"pos":"명사","note":"多義詞"},
+            {"rank":359,"word":"하루","meaning_zh":"一天","meaning_kr":"하루","examples_zh":["一整天","某一天"],"examples_kr":["온 하루","어느 하루"],"pos":"명사","note":""},
+            {"rank":360,"word":"그림","meaning_zh":"畫","meaning_kr":"그린 그림","examples_zh":["漂亮的畫","畫畫"],"examples_kr":["예쁜 그림","그림을 그리다"],"pos":"명사","note":""},
+            {"rank":361,"word":"적","meaning_zh":"時候、敵人","meaning_kr":"때 또는 적군","examples_zh":["小的時候","打敗敵人"],"examples_kr":["어릴 적","적을 물리치다"],"pos":"명사","note":"同音異義"},
+            {"rank":362,"word":"터","meaning_zh":"地方、地基","meaning_kr":"장소 또는 기초","examples_zh":["空地","建築工地"],"examples_kr":["빈 터","건축 터"],"pos":"명사","note":""},
+            {"rank":363,"word":"마시다","meaning_zh":"喝","meaning_kr":"음료를 들이켜다","examples_zh":["喝水","喝酒"],"examples_kr":["물을 마시다","술을 마시다"],"pos":"동사","note":""},
+            {"rank":364,"word":"치다","meaning_zh":"打、彈","meaning_kr":"때리거나 연주하다","examples_zh":["打網球","彈鋼琴"],"examples_kr":["테니스를 치다","피아노를 치다"],"pos":"동사","note":"多義詞"},
+            {"rank":365,"word":"혼자","meaning_zh":"獨自","meaning_kr":"홀로","examples_zh":["獨自生活","獨自去"],"examples_kr":["혼자 살다","혼자 가다"],"pos":"명사","note":""},
+            {"rank":366,"word":"나가다","meaning_zh":"出去（重複）","meaning_kr":"밖으로 가다","examples_zh":["走出大門。","出去散步。"],"examples_kr":["대문을 나가다.","산책 나가다."],"pos":"동사","note":""},
+            {"rank":367,"word":"이제","meaning_zh":"現在（重複）","meaning_kr":"지금부터","examples_zh":["現在明白了。","現在開始吧。"],"examples_kr":["이제 알겠다.","이제 시작하자."],"pos":"명사","note":""},
+            {"rank":368,"word":"교수","meaning_zh":"教授","meaning_kr":"대학 교사","examples_zh":["大學教授","教授的研究"],"examples_kr":["대학 교수","교수의 연구"],"pos":"명사","note":""},
+            {"rank":369,"word":"술","meaning_zh":"酒","meaning_kr":"알코올 음료","examples_zh":["喝啤酒","韓國酒"],"examples_kr":["맥주를 마시다","한국 술"],"pos":"명사","note":""},
+            {"rank":370,"word":"사랑","meaning_zh":"愛","meaning_kr":"깊은 정","examples_zh":["父母的愛","談戀愛"],"examples_kr":["부모의 사랑","사랑에 빠지다"],"pos":"명사","note":""},
+            {"rank":371,"word":"의식","meaning_zh":"意識、儀式","meaning_kr":"알아차림 또는 식","examples_zh":["社會意識","結婚儀式"],"examples_kr":["사회 의식","결혼 의식"],"pos":"명사","note":"多義詞"},
+            {"rank":372,"word":"전화","meaning_zh":"電話","meaning_kr":"통신 기기","examples_zh":["打電話","手機"],"examples_kr":["전화를 걸다","휴대 전화"],"pos":"명사","note":""},
+            {"rank":373,"word":"끝나다","meaning_zh":"結束","meaning_kr":"마무리되다","examples_zh":["電影結束了。","工作結束了。"],"examples_kr":["영화가 끝나다.","일이 끝나다."],"pos":"동사","note":""},
+            {"rank":374,"word":"돌아오다","meaning_zh":"回來","meaning_kr":"되돌아오다","examples_zh":["從公司回來。","回到故鄉。"],"examples_kr":["회사에서 돌아오다.","고향으로 돌아오다."],"pos":"동사","note":""},
+            {"rank":375,"word":"맞다","meaning_zh":"正確、挨打","meaning_kr":"옳다 또는 맞받다","examples_zh":["答案正確。","被雨淋。"],"examples_kr":["답이 맞다.","비를 맞다."],"pos":"형용사","note":"多義詞"},
+            {"rank":376,"word":"아빠","meaning_zh":"爸爸","meaning_kr":"아버지의 구어체","examples_zh":["我爸爸","爸爸的公司"],"examples_kr":["우리 아빠","아빠 회사"],"pos":"명사","note":"구어체"},
+            {"rank":377,"word":"걸리다","meaning_zh":"花費、被抓住","meaning_kr":"시간이 들거나 붙잡히다","examples_zh":["花很多時間。","感冒了。"],"examples_kr":["시간이 많이 걸리다.","감기에 걸리다."],"pos":"동사","note":"多義詞"},
+            {"rank":378,"word":"지키다","meaning_zh":"守護、遵守","meaning_kr":"보호하거나 따르다","examples_zh":["守護家人。","遵守約定。"],"examples_kr":["가족을 지키다.","약속을 지키다."],"pos":"동사","note":""},
+            {"rank":379,"word":"한번","meaning_zh":"一次","meaning_kr":"한 차례","examples_zh":["試一次。","去過一次。"],"examples_kr":["한번 해보자.","한번 가 봤다."],"pos":"명사","note":""},
+            {"rank":380,"word":"커피","meaning_zh":"咖啡","meaning_kr":"커피","examples_zh":["喝咖啡","買咖啡"],"examples_kr":["커피를 마시다","커피를 사다"],"pos":"명사","note":""},
+            {"rank":381,"word":"가슴","meaning_zh":"胸口、心","meaning_kr":"흉부 또는 마음","examples_zh":["胸口痛","心裡難過"],"examples_kr":["가슴이 아프다","가슴이 아프다"],"pos":"명사","note":"多義詞"},
+            {"rank":382,"word":"길다","meaning_zh":"長","meaning_kr":"길이가 길다","examples_zh":["長頭髮","長時間"],"examples_kr":["긴 머리","긴 시간"],"pos":"형용사","note":""},
+            {"rank":383,"word":"바라보다","meaning_zh":"注視","meaning_kr":"응시하다","examples_zh":["注視遠方。","看著我。"],"examples_kr":["먼 곳을 바라보다.","나를 바라보다."],"pos":"동사","note":""},
+            {"rank":384,"word":"알아보다","meaning_zh":"認出、了解","meaning_kr":"알아차리거나 조사하다","examples_zh":["認出朋友。","了解情況。"],"examples_kr":["친구를 알아보다.","상황을 알아보다."],"pos":"동사","note":""},
+            {"rank":385,"word":"회사","meaning_zh":"公司","meaning_kr":"기업","examples_zh":["大公司","去公司"],"examples_kr":["대회사","회사에 가다"],"pos":"명사","note":""},
+            {"rank":386,"word":"맛","meaning_zh":"味道","meaning_kr":"음식의 감각","examples_zh":["好吃的味道","甜味"],"examples_kr":["맛있는 맛","단 맛"],"pos":"명사","note":""},
+            {"rank":387,"word":"대부분","meaning_zh":"大部分","meaning_kr":"거의 모두","examples_zh":["大部分人都同意。","大部分時間"],"examples_kr":["대부분 사람이 동의한다.","대부분 시간"],"pos":"명사","note":""},
+            {"rank":388,"word":"산업","meaning_zh":"產業","meaning_kr":"생산 활동","examples_zh":["汽車產業","IT產業"],"examples_kr":["자동차 산업","IT 산업"],"pos":"명사","note":""},
+            {"rank":389,"word":"매우","meaning_zh":"非常","meaning_kr":"아주","examples_zh":["非常重要。","非常漂亮。"],"examples_kr":["매우 중요하다.","매우 예쁘다."],"pos":"부사","note":""},
+            {"rank":390,"word":"오르다","meaning_zh":"上升、上","meaning_kr":"위로 가다","examples_zh":["價格上漲。","上山。"],"examples_kr":["가격이 오르다.","산에 오르다."],"pos":"동사","note":""},
+            {"rank":391,"word":"음식","meaning_zh":"食物","meaning_kr":"먹을거리","examples_zh":["韓國食物","好吃的食物"],"examples_kr":["한국 음식","맛있는 음식"],"pos":"명사","note":""},
+            {"rank":392,"word":"표정","meaning_zh":"表情","meaning_kr":"얼굴 모양","examples_zh":["悲傷的表情","表情變化"],"examples_kr":["슬픈 표정","표정 변화"],"pos":"명사","note":""},
+            {"rank":393,"word":"꼭","meaning_zh":"一定","meaning_kr":"반드시","examples_zh":["一定要來。","一定要成功。"],"examples_kr":["꼭 오세요.","꼭 성공하자."],"pos":"부사","note":""},
+            {"rank":394,"word":"일부","meaning_zh":"一部分","meaning_kr":"일부분","examples_zh":["一部分人","一部分地區"],"examples_kr":["일부 사람","일부 지역"],"pos":"명사","note":""},
+            {"rank":395,"word":"요즘","meaning_zh":"最近","meaning_kr":"최근","examples_zh":["最近很忙。","最近的天氣"],"examples_kr":["요즘 바쁘다.","요즘 날씨"],"pos":"명사","note":""},
+            {"rank":396,"word":"계획","meaning_zh":"計劃","meaning_kr":"미리 세운 것","examples_zh":["旅行計劃","未來計劃"],"examples_kr":["여행 계획","미래 계획"],"pos":"명사","note":""},
+            {"rank":397,"word":"느낌","meaning_zh":"感覺","meaning_kr":"감각","examples_zh":["奇怪的感覺","好的感覺"],"examples_kr":["이상한 느낌","좋은 느낌"],"pos":"명사","note":""},
+            {"rank":398,"word":"얼마","meaning_zh":"多少","meaning_kr":"어느 정도","examples_zh":["多少錢？","多少時間？"],"examples_kr":["얼마예요?","얼마나 걸려요?"],"pos":"대명사","note":""},
+            {"rank":399,"word":"고개","meaning_zh":"頭、山丘","meaning_kr":"목 또는 작은 언덕","examples_zh":["點頭","越過山丘"],"examples_kr":["고개를 끄덕이다","고개를 넘다"],"pos":"명사","note":"多義詞"},
+            {"rank":400,"word":"성격","meaning_zh":"性格","meaning_kr":"성품","examples_zh":["好的性格","性格開朗"],"examples_kr":["좋은 성격","명랑한 성격"],"pos":"명사","note":""},
+            {"rank":401,"word":"계속","meaning_zh":"繼續","meaning_kr":"이어서","examples_zh":["繼續學習。","繼續工作。"],"examples_kr":["계속 공부하다.","계속 일하다."],"pos":"부사","note":""},
+            {"rank":402,"word":"세기","meaning_zh":"世紀","meaning_kr":"100년 동안","examples_zh":["20世紀","新世紀"],"examples_kr":["20세기","새로운 세기"],"pos":"명사","note":""},
+            {"rank":403,"word":"세우다","meaning_zh":"建立、豎立","meaning_kr":"설립하거나 세우다","examples_zh":["建立公司。","豎立旗幟。"],"examples_kr":["회사를 세우다.","깃발을 세우다."],"pos":"동사","note":""},
+            {"rank":404,"word":"아내","meaning_zh":"妻子","meaning_kr":"배우자 중 여성","examples_zh":["我的妻子","妻子的生日"],"examples_kr":["제 아내","아내 생일"],"pos":"명사","note":""},
+            {"rank":405,"word":"가족","meaning_zh":"家族","meaning_kr":"한 집안","examples_zh":["我們家族","家族旅行"],"examples_kr":["우리 가족","가족 여행"],"pos":"명사","note":""},
+            {"rank":406,"word":"현재","meaning_zh":"現在","meaning_kr":"지금","examples_zh":["目前情況","現在時間"],"examples_kr":["현재 상황","현재 시간"],"pos":"명사","note":""},
+            {"rank":407,"word":"세","meaning_zh":"三、歲","meaning_kr":"셋 또는 나이","examples_zh":["三個","三歲"],"examples_kr":["세 개","세 살"],"pos":"수사","note":"多義詞"},
+            {"rank":408,"word":"놓다","meaning_zh":"放置（重複）","meaning_kr":"두다","examples_zh":["把書放在桌上。","放下心。"],"examples_kr":["책을 책상에 놓다.","마음을 놓다."],"pos":"동사","note":""},
+            {"rank":409,"word":"발전","meaning_zh":"發展","meaning_kr":"발달","examples_zh":["經濟發展","技術發展"],"examples_kr":["경제 발전","기술 발전"],"pos":"명사","note":""},
+            {"rank":410,"word":"차","meaning_zh":"車、茶","meaning_kr":"자동차 또는 차","examples_zh":["坐車","喝茶"],"examples_kr":["차를 타다","차를 마시다"],"pos":"명사","note":"同音異義"},
+            {"rank":411,"word":"놀다","meaning_zh":"玩","meaning_kr":"즐기다","examples_zh":["和朋友玩。","玩遊戲。"],"examples_kr":["친구와 놀다.","게임을 놀다."],"pos":"동사","note":""},
+            {"rank":412,"word":"향하다","meaning_zh":"朝向","meaning_kr":"방향을 잡다","examples_zh":["朝北走。","面向未來。"],"examples_kr":["북쪽을 향하다.","미래를 향하다."],"pos":"동사","note":""},
+            {"rank":413,"word":"관련","meaning_zh":"相關","meaning_kr":"연관","examples_zh":["相關問題","相關資料"],"examples_kr":["관련 문제","관련 자료"],"pos":"명사","note":""},
+            {"rank":414,"word":"형태","meaning_zh":"形態","meaning_kr":"모양","examples_zh":["各種形態","基本形態"],"examples_kr":["여러 형태","기본 형태"],"pos":"명사","note":""},
+            {"rank":415,"word":"각","meaning_zh":"各","meaning_kr":"각각","examples_zh":["各國","各人"],"examples_kr":["각 나라","각 사람"],"pos":"관형사","note":""},
+            {"rank":416,"word":"도시","meaning_zh":"都市","meaning_kr":"도회지","examples_zh":["大都市","都市生活"],"examples_kr":["대도시","도시 생활"],"pos":"명사","note":""},
+            {"rank":417,"word":"작업","meaning_zh":"作業","meaning_kr":"일","examples_zh":["進行作業","作業完成"],"examples_kr":["작업을 하다","작업 완료"],"pos":"명사","note":""},
+            {"rank":418,"word":"분위기","meaning_zh":"氣氛","meaning_kr":"공기","examples_zh":["好的氣氛","緊張的氣氛"],"examples_kr":["좋은 분위기","긴장된 분위기"],"pos":"명사","note":""},
+            {"rank":419,"word":"그러하다","meaning_zh":"如此","meaning_kr":"그렇다","examples_zh":["情況如此。","如果如此的話。"],"examples_kr":["상황이 그러하다.","그러하다면"],"pos":"형용사","note":""},
+            {"rank":420,"word":"자기","meaning_zh":"自己（重複）","meaning_kr":"본인","examples_zh":["自己的事情","自我介紹"],"examples_kr":["자기 일","자기 소개"],"pos":"명사","note":""},
+            {"rank":421,"word":"나이","meaning_zh":"年齡","meaning_kr":"연령","examples_zh":["年紀大","同齡"],"examples_kr":["나이가 많다","같은 나이"],"pos":"명사","note":""},
+            {"rank":422,"word":"우선","meaning_zh":"首先","meaning_kr":"먼저","examples_zh":["首先吃飯。","首先考慮。"],"examples_kr":["우선 밥을 먹자.","우선 생각해 보자."],"pos":"부사","note":""},
+            {"rank":423,"word":"믿다","meaning_zh":"相信","meaning_kr":"신뢰하다","examples_zh":["相信朋友。","相信自己。"],"examples_kr":["친구를 믿다.","자신을 믿다."],"pos":"동사","note":""},
+            {"rank":424,"word":"바꾸다","meaning_zh":"改變","meaning_kr":"변경하다","examples_zh":["改變計劃。","換衣服。"],"examples_kr":["계획을 바꾸다.","옷을 바꾸다."],"pos":"동사","note":""},
+            {"rank":425,"word":"낳다","meaning_zh":"生（孩子）","meaning_kr":"출산하다","examples_zh":["生孩子","生雙胞胎"],"examples_kr":["아이를 낳다","쌍둥이를 낳다"],"pos":"동사","note":""},
+            {"rank":426,"word":"바","meaning_zh":"酒吧、場所","meaning_kr":"술집 또는 장소","examples_zh":["去酒吧","到達地點"],"examples_kr":["바에 가다","도착한 바"],"pos":"명사","note":"多義詞"},
+            {"rank":427,"word":"정보","meaning_zh":"情報","meaning_kr":"알리는 내용","examples_zh":["收集情報","有用情報"],"examples_kr":["정보를 모으다","유용한 정보"],"pos":"명사","note":""},
+            {"rank":428,"word":"열리다","meaning_zh":"被打開","meaning_kr":"열게 되다","examples_zh":["門開了。","商店開門了。"],"examples_kr":["문이 열리다.","가게가 열리다."],"pos":"동사","note":""},
+            {"rank":429,"word":"좋아하다","meaning_zh":"喜歡","meaning_kr":"기쁘게 생각하다","examples_zh":["喜歡音樂。","喜歡那個人。"],"examples_kr":["음악을 좋아하다.","그 사람을 좋아하다."],"pos":"동사","note":""},
+            {"rank":430,"word":"그리다","meaning_zh":"畫、描繪","meaning_kr":"그림을 만들다","examples_zh":["畫風景。","描繪未來。"],"examples_kr":["경치를 그리다.","미래를 그리다."],"pos":"동사","note":""},
+            {"rank":431,"word":"만큼","meaning_zh":"程度","meaning_kr":"정도","examples_zh":["像他那樣努力。","盡可能做。"],"examples_kr":["그만큼 열심히 하다.","할 만큼 하다."],"pos":"조사","note":""},
+            {"rank":432,"word":"배우다","meaning_zh":"學習","meaning_kr":"학습하다","examples_zh":["學習韓語。","學習新技術。"],"examples_kr":["한국어를 배우다.","새 기술을 배우다."],"pos":"동사","note":""},
+            {"rank":433,"word":"시","meaning_zh":"詩（重複）","meaning_kr":"시","examples_zh":["寫詩","讀詩"],"examples_kr":["시를 쓰다","시를 읽다"],"pos":"명사","note":""},
+            {"rank":434,"word":"역할","meaning_zh":"角色","meaning_kr":"맡은 바","examples_zh":["重要角色","父母的角色"],"examples_kr":["중요한 역할","부모의 역할"],"pos":"명사","note":""},
+            {"rank":435,"word":"옆","meaning_zh":"旁邊","meaning_kr":"곁","examples_zh":["坐在旁邊。","房子旁邊"],"examples_kr":["옆에 앉다","집 옆"],"pos":"명사","note":""},
+            {"rank":436,"word":"행동","meaning_zh":"行動","meaning_kr":"동작","examples_zh":["立即行動。","奇怪的行動"],"examples_kr":["즉시 행동하다.","이상한 행동"],"pos":"명사","note":""},
+            {"rank":437,"word":"어","meaning_zh":"呃","meaning_kr":"말을 더듬을 때","examples_zh":["呃，那個...","呃，我不知道。"],"examples_kr":["어, 그게...","어, 모르겠다."],"pos":"감탄사","note":""},
+            {"rank":438,"word":"국내","meaning_zh":"國內","meaning_kr":"나라 안","examples_zh":["國內旅行","國內市場"],"examples_kr":["국내 여행","국내 시장"],"pos":"명사","note":""},
+            {"rank":439,"word":"비하다","meaning_zh":"比較","meaning_kr":"견주다","examples_zh":["與去年相比","無法相比"],"examples_kr":["작년에 비하다","비할 바가 아니다"],"pos":"동사","note":""},
+            {"rank":440,"word":"기관","meaning_zh":"機關","meaning_kr":"조직","examples_zh":["政府機關","教育機關"],"examples_kr":["정부 기관","교육 기관"],"pos":"명사","note":""},
+            {"rank":441,"word":"입장","meaning_zh":"立場、入場","meaning_kr":"견해 또는 들어감","examples_zh":["我的立場","禁止入場"],"examples_kr":["내 입장","입장 금지"],"pos":"명사","note":"多義詞"},
+            {"rank":442,"word":"만하다","meaning_zh":"值得","meaning_kr":"가치가 있다","examples_zh":["值得一看。","值得信任。"],"examples_kr":["볼 만하다.","믿을 만하다."],"pos":"보조형용사","note":""},
+            {"rank":443,"word":"예","meaning_zh":"例子、禮儀","meaning_kr":"보기 또는 예의","examples_zh":["舉個例子","沒有禮貌"],"examples_kr":["예를 들다","예의가 없다"],"pos":"명사","note":"同音異義"},
+            {"rank":444,"word":"아래","meaning_zh":"下面","meaning_kr":"밑","examples_zh":["桌子下面","樓下"],"examples_kr":["책상 아래","아래층"],"pos":"명사","note":""},
+            {"rank":445,"word":"방식","meaning_zh":"方式","meaning_kr":"방법","examples_zh":["新的方式","傳統方式"],"examples_kr":["새로운 방식","전통 방식"],"pos":"명사","note":""},
+            {"rank":446,"word":"영향","meaning_zh":"影響","meaning_kr":"작용","examples_zh":["很大的影響","受影響"],"examples_kr":["큰 영향","영향을 받다"],"pos":"명사","note":""},
+            {"rank":447,"word":"그럼","meaning_zh":"那麼","meaning_kr":"그렇다면","examples_zh":["那麼，再見。","那麼，開始吧。"],"examples_kr":["그럼, 안녕.","그럼, 시작하자."],"pos":"감탄사","note":""},
+            {"rank":448,"word":"나서다","meaning_zh":"出面、開始","meaning_kr":"앞장서다","examples_zh":["出面解決。","開始工作。"],"examples_kr":["나서서 해결하다.","일을 나서다."],"pos":"동사","note":""},
+            {"rank":449,"word":"흐르다","meaning_zh":"流動","meaning_kr":"흘러가다","examples_zh":["水流動。","時間流逝。"],"examples_kr":["물이 흐르다.","시간이 흐르다."],"pos":"동사","note":""},
+            {"rank":450,"word":"저","meaning_zh":"那個、我（謙稱）","meaning_kr":"멀리 있는 것 또는 겸손한 나","examples_zh":["那棟建築","我是學生。"],"examples_kr":["저 건물","저는 학생입니다."],"pos":"대명사","note":"多義詞"},
+            {"rank":451,"word":"깊다","meaning_zh":"深","meaning_kr":"깊이가 크다","examples_zh":["深海","深夜"],"examples_kr":["깊은 바다","깊은 밤"],"pos":"형용사","note":""},
+            {"rank":452,"word":"배","meaning_zh":"船、肚子","meaning_kr":"배 또는 복부","examples_zh":["坐船","肚子餓"],"examples_kr":["배를 타다","배가 고프다"],"pos":"명사","note":"同音異義"},
+            {"rank":453,"word":"내","meaning_zh":"我的","meaning_kr":"나의","examples_zh":["我的書","我的朋友"],"examples_kr":["내 책","내 친구"],"pos":"관형사","note":"非敬語"},
+            {"rank":454,"word":"모양","meaning_zh":"模樣","meaning_kr":"생김새","examples_zh":["奇怪的模樣","各種模樣"],"examples_kr":["이상한 모양","여러 모양"],"pos":"명사","note":""},
+            {"rank":455,"word":"산","meaning_zh":"山","meaning_kr":"뫼","examples_zh":["高山","爬山"],"examples_kr":["높은 산","산에 오르다"],"pos":"명사","note":""},
+            {"rank":456,"word":"새","meaning_zh":"鳥、新","meaning_kr":"조류 또는 새로운","examples_zh":["小鳥","新學期"],"examples_kr":["작은 새","새 학기"],"pos":"명사","note":"同音異義"},
+            {"rank":457,"word":"하지만","meaning_zh":"但是","meaning_kr":"그러나","examples_zh":["很累，但是要繼續。","很貴，但是質量好。"],"examples_kr":["피곤하지만 계속해야 한다.","비싸지만 질이 좋다."],"pos":"접속사","note":""},
+            {"rank":458,"word":"조건","meaning_zh":"條件","meaning_kr":"요건","examples_zh":["重要條件","有利條件"],"examples_kr":["중요한 조건","유리한 조건"],"pos":"명사","note":""},
+            {"rank":459,"word":"문","meaning_zh":"門","meaning_kr":"출입구","examples_zh":["開門","大門"],"examples_kr":["문을 열다","큰 문"],"pos":"명사","note":""},
+            {"rank":460,"word":"꽃","meaning_zh":"花","meaning_kr":"꽃","examples_zh":["漂亮的花","送花"],"examples_kr":["예쁜 꽃","꽃을 선물하다"],"pos":"명사","note":""},
+            {"rank":461,"word":"단계","meaning_zh":"階段","meaning_kr":"단계","examples_zh":["第一階段","發展階段"],"examples_kr":["첫 단계","발전 단계"],"pos":"명사","note":""},
+            {"rank":462,"word":"올리다","meaning_zh":"提高、上傳","meaning_kr":"높이다","examples_zh":["提高價格。","上傳照片。"],"examples_kr":["가격을 올리다.","사진을 올리다."],"pos":"동사","note":""},
+            {"rank":463,"word":"그동안","meaning_zh":"這段期間","meaning_kr":"그 동안","examples_zh":["這段期間很忙。","這段期間謝謝你。"],"examples_kr":["그동안 바빴다.","그동안 감사했습니다."],"pos":"명사","note":""},
+            {"rank":464,"word":"교사","meaning_zh":"教師","meaning_kr":"선생님","examples_zh":["學校教師","優秀教師"],"examples_kr":["학교 교사","훌륭한 교사"],"pos":"명사","note":""},
+            {"rank":465,"word":"갑자기","meaning_zh":"突然","meaning_kr":"돌연","examples_zh":["突然下雨。","突然生病。"],"examples_kr":["갑자기 비가 오다.","갑자기 아프다."],"pos":"부사","note":""},
+            {"rank":466,"word":"넘다","meaning_zh":"越過","meaning_kr":"건너가다","examples_zh":["越過山。","超過限度。"],"examples_kr":["산을 넘다.","한계를 넘다."],"pos":"동사","note":""},
+            {"rank":467,"word":"지니다","meaning_zh":"攜帶","meaning_kr":"가지고 다니다","examples_zh":["攜帶身份證。","帶著錢。"],"examples_kr":["신분증을 지니다.","돈을 지니다."],"pos":"동사","note":""},
+            {"rank":468,"word":"바람","meaning_zh":"風、願望","meaning_kr":"공기의 움직임 또는 소원","examples_zh":["強風","我的願望"],"examples_kr":["강한 바람","내 바람"],"pos":"명사","note":"多義詞"},
+            {"rank":469,"word":"잘하다","meaning_zh":"做得好","meaning_kr":"훌륭하게 하다","examples_zh":["韓語說得很好。","學習很好。"],"examples_kr":["한국어를 잘하다.","공부를 잘하다."],"pos":"동사","note":""},
+            {"rank":470,"word":"마을","meaning_zh":"村莊","meaning_kr":"작은 동네","examples_zh":["小村莊","故鄉的村莊"],"examples_kr":["작은 마을","고향 마을"],"pos":"명사","note":""},
+            {"rank":471,"word":"어리다","meaning_zh":"年輕","meaning_kr":"나이가 적다","examples_zh":["年輕的時候","年輕的藝術家"],"examples_kr":["어릴 때","어린 예술가"],"pos":"형용사","note":""},
+            {"rank":472,"word":"대표","meaning_zh":"代表","meaning_kr":"대변","examples_zh":["公司代表","國家代表"],"examples_kr":["회사 대표","국가 대표"],"pos":"명사","note":""},
+            {"rank":473,"word":"가능성","meaning_zh":"可能性","meaning_kr":"가능함","examples_zh":["有很大的可能性。","成功的可能性"],"examples_kr":["큰 가능성이 있다.","성공 가능성"],"pos":"명사","note":""},
+            {"rank":474,"word":"방향","meaning_zh":"方向","meaning_kr":"향하는 쪽","examples_zh":["正確方向","相反方向"],"examples_kr":["올바른 방향","반대 방향"],"pos":"명사","note":""},
+            {"rank":475,"word":"대회","meaning_zh":"大會","meaning_kr":"큰 모임","examples_zh":["運動大會","國際大會"],"examples_kr":["스포츠 대회","국제 대회"],"pos":"명사","note":""},
+            {"rank":476,"word":"목소리","meaning_zh":"聲音","meaning_kr":"목청","examples_zh":["大的聲音","溫柔的聲音"],"examples_kr":["큰 목소리","부드러운 목소리"],"pos":"명사","note":""},
+            {"rank":477,"word":"노래","meaning_zh":"歌曲","meaning_kr":"가곡","examples_zh":["唱首歌","流行歌曲"],"examples_kr":["노래를 부르다","인기 노래"],"pos":"명사","note":""},
+            {"rank":478,"word":"바다","meaning_zh":"海","meaning_kr":"해양","examples_zh":["藍海","去海邊"],"examples_kr":["푸른 바다","바다에 가다"],"pos":"명사","note":""},
+            {"rank":479,"word":"힘들다","meaning_zh":"辛苦","meaning_kr":"어렵다","examples_zh":["工作很辛苦。","生活很辛苦。"],"examples_kr":["일이 힘들다.","삶이 힘들다."],"pos":"형용사","note":""},
+            {"rank":480,"word":"공부","meaning_zh":"學習","meaning_kr":"학습","examples_zh":["努力學習。","英語學習"],"examples_kr":["열심히 공부하다.","영어 공부"],"pos":"명사","note":""},
+            {"rank":481,"word":"움직이다","meaning_zh":"移動","meaning_kr":"동작하다","examples_zh":["移動身體。","物體在移動。"],"examples_kr":["몸을 움직이다.","물체가 움직이다."],"pos":"동사","note":""},
+            {"rank":482,"word":"의원","meaning_zh":"議員","meaning_kr":"국회 구성원","examples_zh":["國會議員","地方議員"],"examples_kr":["국회의원","지방의원"],"pos":"명사","note":""},
+            {"rank":483,"word":"노력","meaning_zh":"努力","meaning_kr":"애씀","examples_zh":["付出努力。","不懈努力"],"examples_kr":["노력을 기울이다.","끊임없는 노력"],"pos":"명사","note":""},
+            {"rank":484,"word":"못하다","meaning_zh":"不如","meaning_kr":"따르지 못하다","examples_zh":["不如他。","品質不好。"],"examples_kr":["그에게 못하다.","질이 못하다."],"pos":"형용사","note":""},
+            {"rank":485,"word":"전혀","meaning_zh":"完全","meaning_kr":"조금도","examples_zh":["完全不知道。","完全不一樣。"],"examples_kr":["전혀 모르다.","전혀 다르다."],"pos":"부사","note":""},
+            {"rank":486,"word":"언니","meaning_zh":"姐姐","meaning_kr":"여자 형제","examples_zh":["我的姐姐","姐姐的家"],"examples_kr":["내 언니","언니 집"],"pos":"명사","note":"女性用語"},
+            {"rank":487,"word":"단체","meaning_zh":"團體","meaning_kr":"모임","examples_zh":["社會團體","團體旅行"],"examples_kr":["사회 단체","단체 여행"],"pos":"명사","note":""},
+            {"rank":488,"word":"분","meaning_zh":"份","meaning_kr":"양","examples_zh":["一份食物","分成三份"],"examples_kr":["음식 한 분","세 분으로 나누다"],"pos":"의존명사","note":""},
+            {"rank":489,"word":"알려지다","meaning_zh":"被知道","meaning_kr":"알리어지다","examples_zh":["消息傳開了。","事實被知道了。"],"examples_kr":["소식이 알려지다.","사실이 알려지다."],"pos":"동사","note":""},
+            {"rank":490,"word":"가능하다","meaning_zh":"可能","meaning_kr":"할 수 있다","examples_zh":["可能實現。","可能成功。"],"examples_kr":["가능하다.","성공 가능하다."],"pos":"형용사","note":""},
+            {"rank":491,"word":"능력","meaning_zh":"能力","meaning_kr":"재능","examples_zh":["語言能力","解決問題的能力"],"examples_kr":["언어 능력","문제 해결 능력"],"pos":"명사","note":""},
+            {"rank":492,"word":"주장하다","meaning_zh":"主張","meaning_kr":"말하다","examples_zh":["主張自己的意見。","主張權利。"],"examples_kr":["자신의 의견을 주장하다.","권리를 주장하다."],"pos":"동사","note":""},
+            {"rank":493,"word":"자식","meaning_zh":"子女","meaning_kr":"아이","examples_zh":["我的子女","子女教育"],"examples_kr":["내 자식","자식 교육"],"pos":"명사","note":""},
+            {"rank":494,"word":"돌리다","meaning_zh":"轉動","meaning_kr":"회전시키다","examples_zh":["轉動方向盤。","轉移話題。"],"examples_kr":["핸들을 돌리다.","화제를 돌리다."],"pos":"동사","note":""},
+            {"rank":495,"word":"불","meaning_zh":"火","meaning_kr":"화염","examples_zh":["點火","大火"],"examples_kr":["불을 붙이다","큰 불"],"pos":"명사","note":""},
+            {"rank":496,"word":"주민","meaning_zh":"居民","meaning_kr":"사는 사람","examples_zh":["地區居民","公寓居民"],"examples_kr":["지역 주민","아파트 주민"],"pos":"명사","note":""},
+            {"rank":497,"word":"모으다","meaning_zh":"收集","meaning_kr":"모아두다","examples_zh":["收集資料。","存錢。"],"examples_kr":["자료를 모으다.","돈을 모으다."],"pos":"동사","note":""},
+            {"rank":498,"word":"자료","meaning_zh":"資料","meaning_kr":"참고할 것","examples_zh":["研究資料","參考資料"],"examples_kr":["연구 자료","참고 자료"],"pos":"명사","note":""},
+            {"rank":499,"word":"존재","meaning_zh":"存在","meaning_kr":"있음","examples_zh":["證明存在。","存在問題。"],"examples_kr":["존재를 증명하다.","문제가 존재하다."],"pos":"명사","note":""},
+            {"rank":500,"word":"학년","meaning_zh":"年級","meaning_kr":"학교 과정의 해","examples_zh":["一年級","三年級學生"],"examples_kr":["일 학년","삼 학년 학생"],"pos":"명사","note":""},
+            {"rank":501,"word":"신문","meaning_zh":"報紙","meaning_kr":"뉴스가 실린 인쇄물","examples_zh":["看報紙","訂閱報紙"],"examples_kr":["신문을 보다","신문을 구독하다"],"pos":"명사","note":""},
+            {"rank":502,"word":"가지다","meaning_zh":"擁有（重複）","meaning_kr":"소유하다","examples_zh":["有車","有自信"],"examples_kr":["차를 가지다","자신감을 가지다"],"pos":"동사","note":""},
+            {"rank":503,"word":"이해하다","meaning_zh":"理解","meaning_kr":"알아듣다","examples_zh":["理解情況。","理解對方的立場。"],"examples_kr":["상황을 이해하다.","상대방의 입장을 이해하다."],"pos":"동사","note":""},
+            {"rank":504,"word":"제품","meaning_zh":"產品","meaning_kr":"생산된 물건","examples_zh":["新產品","韓國產品"],"examples_kr":["새 제품","한국 제품"],"pos":"명사","note":""},
+            {"rank":505,"word":"분야","meaning_zh":"領域","meaning_kr":"영역","examples_zh":["專業領域","各種領域"],"examples_kr":["전문 분야","여러 분야"],"pos":"명사","note":""},
+            {"rank":506,"word":"선생","meaning_zh":"老師","meaning_kr":"가르치는 사람","examples_zh":["學校老師","尊敬老師"],"examples_kr":["학교 선생","선생을 존경하다"],"pos":"명사","note":""},
+            {"rank":507,"word":"돌아가다","meaning_zh":"回去","meaning_kr":"되돌아가다","examples_zh":["回家去。","回到原點。"],"examples_kr":["집으로 돌아가다.","원점으로 돌아가다."],"pos":"동사","note":""},
+            {"rank":508,"word":"사업","meaning_zh":"事業","meaning_kr":"경영 활동","examples_zh":["開始事業","家族事業"],"examples_kr":["사업을 시작하다","가족 사업"],"pos":"명사","note":""},
+            {"rank":509,"word":"행위","meaning_zh":"行為","meaning_kr":"행동","examples_zh":["道德行為","暴力行為"],"examples_kr":["도덕적 행위","폭력 행위"],"pos":"명사","note":""},
+            {"rank":510,"word":"수준","meaning_zh":"水準","meaning_kr":"표준","examples_zh":["高水準","國際水準"],"examples_kr":["높은 수준","국제 수준"],"pos":"명사","note":""},
+            {"rank":511,"word":"지난해","meaning_zh":"去年","meaning_kr":"작년","examples_zh":["去年的事情","去年這個時候"],"examples_kr":["지난해 일","지난해 이맘때"],"pos":"명사","note":""},
+            {"rank":512,"word":"표현","meaning_zh":"表現","meaning_kr":"나타냄","examples_zh":["藝術表現","語言表現"],"examples_kr":["예술적 표현","언어 표현"],"pos":"명사","note":""},
+            {"rank":513,"word":"기분","meaning_zh":"心情","meaning_kr":"마음 상태","examples_zh":["心情好","心情不好"],"examples_kr":["기분이 좋다","기분이 나쁘다"],"pos":"명사","note":""},
+            {"rank":514,"word":"대","meaning_zh":"對、大","meaning_kr":"상대 또는 큰","examples_zh":["對美國","大企業"],"examples_kr":["미국에 대","대기업"],"pos":"명사","note":"多義詞"},
+            {"rank":515,"word":"젊다","meaning_zh":"年輕","meaning_kr":"나이가 적다","examples_zh":["年輕的時候","年輕的世代"],"examples_kr":["젊을 때","젊은 세대"],"pos":"형용사","note":""},
+            {"rank":516,"word":"동시","meaning_zh":"同時","meaning_kr":"같은 때","examples_zh":["同時進行","同時發生"],"examples_kr":["동시에 진행하다","동시에 발생하다"],"pos":"명사","note":""},
+            {"rank":517,"word":"옷","meaning_zh":"衣服","meaning_kr":"의복","examples_zh":["穿衣服","買新衣服"],"examples_kr":["옷을 입다","새 옷을 사다"],"pos":"명사","note":""},
+            {"rank":518,"word":"기능","meaning_zh":"功能","meaning_kr":"작용","examples_zh":["基本功能","多功能"],"examples_kr":["기본 기능","다양한 기능"],"pos":"명사","note":""},
+            {"rank":519,"word":"순간","meaning_zh":"瞬間","meaning_kr":"잠깐","examples_zh":["一瞬間","決定性的瞬間"],"examples_kr":["한 순간","결정적 순간"],"pos":"명사","note":""},
+            {"rank":520,"word":"전쟁","meaning_zh":"戰爭","meaning_kr":"싸움","examples_zh":["世界大戰","戰爭結束"],"examples_kr":["세계 대전","전쟁이 끝나다"],"pos":"명사","note":""},
+            {"rank":521,"word":"전","meaning_zh":"前（重複）","meaning_kr":"이전","examples_zh":["戰前","前任總統"],"examples_kr":["전쟁 전","전 대통령"],"pos":"명사","note":""},
+            {"rank":522,"word":"꿈","meaning_zh":"夢","meaning_kr":"잠꼬대","examples_zh":["做夢","實現夢想"],"examples_kr":["꿈을 꾸다","꿈을 이루다"],"pos":"명사","note":""},
+            {"rank":523,"word":"할머니","meaning_zh":"奶奶","meaning_kr":"조모","examples_zh":["我的奶奶","奶奶的家"],"examples_kr":["우리 할머니","할머니 댁"],"pos":"명사","note":""},
+            {"rank":524,"word":"회의","meaning_zh":"會議","meaning_kr":"모임","examples_zh":["開會","重要會議"],"examples_kr":["회의를 하다","중요한 회의"],"pos":"명사","note":""},
+            {"rank":525,"word":"방송","meaning_zh":"廣播","meaning_kr":"전파 송신","examples_zh":["電視廣播","現場直播"],"examples_kr":["TV 방송","생방송"],"pos":"명사","note":""},
+            {"rank":526,"word":"이야기하다","meaning_zh":"談話","meaning_kr":"말을 나누다","examples_zh":["和朋友談話。","談論未來。"],"examples_kr":["친구와 이야기하다.","미래에 대해 이야기하다."],"pos":"동사","note":""},
+            {"rank":527,"word":"나무","meaning_zh":"樹","meaning_kr":"식물","examples_zh":["大樹","種樹"],"examples_kr":["큰 나무","나무를 심다"],"pos":"명사","note":""},
+            {"rank":528,"word":"자다","meaning_zh":"睡覺","meaning_kr":"잠자다","examples_zh":["早點睡覺。","睡得很好。"],"examples_kr":["일찍 자다.","잘 자다."],"pos":"동사","note":""},
+            {"rank":529,"word":"연극","meaning_zh":"話劇","meaning_kr":"무대 공연","examples_zh":["看話劇","話劇演員"],"examples_kr":["연극을 보다","연극 배우"],"pos":"명사","note":""},
+            {"rank":530,"word":"오늘","meaning_zh":"今天（重複）","meaning_kr":"금일","examples_zh":["今天很忙。","今天的天氣"],"examples_kr":["오늘 바쁘다.","오늘 날씨"],"pos":"명사","note":""},
+            {"rank":531,"word":"마찬가지","meaning_zh":"同樣","meaning_kr":"같음","examples_zh":["我也一樣。","情況相同。"],"examples_kr":["나도 마찬가지다.","상황이 마찬가지다."],"pos":"명사","note":""},
+            {"rank":532,"word":"걷다","meaning_zh":"走路","meaning_kr":"도보로 가다","examples_zh":["走路去學校。","散步。"],"examples_kr":["학교까지 걷다.","산책하다."],"pos":"동사","note":""},
+            {"rank":533,"word":"노동","meaning_zh":"勞動","meaning_kr":"일","examples_zh":["體力勞動","勞動時間"],"examples_kr":["육체 노동","노동 시간"],"pos":"명사","note":""},
+            {"rank":534,"word":"이때","meaning_zh":"這時","meaning_kr":"이 때","examples_zh":["就在這時","這時發生了事情。"],"examples_kr":["바로 이때","이때 일이 생겼다."],"pos":"명사","note":""},
+            {"rank":535,"word":"과거","meaning_zh":"過去","meaning_kr":"지난 날","examples_zh":["過去的回憶","回顧過去"],"examples_kr":["과거의 기억","과거를 돌아보다"],"pos":"명사","note":""},
+            {"rank":536,"word":"가치","meaning_zh":"價值","meaning_kr":"값","examples_zh":["有價值的東西","文化價值"],"examples_kr":["가치 있는 것","문화적 가치"],"pos":"명사","note":""},
+            {"rank":537,"word":"시간","meaning_zh":"時間（重複）","meaning_kr":"시각","examples_zh":["沒有時間。","寶貴的時間"],"examples_kr":["시간이 없다.","소중한 시간"],"pos":"명사","note":""},
+            {"rank":538,"word":"집단","meaning_zh":"集體","meaning_kr":"모임","examples_zh":["社會集體","工作集體"],"examples_kr":["사회 집단","직장 집단"],"pos":"명사","note":""},
+            {"rank":539,"word":"현대","meaning_zh":"現代","meaning_kr":"요즘 시대","examples_zh":["現代社會","現代藝術"],"examples_kr":["현대 사회","현대 예술"],"pos":"명사","note":""},
+            {"rank":540,"word":"살펴보다","meaning_zh":"仔細看","meaning_kr":"자세히 보다","examples_zh":["仔細看文件。","觀察情況。"],"examples_kr":["문서를 살펴보다.","상황을 살펴보다."],"pos":"동사","note":""},
+            {"rank":541,"word":"장관","meaning_zh":"部長","meaning_kr":"각료","examples_zh":["教育部長","外交部長"],"examples_kr":["교육부 장관","외교부 장관"],"pos":"명사","note":""},
+            {"rank":542,"word":"차이","meaning_zh":"差異","meaning_kr":"다름","examples_zh":["文化差異","年齡差異"],"examples_kr":["문화적 차이","나이 차이"],"pos":"명사","note":""},
+            {"rank":543,"word":"풀다","meaning_zh":"解開","meaning_kr":"풀어내다","examples_zh":["解開問題。","解開繩子。"],"examples_kr":["문제를 풀다.","줄을 풀다."],"pos":"동사","note":""},
+            {"rank":544,"word":"시절","meaning_zh":"時期","meaning_kr":"때","examples_zh":["學生時期","年輕時期"],"examples_kr":["학생 시절","젊은 시절"],"pos":"명사","note":""},
+            {"rank":545,"word":"물건","meaning_zh":"物品","meaning_kr":"사물","examples_zh":["貴重物品","買物品"],"examples_kr":["귀중한 물건","물건을 사다"],"pos":"명사","note":""},
+            {"rank":546,"word":"직접","meaning_zh":"直接","meaning_kr":"직접적으로","examples_zh":["直接見面。","直接參與。"],"examples_kr":["직접 만나다.","직접 참여하다."],"pos":"부사","note":""},
+            {"rank":547,"word":"개인","meaning_zh":"個人","meaning_kr":"한 사람","examples_zh":["個人意見","個人信息"],"examples_kr":["개인의 의견","개인 정보"],"pos":"명사","note":""},
+            {"rank":548,"word":"근데","meaning_zh":"但是","meaning_kr":"그런데의 준말","examples_zh":["很累，但是要繼續。","想去，但是沒有時間。"],"examples_kr":["피곤하다. 근데 계속해야 해.","가고 싶다. 근데 시간이 없어."],"pos":"접속사","note":"구어체"},
+            {"rank":549,"word":"발","meaning_zh":"腳","meaning_kr":"다리","examples_zh":["腳痛","大步走"],"examples_kr":["발이 아프다","발걸음을 크게 하다"],"pos":"명사","note":""},
+            {"rank":550,"word":"작가","meaning_zh":"作家","meaning_kr":"글쓰는 사람","examples_zh":["小說作家","著名作家"],"examples_kr":["소설 작가","유명 작가"],"pos":"명사","note":""},
+            {"rank":551,"word":"효과","meaning_zh":"效果","meaning_kr":"결과","examples_zh":["很好的效果","立即見效"],"examples_kr":["좋은 효과","즉각적인 효과"],"pos":"명사","note":""},
+            {"rank":552,"word":"불교","meaning_zh":"佛教","meaning_kr":"종교","examples_zh":["佛教寺廟","佛教思想"],"examples_kr":["불교 사찰","불교 사상"],"pos":"명사","note":""},
+            {"rank":553,"word":"끌다","meaning_zh":"拉","meaning_kr":"당기다","examples_zh":["拉門。","吸引注意力。"],"examples_kr":["문을 끌다.","주의를 끌다."],"pos":"동사","note":""},
+            {"rank":554,"word":"대로","meaning_zh":"按照","meaning_kr":"따라","examples_zh":["按照計劃。","隨心所欲。"],"examples_kr":["계획대로 하다.","마음대로 하다."],"pos":"의존명사","note":""},
+            {"rank":555,"word":"빨리","meaning_zh":"快","meaning_kr":"재빨리","examples_zh":["快點來。","快點做。"],"examples_kr":["빨리 오세요.","빨리 하세요."],"pos":"부사","note":""},
+            {"rank":556,"word":"시작되다","meaning_zh":"開始","meaning_kr":"개시되다","examples_zh":["會議開始了。","節目開始了。"],"examples_kr":["회의가 시작되다.","프로그램이 시작되다."],"pos":"동사","note":""},
+            {"rank":557,"word":"둘","meaning_zh":"二","meaning_kr":"두","examples_zh":["兩個","第二"],"examples_kr":["둘","둘째"],"pos":"수사","note":""},
+            {"rank":558,"word":"말다","meaning_zh":"停止（重複）","meaning_kr":"그만두다","examples_zh":["別開玩笑。","停止工作。"],"examples_kr":["농담 말다.","일을 말다."],"pos":"동사","note":""},
+            {"rank":559,"word":"설명하다","meaning_zh":"說明","meaning_kr":"해설하다","examples_zh":["說明情況。","詳細說明。"],"examples_kr":["상황을 설명하다.","자세히 설명하다."],"pos":"동사","note":""},
+            {"rank":560,"word":"우주","meaning_zh":"宇宙","meaning_kr":"천체","examples_zh":["宇宙探索","宇宙飛行"],"examples_kr":["우주 탐사","우주 비행"],"pos":"명사","note":""},
+            {"rank":561,"word":"시기","meaning_zh":"時期","meaning_kr":"때","examples_zh":["適當的時期","困難時期"],"examples_kr":["적절한 시기","어려운 시기"],"pos":"명사","note":""},
+            {"rank":562,"word":"마치","meaning_zh":"好像","meaning_kr":"꼭","examples_zh":["好像夢一樣。","好像要下雨。"],"examples_kr":["꿈인 듯 마치.","비가 올 것처럼 마치."],"pos":"부사","note":""},
+            {"rank":563,"word":"살","meaning_zh":"肉、歲","meaning_kr":"고기 또는 나이","examples_zh":["豬肉","三十歲"],"examples_kr":["돼지 살","서른 살"],"pos":"명사","note":"同音異義"},
+            {"rank":564,"word":"생산","meaning_zh":"生產","meaning_kr":"만들어 냄","examples_zh":["大量生產","生產過程"],"examples_kr":["대량 생산","생산 과정"],"pos":"명사","note":""},
+            {"rank":565,"word":"바라다","meaning_zh":"希望","meaning_kr":"원하다","examples_zh":["希望成功。","希望幸福。"],"examples_kr":["성공을 바라다.","행복을 바라다."],"pos":"동사","note":""},
+            {"rank":566,"word":"강하다","meaning_zh":"強","meaning_kr":"세다","examples_zh":["力量很強。","意志堅強。"],"examples_kr":["힘이 강하다.","의지가 강하다."],"pos":"형용사","note":""},
+            {"rank":567,"word":"경험","meaning_zh":"經驗","meaning_kr":"체험","examples_zh":["工作經驗","寶貴的經驗"],"examples_kr":["직장 경험","소중한 경험"],"pos":"명사","note":""},
+            {"rank":568,"word":"음악","meaning_zh":"音樂","meaning_kr":"소리 예술","examples_zh":["古典音樂","聽音樂"],"examples_kr":["클래식 음악","음악을 듣다"],"pos":"명사","note":""},
+            {"rank":569,"word":"최고","meaning_zh":"最高","meaning_kr":"가장 높음","examples_zh":["最高水準","最高紀錄"],"examples_kr":["최고 수준","최고 기록"],"pos":"명사","note":""},
+            {"rank":570,"word":"나타내다","meaning_zh":"表示","meaning_kr":"보여주다","examples_zh":["表示意見。","顯示結果。"],"examples_kr":["의견을 나타내다.","결과를 나타내다."],"pos":"동사","note":""},
+            {"rank":571,"word":"아프다","meaning_zh":"痛","meaning_kr":"고통스럽다","examples_zh":["頭痛","肚子痛"],"examples_kr":["머리가 아프다","배가 아프다"],"pos":"형용사","note":""},
+            {"rank":572,"word":"적다","meaning_zh":"少","meaning_kr":"많지 않다","examples_zh":["人數很少。","時間很少。"],"examples_kr":["사람이 적다.","시간이 적다."],"pos":"형용사","note":""},
+            {"rank":573,"word":"비","meaning_zh":"雨","meaning_kr":"강수","examples_zh":["下雨","大雨"],"examples_kr":["비가 오다","큰 비"],"pos":"명사","note":""},
+            {"rank":574,"word":"고향","meaning_zh":"故鄉","meaning_kr":"태어난 곳","examples_zh":["我的故鄉","回故鄉"],"examples_kr":["내 고향","고향에 돌아가다"],"pos":"명사","note":""},
+            {"rank":575,"word":"놀라다","meaning_zh":"驚訝","meaning_kr":"깜짝 놀라다","examples_zh":["對消息感到驚訝。","驚訝的表情。"],"examples_kr":["소식에 놀라다.","놀란 표정"],"pos":"동사","note":""},
+            {"rank":576,"word":"다양하다","meaning_zh":"多樣","meaning_kr":"여러 가지","examples_zh":["多樣的選擇","多樣的文化"],"examples_kr":["다양한 선택","다양한 문화"],"pos":"형용사","note":""},
+            {"rank":577,"word":"울다","meaning_zh":"哭","meaning_kr":"눈물을 흘리다","examples_zh":["大聲哭。","因為悲傷而哭。"],"examples_kr":["큰 소리로 울다.","슬퍼서 울다."],"pos":"동사","note":""},
+            {"rank":578,"word":"농민","meaning_zh":"農民","meaning_kr":"농사짓는 사람","examples_zh":["韓國農民","農民的生活"],"examples_kr":["한국 농민","농민의 생활"],"pos":"명사","note":""},
+            {"rank":579,"word":"드러나다","meaning_zh":"暴露","meaning_kr":"나타나다","examples_zh":["事實暴露了。","弱點暴露了。"],"examples_kr":["사실이 드러나다.","약점이 드러나다."],"pos":"동사","note":""},
+            {"rank":580,"word":"은행","meaning_zh":"銀行","meaning_kr":"금융 기관","examples_zh":["去銀行","韓國銀行"],"examples_kr":["은행에 가다","한국 은행"],"pos":"명사","note":""},
+            {"rank":581,"word":"지내다","meaning_zh":"度過","meaning_kr":"살다","examples_zh":["度過時間。","過得好嗎？"],"examples_kr":["시간을 지내다.","잘 지내세요?"],"pos":"동사","note":""},
+            {"rank":582,"word":"결혼","meaning_zh":"結婚","meaning_kr":"혼인","examples_zh":["結婚典禮","結婚生活"],"examples_kr":["결혼식","결혼 생활"],"pos":"명사","note":""},
+            {"rank":583,"word":"동생","meaning_zh":"弟弟/妹妹","meaning_kr":"아우","examples_zh":["我的弟弟","妹妹的家"],"examples_kr":["내 동생","여동생 집"],"pos":"명사","note":""},
+            {"rank":584,"word":"법","meaning_zh":"法律","meaning_kr":"규칙","examples_zh":["遵守法律","法律條文"],"examples_kr":["법을 지키다","법 조문"],"pos":"명사","note":""},
+            {"rank":585,"word":"소설","meaning_zh":"小說","meaning_kr":"허구적 이야기","examples_zh":["寫小說","歷史小說"],"examples_kr":["소설을 쓰다","역사 소설"],"pos":"명사","note":""},
+            {"rank":586,"word":"예","meaning_zh":"禮儀（重複）","meaning_kr":"예의","examples_zh":["沒有禮貌","基本的禮儀"],"examples_kr":["예의가 없다","기본적인 예"],"pos":"명사","note":""},
+            {"rank":587,"word":"오후","meaning_zh":"下午","meaning_kr":"낮 이후","examples_zh":["今天下午","下午兩點"],"examples_kr":["오늘 오후","오후 두 시"],"pos":"명사","note":""},
+            {"rank":588,"word":"질서","meaning_zh":"秩序","meaning_kr":"규율","examples_zh":["社會秩序","維持秩序"],"examples_kr":["사회 질서","질서를 유지하다"],"pos":"명사","note":""},
+            {"rank":589,"word":"담다","meaning_zh":"盛、包含","meaning_kr":"떠서 넣다","examples_zh":["盛飯。","包含意義。"],"examples_kr":["밥을 담다.","의미를 담다."],"pos":"동사","note":""},
+            {"rank":590,"word":"모이다","meaning_zh":"聚集","meaning_kr":"모여들다","examples_zh":["人們聚集在一起。","聚集資金。"],"examples_kr":["사람들이 모이다.","자금을 모이다."],"pos":"동사","note":""},
+            {"rank":591,"word":"시민","meaning_zh":"市民","meaning_kr":"도시 거주자","examples_zh":["首爾市民","市民權利"],"examples_kr":["서울 시민","시민의 권리"],"pos":"명사","note":""},
+            {"rank":592,"word":"회장","meaning_zh":"會長","meaning_kr":"단체의 우두머리","examples_zh":["公司會長","協會會長"],"examples_kr":["회사 회장","협회 회장"],"pos":"명사","note":""},
+            {"rank":593,"word":"빠르다","meaning_zh":"快","meaning_kr":"신속하다","examples_zh":["速度很快。","快速成長。"],"examples_kr":["속도가 빠르다.","빠르게 성장하다."],"pos":"형용사","note":""},
+            {"rank":594,"word":"스스로","meaning_zh":"自己","meaning_kr":"자기 스스로","examples_zh":["自己解決。","自己學習。"],"examples_kr":["스스로 해결하다.","스스로 공부하다."],"pos":"명사","note":""},
+            {"rank":595,"word":"아기","meaning_zh":"嬰兒","meaning_kr":"갓난아이","examples_zh":["可愛的嬰兒","嬰兒車"],"examples_kr":["귀여운 아기","아기차"],"pos":"명사","note":""},
+            {"rank":596,"word":"아저씨","meaning_zh":"叔叔","meaning_kr":"어른 남성","examples_zh":["那位叔叔","叔叔的家"],"examples_kr":["그 아저씨","아저씨 댁"],"pos":"명사","note":""},
+            {"rank":597,"word":"옛날","meaning_zh":"從前","meaning_kr":"오래전","examples_zh":["從前的故事","從前的習慣"],"examples_kr":["옛날 이야기","옛날 습관"],"pos":"명사","note":""},
+            {"rank":598,"word":"이날","meaning_zh":"這天","meaning_kr":"이 날","examples_zh":["這天很重要。","這天下雨了。"],"examples_kr":["이날은 중요하다.","이날 비가 왔다."],"pos":"명사","note":""},
+            {"rank":599,"word":"제대로","meaning_zh":"好好地","meaning_kr":"알맞게","examples_zh":["好好地做。","沒有好好學習。"],"examples_kr":["제대로 하다.","제대로 공부하지 않다."],"pos":"부사","note":""},
+            {"rank":600,"word":"달","meaning_zh":"月亮、月","meaning_kr":"위성 또는 달","examples_zh":["圓月","一個月"],"examples_kr":["보름달","한 달"],"pos":"명사","note":"多義詞"},
+            {"rank":601,"word":"던지다","meaning_zh":"扔","meaning_kr":"내던지다","examples_zh":["扔球。","扔垃圾。"],"examples_kr":["공을 던지다.","쓰레기를 던지다."],"pos":"동사","note":""},
+            {"rank":602,"word":"참","meaning_zh":"真、忍","meaning_kr":"참으로 또는 참다","examples_zh":["真漂亮。","忍住眼淚。"],"examples_kr":["참 예쁘다.","눈물을 참다."],"pos":"부사","note":"多義詞"},
+            {"rank":603,"word":"공간","meaning_zh":"空間","meaning_kr":"장소","examples_zh":["有限的空間","個人空間"],"examples_kr":["제한된 공간","개인 공간"],"pos":"명사","note":""},
+            {"rank":604,"word":"이곳","meaning_zh":"這裡","meaning_kr":"이 장소","examples_zh":["這裡很漂亮。","來這裡。"],"examples_kr":["이곳이 예쁘다.","이곳으로 오세요."],"pos":"대명사","note":""},
+            {"rank":605,"word":"딸","meaning_zh":"女兒","meaning_kr":"여자 아이","examples_zh":["我的女兒","大女兒"],"examples_kr":["내 딸","큰 딸"],"pos":"명사","note":""},
+            {"rank":606,"word":"마지막","meaning_zh":"最後","meaning_kr":"끝","examples_zh":["最後的機會","最後一頁"],"examples_kr":["마지막 기회","마지막 페이지"],"pos":"명사","note":""},
+            {"rank":607,"word":"벌이다","meaning_zh":"展開、進行","meaning_kr":"펼치다","examples_zh":["展開工作。","進行事業。"],"examples_kr":["일을 벌이다.","사업을 벌이다."],"pos":"동사","note":""},
+            {"rank":608,"word":"병원","meaning_zh":"醫院","meaning_kr":"의료 기관","examples_zh":["去醫院","綜合醫院"],"examples_kr":["병원에 가다","종합 병원"],"pos":"명사","note":""},
+            {"rank":609,"word":"자세","meaning_zh":"姿勢、詳細","meaning_kr":"몸가짐 또는 상세","examples_zh":["正確的姿勢","詳細說明"],"examples_kr":["올바른 자세","자세한 설명"],"pos":"명사","note":"多義詞"},
+            {"rank":610,"word":"강조하다","meaning_zh":"強調","meaning_kr":"중점을 두다","examples_zh":["強調重要性。","反覆強調。"],"examples_kr":["중요성을 강조하다.","반복해서 강조하다."],"pos":"동사","note":""},
+            {"rank":611,"word":"경찰","meaning_zh":"警察","meaning_kr":"법을 지키는 사람","examples_zh":["叫警察","警察局"],"examples_kr":["경찰을 부르다","경찰서"],"pos":"명사","note":""},
+            {"rank":612,"word":"맡다","meaning_zh":"負責","meaning_kr":"담당하다","examples_zh":["負責這個項目。","照顧孩子。"],"examples_kr":["이 프로젝트를 맡다.","아이를 맡다."],"pos":"동사","note":""},
+            {"rank":613,"word":"저녁","meaning_zh":"晚上","meaning_kr":"해질녘","examples_zh":["今天晚上","晚飯"],"examples_kr":["오늘 저녁","저녁 밥"],"pos":"명사","note":""},
+            {"rank":614,"word":"한편","meaning_zh":"另一方面","meaning_kr":"다른 쪽","examples_zh":["另一方面","從另一個角度來看"],"examples_kr":["한편","다른 한편"],"pos":"명사","note":""},
+            {"rank":615,"word":"그러면","meaning_zh":"那麼","meaning_kr":"그렇다면","examples_zh":["那麼，我們開始吧。","那麼，再見。"],"examples_kr":["그러면, 시작하자.","그러면, 안녕."],"pos":"접속사","note":""},
+            {"rank":616,"word":"기자","meaning_zh":"記者","meaning_kr":"보도하는 사람","examples_zh":["新聞記者","採訪記者"],"examples_kr":["신문 기자","취재 기자"],"pos":"명사","note":""},
+            {"rank":617,"word":"넓다","meaning_zh":"寬","meaning_kr":"폭이 크다","examples_zh":["寬闊的房間","寬廣的土地"],"examples_kr":["넓은 방","넓은 땅"],"pos":"형용사","note":""},
+            {"rank":618,"word":"시험","meaning_zh":"考試","meaning_kr":"테스트","examples_zh":["準備考試","期末考試"],"examples_kr":["시험을 준비하다","기말 시험"],"pos":"명사","note":""},
+            {"rank":619,"word":"잠","meaning_zh":"睡眠","meaning_kr":"수면","examples_zh":["睡覺","充足的睡眠"],"examples_kr":["잠을 자다","충분한 잠"],"pos":"명사","note":""},
+            {"rank":620,"word":"주로","meaning_zh":"主要","meaning_kr":"대부분","examples_zh":["主要使用這個。","主要在週末休息。"],"examples_kr":["주로 이것을 사용하다.","주로 주말에 쉬다."],"pos":"부사","note":""},
+            {"rank":621,"word":"훨씬","meaning_zh":"遠遠","meaning_kr":"한참","examples_zh":["遠遠更好。","遠遠超過。"],"examples_kr":["훨씬 좋다.","훨씬 넘다."],"pos":"부사","note":""},
+            {"rank":622,"word":"면","meaning_zh":"面、方面","meaning_kr":"쪽","examples_zh":["各個方面","技術方面"],"examples_kr":["여러 면","기술적 면"],"pos":"의존명사","note":""},
+            {"rank":623,"word":"통일","meaning_zh":"統一","meaning_kr":"하나로 합침","examples_zh":["國家統一","統一政策"],"examples_kr":["국가 통일","통일 정책"],"pos":"명사","note":""},
+            {"rank":624,"word":"들어서다","meaning_zh":"進入","meaning_kr":"들어가다","examples_zh":["進入建築物。","開始新階段。"],"examples_kr":["건물에 들어서다.","새 단계에 들어서다."],"pos":"동사","note":""},
+            {"rank":625,"word":"건강","meaning_zh":"健康","meaning_kr":"몸 상태","examples_zh":["身體健康","健康檢查"],"examples_kr":["몸이 건강하다","건강 검진"],"pos":"명사","note":""},
+            {"rank":626,"word":"가깝다","meaning_zh":"近","meaning_kr":"멀지 않다","examples_zh":["離家很近。","親近的朋友。"],"examples_kr":["집에서 가깝다.","가까운 친구"],"pos":"형용사","note":""},
+            {"rank":627,"word":"건물","meaning_zh":"建築物","meaning_kr":"빌딩","examples_zh":["高層建築","歷史建築"],"examples_kr":["고층 건물","역사적 건물"],"pos":"명사","note":""},
+            {"rank":628,"word":"시설","meaning_zh":"設施","meaning_kr":"설비","examples_zh":["公共設施","運動設施"],"examples_kr":["공공 시설","운동 시설"],"pos":"명사","note":""},
+            {"rank":629,"word":"외국","meaning_zh":"外國","meaning_kr":"다른 나라","examples_zh":["去外國","外國文化"],"examples_kr":["외국에 가다","외국 문화"],"pos":"명사","note":""},
+            {"rank":630,"word":"밑","meaning_zh":"下面","meaning_kr":"아래","examples_zh":["桌子下面","山腳下"],"examples_kr":["책상 밑","산 밑"],"pos":"명사","note":""},
+            {"rank":631,"word":"어른","meaning_zh":"大人","meaning_kr":"성인","examples_zh":["尊敬大人","成為大人"],"examples_kr":["어른을 존경하다","어른이 되다"],"pos":"명사","note":""},
+            {"rank":632,"word":"주변","meaning_zh":"周邊","meaning_kr":"주위","examples_zh":["房子周邊","周邊國家"],"examples_kr":["집 주변","주변 국가"],"pos":"명사","note":""},
+            {"rank":633,"word":"대신","meaning_zh":"代替","meaning_kr":"바꿔","examples_zh":["我代替他去。","用這個代替那個。"],"examples_kr":["내가 대신 가다.","이것으로 대신하다."],"pos":"부사","note":""},
+            {"rank":634,"word":"원인","meaning_zh":"原因","meaning_kr":"까닭","examples_zh":["事故原因","根本原因"],"examples_kr":["사고 원인","근본 원인"],"pos":"명사","note":""},
+            {"rank":635,"word":"팔다","meaning_zh":"賣","meaning_kr":"판매하다","examples_zh":["賣商品。","賣房子。"],"examples_kr":["상품을 팔다.","집을 팔다."],"pos":"동사","note":""},
+            {"rank":636,"word":"차례","meaning_zh":"順序","meaning_kr":"순서","examples_zh":["輪到我了。","按照順序。"],"examples_kr":["내 차례다.","차례대로 하다."],"pos":"명사","note":""},
+            {"rank":637,"word":"군","meaning_zh":"軍人、群","meaning_kr":"군인 또는 무리","examples_zh":["韓國軍人","一群人"],"examples_kr":["한국 군","한 군"],"pos":"명사","note":"多義詞"},
+            {"rank":638,"word":"열심히","meaning_zh":"努力地","meaning_kr":"힘써","examples_zh":["努力學習。","努力工作。"],"examples_kr":["열심히 공부하다.","열심히 일하다."],"pos":"부사","note":""},
+            {"rank":639,"word":"일하다","meaning_zh":"工作","meaning_kr":"노동하다","examples_zh":["在公司工作。","努力工作。"],"examples_kr":["회사에서 일하다.","열심히 일하다."],"pos":"동사","note":""},
+            {"rank":640,"word":"재산","meaning_zh":"財產","meaning_kr":"소유물","examples_zh":["繼承財產","個人財產"],"examples_kr":["재산을 상속하다","개인 재산"],"pos":"명사","note":""},
+            {"rank":641,"word":"조금","meaning_zh":"一點","meaning_kr":"약간","examples_zh":["等一下。","有點冷。"],"examples_kr":["조금만 기다리세요.","조금 춥다."],"pos":"부사","note":""},
+            {"rank":642,"word":"팀","meaning_zh":"團隊","meaning_kr":"조","examples_zh":["工作團隊","團隊合作"],"examples_kr":["작업 팀","팀워크"],"pos":"명사","note":""},
+            {"rank":643,"word":"부모","meaning_zh":"父母","meaning_kr":"아버지와 어머니","examples_zh":["我的父母","父母的家"],"examples_kr":["내 부모","부모님 집"],"pos":"명사","note":""},
+            {"rank":644,"word":"약간","meaning_zh":"稍微","meaning_kr":"조금","examples_zh":["稍微不同。","稍微休息一下。"],"examples_kr":["약간 다르다.","약간 쉬다."],"pos":"부사","note":""},
+            {"rank":645,"word":"언어","meaning_zh":"語言","meaning_kr":"말","examples_zh":["學習語言","語言能力"],"examples_kr":["언어를 배우다","언어 능력"],"pos":"명사","note":""},
+            {"rank":646,"word":"요구하다","meaning_zh":"要求","meaning_kr":"청구하다","examples_zh":["要求解釋。","滿足要求。"],"examples_kr":["설명을 요구하다.","요구를 충족시키다."],"pos":"동사","note":""},
+            {"rank":647,"word":"올라가다","meaning_zh":"上去","meaning_kr":"위로 가다","examples_zh":["上樓。","價格上漲。"],"examples_kr":["계단을 올라가다.","가격이 올라가다."],"pos":"동사","note":""},
+            {"rank":648,"word":"첫","meaning_zh":"第一","meaning_kr":"맨 처음","examples_zh":["第一次","第一個"],"examples_kr":["첫 번째","첫 사람"],"pos":"관형사","note":""},
+            {"rank":649,"word":"계산하다","meaning_zh":"計算","meaning_kr":"셈하다","examples_zh":["計算費用。","結帳。"],"examples_kr":["비용을 계산하다.","계산하다."],"pos":"동사","note":""},
+            {"rank":650,"word":"계산하다","meaning_zh":"計算（重複）","meaning_kr":"셈하다","examples_zh":["計算時間。","仔細計算。"],"examples_kr":["시간을 계산하다.","꼼꼼히 계산하다."],"pos":"동사","note":""},
+            {"rank":651,"word":"근원","meaning_zh":"根源","meaning_kr":"뿌리","examples_zh":["問題的根源","尋找根源"],"examples_kr":["문제의 근원","근원을 찾다"],"pos":"명사","note":""},
+            {"rank":652,"word":"기차","meaning_zh":"火車","meaning_kr":"열차","examples_zh":["坐火車","高速火車"],"examples_kr":["기차를 타다","고속 기차"],"pos":"명사","note":""},
+            {"rank":653,"word":"담그다","meaning_zh":"浸泡","meaning_kr":"적시다","examples_zh":["浸泡在水裡。","泡菜。"],"examples_kr":["물에 담그다.","김치를 담그다."],"pos":"동사","note":""},
+            {"rank":654,"word":"마음대로","meaning_zh":"隨心所欲","meaning_kr":"제멋대로","examples_zh":["隨心所欲地做。","不能隨心所欲。"],"examples_kr":["마음대로 하다.","마음대로 되지 않다."],"pos":"부사","note":""},
+            {"rank":655,"word":"며느리","meaning_zh":"兒媳婦","meaning_kr":"아들의 아내","examples_zh":["我的兒媳婦","好兒媳婦"],"examples_kr":["우리 며느리","착한 며느리"],"pos":"명사","note":""},
+            {"rank":656,"word":"믿음","meaning_zh":"信任","meaning_kr":"신뢰","examples_zh":["彼此的信任","失去信任"],"examples_kr":["서로의 믿음","믿음을 잃다"],"pos":"명사","note":""},
+            {"rank":657,"word":"발견","meaning_zh":"發現","meaning_kr":"찾아냄","examples_zh":["重大發現","科學發現"],"examples_kr":["중대한 발견","과학적 발견"],"pos":"명사","note":""},
+            {"rank":658,"word":"보고","meaning_zh":"報告","meaning_kr":"알림","examples_zh":["寫報告。","聽取報告。"],"examples_kr":["보고를 쓰다.","보고를 듣다."],"pos":"명사","note":""},
+            {"rank":659,"word":"부탁하다","meaning_zh":"拜託","meaning_kr":"청하다","examples_zh":["拜託一件事。","誠心拜託。"],"examples_kr":["일을 부탁하다.","진심으로 부탁하다."],"pos":"동사","note":""},
+            {"rank":660,"word":"사용자","meaning_zh":"使用者","meaning_kr":"이용자","examples_zh":["電腦使用者","服務使用者"],"examples_kr":["컴퓨터 사용자","서비스 사용자"],"pos":"명사","note":""},
+            {"rank":661,"word":"사회주의","meaning_zh":"社會主義","meaning_kr":"사회적 이념","examples_zh":["社會主義國家","社會主義思想"],"examples_kr":["사회주의 국가","사회주의 사상"],"pos":"명사","note":""},
+            {"rank":662,"word":"설치되다","meaning_zh":"被安裝","meaning_kr":"설치되다","examples_zh":["新系統被安裝了。","設備安裝完成。"],"examples_kr":["새 시스템이 설치되다.","설비 설치가 완료되다."],"pos":"동사","note":""},
+            {"rank":663,"word":"수도권","meaning_zh":"首都圈","meaning_kr":"수도 주변","examples_zh":["首爾首都圈","首都圈人口"],"examples_kr":["서울 수도권","수도권 인구"],"pos":"명사","note":""},
+            {"rank":664,"word":"식탁","meaning_zh":"餐桌","meaning_kr":"밥상","examples_zh":["餐桌禮儀","圓形餐桌"],"examples_kr":["식탁 예절","둥근 식탁"],"pos":"명사","note":""},
+            {"rank":665,"word":"실패하다","meaning_zh":"失敗","meaning_kr":"실패하다","examples_zh":["計劃失敗了。","考試失敗了。"],"examples_kr":["계획이 실패하다.","시험에 실패하다."],"pos":"동사","note":""},
+            {"rank":666,"word":"영원하다","meaning_zh":"永遠","meaning_kr":"영원하다","examples_zh":["永遠的愛","永遠的友誼"],"examples_kr":["영원한 사랑","영원한 우정"],"pos":"형용사","note":""},
+            {"rank":667,"word":"우연히","meaning_zh":"偶然","meaning_kr":"우연히","examples_zh":["偶然遇見。","偶然發現。"],"examples_kr":["우연히 만나다.","우연히 발견하다."],"pos":"부사","note":""},
+            {"rank":668,"word":"자극","meaning_zh":"刺激","meaning_kr":"자극","examples_zh":["視覺刺激","給予刺激"],"examples_kr":["시각적 자극","자극을 주다"],"pos":"명사","note":""},
+            {"rank":669,"word":"정해지다","meaning_zh":"被決定","meaning_kr":"결정되다","examples_zh":["日期被決定了。","規則被確定了。"],"examples_kr":["날짜가 정해지다.","규칙이 정해지다."],"pos":"동사","note":""},
+            {"rank":670,"word":"직접","meaning_zh":"直接（重複）","meaning_kr":"직접","examples_zh":["直接聯繫。","直接參與。"],"examples_kr":["직접 연락하다.","직접 참여하다."],"pos":"부사","note":""},
+            {"rank":671,"word":"짚다","meaning_zh":"指、依靠","meaning_kr":"가리키거나 의지하다","examples_zh":["用手指指。","依靠柺杖。"],"examples_kr":["손가락으로 짚다.","지팡이를 짚다."],"pos":"동사","note":""},
+            {"rank":672,"word":"총리","meaning_zh":"總理","meaning_kr":"국가 수반","examples_zh":["國務總理","總理大臣"],"examples_kr":["국무총리","총리 대신"],"pos":"명사","note":""},
+            {"rank":673,"word":"칭찬","meaning_zh":"稱讚","meaning_kr":"찬사","examples_zh":["受到稱讚。","稱讚孩子。"],"examples_kr":["칭찬을 받다.","아이를 칭찬하다."],"pos":"명사","note":""},
+            {"rank":674,"word":"튼튼하다","meaning_zh":"堅固","meaning_kr":"견고하다","examples_zh":["身體健康。","堅固的建築。"],"examples_kr":["몸이 튼튼하다.","튼튼한 건물"],"pos":"형용사","note":""},
+            {"rank":675,"word":"햇빛","meaning_zh":"陽光","meaning_kr":"태양 빛","examples_zh":["溫暖的陽光","曬太陽"],"examples_kr":["따뜻한 햇빛","햇빛을 쬐다"],"pos":"명사","note":""},
+            {"rank":676,"word":"공원","meaning_zh":"公園","meaning_kr":"공원","examples_zh":["去公園散步","國家公園"],"examples_kr":["공원에 산책하다","국립 공원"],"pos":"명사","note":""},
+            {"rank":677,"word":"긍정적","meaning_zh":"積極的","meaning_kr":"적극적인","examples_zh":["積極的態度","積極的影響"],"examples_kr":["긍정적 태도","긍정적 영향"],"pos":"형용사","note":""},
+            {"rank":678,"word":"논의하다","meaning_zh":"討論","meaning_kr":"토론하다","examples_zh":["討論問題。","深入討論。"],"examples_kr":["문제를 논의하다.","깊이 논의하다."],"pos":"동사","note":""},
+            {"rank":679,"word":"대출","meaning_zh":"貸款","meaning_kr":"빌림","examples_zh":["銀行貸款","住房貸款"],"examples_kr":["은행 대출","주택 대출"],"pos":"명사","note":""},
+            {"rank":680,"word":"덕","meaning_zh":"德行、功勞","meaning_kr":"공덕","examples_zh":["托您的福。","積德行善。"],"examples_kr":["덕분에.","덕을 쌓다."],"pos":"명사","note":""},
+            {"rank":681,"word":"돌보다","meaning_zh":"照顧","meaning_kr":"보살피다","examples_zh":["照顧孩子。","照顧病人。"],"examples_kr":["아이를 돌보다.","환자를 돌보다."],"pos":"동사","note":""},
+            {"rank":682,"word":"뒤집다","meaning_zh":"翻轉","meaning_kr":"뒤집다","examples_zh":["翻轉頁面。","情況逆轉。"],"examples_kr":["페이지를 뒤집다.","상황이 뒤집다."],"pos":"동사","note":""},
+            {"rank":683,"word":"먼지","meaning_zh":"灰塵","meaning_kr":"먼지","examples_zh":["打掃灰塵","灰塵很多"],"examples_kr":["먼지를 털다","먼지가 많다"],"pos":"명사","note":""},
+            {"rank":684,"word":"바닷가","meaning_zh":"海邊","meaning_kr":"해변","examples_zh":["去海邊","海邊度假村"],"examples_kr":["바닷가에 가다","바닷가 리조트"],"pos":"명사","note":""},
+            {"rank":685,"word":"바치다","meaning_zh":"奉獻","meaning_kr":"헌신하다","examples_zh":["奉獻一生。","獻上禮物。"],"examples_kr":["일생을 바치다.","선물을 바치다."],"pos":"동사","note":""},
+            {"rank":686,"word":"반하다","meaning_zh":"迷上","meaning_kr":"빠지다","examples_zh":["迷上那個人。","對音樂著迷。"],"examples_kr":["그 사람에게 반하다.","음악에 반하다."],"pos":"동사","note":""},
+            {"rank":687,"word":"발표되다","meaning_zh":"被發表","meaning_kr":"알려지다","examples_zh":["研究結果被發表了。","新產品被公開了。"],"examples_kr":["연구 결과가 발표되다.","새 제품이 발표되다."],"pos":"동사","note":""},
+            {"rank":688,"word":"부정하다","meaning_zh":"否定","meaning_kr":"부인하다","examples_zh":["否定指控。","不能否定事實。"],"examples_kr":["비난을 부정하다.","사실을 부정할 수 없다."],"pos":"동사","note":""},
+            {"rank":689,"word":"불러일으키다","meaning_zh":"喚起","meaning_kr":"일깨우다","examples_zh":["喚起記憶。","引起興趣。"],"examples_kr":["기억을 불러일으키다.","흥미를 불러일으키다."],"pos":"동사","note":""},
+            {"rank":690,"word":"사원","meaning_zh":"社員","meaning_kr":"회사 직원","examples_zh":["公司社員","新進社員"],"examples_kr":["회사 사원","신입 사원"],"pos":"명사","note":""},
+            {"rank":691,"word":"소유자","meaning_zh":"所有者","meaning_kr":"소유자","examples_zh":["土地所有者","汽車所有者"],"examples_kr":["토지 소유자","자동차 소유자"],"pos":"명사","note":""},
+            {"rank":692,"word":"씹다","meaning_zh":"咀嚼","meaning_kr":"씹다","examples_zh":["咀嚼食物。","仔細思考。"],"examples_kr":["음식을 씹다.","생각을 씹다."],"pos":"동사","note":""},
+            {"rank":693,"word":"아무튼","meaning_zh":"總之","meaning_kr":"어쨌든","examples_zh":["總之，謝謝你。","總之，開始吧。"],"examples_kr":["아무튼, 감사합니다.","아무튼, 시작하자."],"pos":"부사","note":""},
+            {"rank":694,"word":"안되다","meaning_zh":"不行","meaning_kr":"되지 않다","examples_zh":["那樣不行。","身體狀況不好。"],"examples_kr":["그렇게 안되다.","몸이 안되다."],"pos":"형용사","note":""},
+            {"rank":695,"word":"액수","meaning_zh":"金額","meaning_kr":"돈의 양","examples_zh":["大金額","確定金額"],"examples_kr":["큰 액수","액수를 정하다"],"pos":"명사","note":""},
+            {"rank":696,"word":"왠지","meaning_zh":"不知為何","meaning_kr":"왜인지","examples_zh":["不知為何很開心。","不知為何擔心。"],"examples_kr":["왠지 기쁘다.","왠지 걱정된다."],"pos":"부사","note":""},
+            {"rank":697,"word":"욕심","meaning_zh":"貪心","meaning_kr":"탐욕","examples_zh":["不要太貪心。","貪心的人"],"examples_kr":["욕심을 너무 부리지 마라.","욕심 많은 사람"],"pos":"명사","note":""},
+            {"rank":698,"word":"우승","meaning_zh":"優勝","meaning_kr":"일등","examples_zh":["獲得優勝","優勝獎杯"],"examples_kr":["우승을 하다","우승 트로피"],"pos":"명사","note":""},
+            {"rank":699,"word":"익다","meaning_zh":"熟、熟悉","meaning_kr":"익다","examples_zh":["水果熟了。","熟悉環境。"],"examples_kr":["과일이 익다.","환경에 익다."],"pos":"동사","note":""},
+            {"rank":700,"word":"제출하다","meaning_zh":"提交","meaning_kr":"내다","examples_zh":["提交報告。","提交申請書。"],"examples_kr":["보고서를 제출하다.","신청서를 제출하다."],"pos":"동사","note":""},
+            {"rank":701,"word":"조심스럽다","meaning_zh":"小心","meaning_kr":"신중하다","examples_zh":["小心走路。","小心說話。"],"examples_kr":["조심스럽게 걷다.","조심스럽게 말하다."],"pos":"형용사","note":""},
+            {"rank":702,"word":"직전","meaning_zh":"直前","meaning_kr":"바로 앞","examples_zh":["出發前","考試前"],"examples_kr":["출발 직전","시험 직전"],"pos":"명사","note":""},
+            {"rank":703,"word":"짐작하다","meaning_zh":"猜測","meaning_kr":"추측하다","examples_zh":["猜測原因。","大概猜到了。"],"examples_kr":["이유를 짐작하다.","대충 짐작하다."],"pos":"동사","note":""},
+            {"rank":704,"word":"택하다","meaning_zh":"選擇","meaning_kr":"선택하다","examples_zh":["選擇道路。","選擇職業。"],"examples_kr":["길을 택하다.","직업을 택하다."],"pos":"동사","note":""},
+            {"rank":705,"word":"터","meaning_zh":"地基（重複）","meaning_kr":"땅","examples_zh":["建築工地","空地"],"examples_kr":["건축 터","빈 터"],"pos":"명사","note":""},
+            {"rank":706,"word":"피시","meaning_zh":"電腦","meaning_kr":"컴퓨터","examples_zh":["使用電腦","買新電腦"],"examples_kr":["피시를 사용하다","새 피시를 사다"],"pos":"명사","note":"PC的韓文發音"},
+            {"rank":707,"word":"흘러나오다","meaning_zh":"流出","meaning_kr":"흘러나오다","examples_zh":["音樂聲流出。","水從管子流出。"],"examples_kr":["음악이 흘러나오다.","물이 파이프에서 흘러나오다."],"pos":"동사","note":""},
+            {"rank":708,"word":"가구","meaning_zh":"家具","meaning_kr":"가구","examples_zh":["買家具","現代家具"],"examples_kr":["가구를 사다","현대식 가구"],"pos":"명사","note":""},
+            {"rank":709,"word":"간단히","meaning_zh":"簡單地","meaning_kr":"간단하게","examples_zh":["簡單說明。","簡單解決。"],"examples_kr":["간단히 설명하다.","간단히 해결하다."],"pos":"부사","note":""},
+            {"rank":710,"word":"강물","meaning_zh":"江水","meaning_kr":"강의 물","examples_zh":["清澈的江水","江水氾濫"],"examples_kr":["맑은 강물","강물이 넘치다"],"pos":"명사","note":""},
+            {"rank":711,"word":"거꾸로","meaning_zh":"倒過來","meaning_kr":"거꾸로","examples_zh":["倒過來放。","順序顛倒了。"],"examples_kr":["거꾸로 놓다.","순서가 거꾸로 되다."],"pos":"부사","note":""},
+            {"rank":712,"word":"궁극적","meaning_zh":"最終的","meaning_kr":"궁극적인","examples_zh":["最終目標","最終目的"],"examples_kr":["궁극적 목표","궁극적 목적"],"pos":"형용사","note":""},
+            {"rank":713,"word":"극히","meaning_zh":"極其","meaning_kr":"매우","examples_zh":["極其重要","極其困難"],"examples_kr":["극히 중요하다","극히 어렵다"],"pos":"부사","note":""},
+            {"rank":714,"word":"기여하다","meaning_zh":"貢獻","meaning_kr":"공헌하다","examples_zh":["為社會貢獻。","貢獻力量。"],"examples_kr":["사회에 기여하다.","힘을 기여하다."],"pos":"동사","note":""},
+            {"rank":715,"word":"꼭","meaning_zh":"一定（重複）","meaning_kr":"반드시","examples_zh":["一定要來。","一定要成功。"],"examples_kr":["꼭 오세요.","꼭 성공하자."],"pos":"부사","note":""},
+            {"rank":716,"word":"날짜","meaning_zh":"日期","meaning_kr":"날짜","examples_zh":["確定日期","重要的日期"],"examples_kr":["날짜를 정하다","중요한 날짜"],"pos":"명사","note":""},
+            {"rank":717,"word":"대륙","meaning_zh":"大陸","meaning_kr":"대륙","examples_zh":["亞洲大陸","大陸國家"],"examples_kr":["아시아 대륙","대륙 국가"],"pos":"명사","note":""},
+            {"rank":718,"word":"되게","meaning_zh":"非常","meaning_kr":"매우","examples_zh":["非常漂亮。","非常好吃。"],"examples_kr":["되게 예쁘다.","되게 맛있다."],"pos":"부사","note":"구어체"},
+            {"rank":719,"word":"뒤따르다","meaning_zh":"跟隨","meaning_kr":"따라가다","examples_zh":["跟隨前輩。","結果隨之而來。"],"examples_kr":["선배를 뒤따르다.","결과가 뒤따르다."],"pos":"동사","note":""},
+            {"rank":720,"word":"리듬","meaning_zh":"節奏","meaning_kr":"리듬","examples_zh":["音樂節奏","跟著節奏"],"examples_kr":["음악 리듬","리듬을 타다"],"pos":"명사","note":""},
+            {"rank":721,"word":"모니터","meaning_zh":"顯示器","meaning_kr":"화면","examples_zh":["電腦顯示器","監視器"],"examples_kr":["컴퓨터 모니터","감시 모니터"],"pos":"명사","note":""},
+            {"rank":722,"word":"범인","meaning_zh":"犯人","meaning_kr":"범죄자","examples_zh":["抓住犯人","尋找犯人"],"examples_kr":["범인을 잡다","범인을 찾다"],"pos":"명사","note":""},
+            {"rank":723,"word":"변동","meaning_zh":"變動","meaning_kr":"변화","examples_zh":["價格變動","匯率變動"],"examples_kr":["가격 변동","환율 변동"],"pos":"명사","note":""},
+            {"rank":724,"word":"불가피하다","meaning_zh":"不可避免","meaning_kr":"피할 수 없다","examples_zh":["不可避免的結果","不可避免的情況"],"examples_kr":["불가피한 결과","불가피한 상황"],"pos":"형용사","note":""},
+            {"rank":725,"word":"삶다","meaning_zh":"煮","meaning_kr":"끓이다","examples_zh":["煮拉麵。","煮雞蛋。"],"examples_kr":["라면을 삶다.","계란을 삶다."],"pos":"동사","note":""},
+            {"rank":726,"word":"샌드위치","meaning_zh":"三明治","meaning_kr":"샌드위치","examples_zh":["做三明治","火腿三明治"],"examples_kr":["샌드위치를 만들다","햄 샌드위치"],"pos":"명사","note":""},
+            {"rank":727,"word":"서류","meaning_zh":"文件","meaning_kr":"문서","examples_zh":["準備文件","重要文件"],"examples_kr":["서류를 준비하다","중요 서류"],"pos":"명사","note":""},
+            {"rank":728,"word":"손해","meaning_zh":"損失","meaning_kr":"손실","examples_zh":["遭受損失","經濟損失"],"examples_kr":["손해를 보다","경제적 손해"],"pos":"명사","note":""},
+            {"rank":729,"word":"숨지다","meaning_zh":"死亡","meaning_kr":"죽다","examples_zh":["事故中死亡。","因病死亡。"],"examples_kr":["사고로 숨지다.","병으로 숨지다."],"pos":"동사","note":""},
+            {"rank":730,"word":"아유","meaning_zh":"哎呀","meaning_kr":"아이구","examples_zh":["哎呀，好痛！","哎呀，嚇我一跳！"],"examples_kr":["아유, 아파!","아유, 깜짝이야!"],"pos":"감탄사","note":""},
+            {"rank":731,"word":"요청","meaning_zh":"請求","meaning_kr":"청구","examples_zh":["接受請求","書面請求"],"examples_kr":["요청을 받다","서면 요청"],"pos":"명사","note":""},
+            {"rank":732,"word":"운","meaning_zh":"運氣","meaning_kr":"행운","examples_zh":["好運氣","壞運氣"],"examples_kr":["좋은 운","나쁜 운"],"pos":"명사","note":""},
+            {"rank":733,"word":"일상생활","meaning_zh":"日常生活","meaning_kr":"일상 생활","examples_zh":["日常生活習慣","影響日常生活"],"examples_kr":["일상생활 습관","일상생활에 영향"],"pos":"명사","note":""},
+            {"rank":734,"word":"자존심","meaning_zh":"自尊心","meaning_kr":"자존심","examples_zh":["傷害自尊心","強烈的自尊心"],"examples_kr":["자존심을 상하다","강한 자존심"],"pos":"명사","note":""},
+            {"rank":735,"word":"주저앉다","meaning_zh":"癱坐","meaning_kr":"주저앉다","examples_zh":["累得癱坐在地上。","失望地癱坐。"],"examples_kr":["피곤해서 바닥에 주저앉다.","실망해서 주저앉다."],"pos":"동사","note":""},
+            {"rank":736,"word":"증권사","meaning_zh":"證券公司","meaning_kr":"증권 회사","examples_zh":["在證券公司工作","大型證券公司"],"examples_kr":["증권사에서 일하다","대형 증권사"],"pos":"명사","note":""},
+            {"rank":737,"word":"진하다","meaning_zh":"濃","meaning_kr":"짙다","examples_zh":["濃咖啡","顏色很深"],"examples_kr":["진한 커피","색이 진하다"],"pos":"형용사","note":""},
+            {"rank":738,"word":"초원","meaning_zh":"草原","meaning_kr":"초원","examples_zh":["廣闊的草原","在草原上奔跑"],"examples_kr":["넓은 초원","초원을 달리다"],"pos":"명사","note":""},
+            {"rank":739,"word":"최종","meaning_zh":"最終","meaning_kr":"최종","examples_zh":["最終決定","最終版本"],"examples_kr":["최종 결정","최종 버전"],"pos":"명사","note":""},
+            {"rank":740,"word":"회복하다","meaning_zh":"恢復","meaning_kr":"회복하다","examples_zh":["恢復健康。","恢復經濟。"],"examples_kr":["건강을 회복하다.","경제를 회복하다."],"pos":"동사","note":""},
+            {"rank":741,"word":"흘러가다","meaning_zh":"流逝","meaning_kr":"흘러가다","examples_zh":["時間流逝。","河水流逝。"],"examples_kr":["시간이 흘러가다.","강물이 흘러가다."],"pos":"동사","note":""},
+            {"rank":742,"word":"흥미","meaning_zh":"興趣","meaning_kr":"흥미","examples_zh":["引起興趣","沒有興趣"],"examples_kr":["흥미를 끌다","흥미가 없다"],"pos":"명사","note":""},
+            {"rank":743,"word":"검사","meaning_zh":"檢查、檢察官","meaning_kr":"검사","examples_zh":["身體檢查","檢察官調查"],"examples_kr":["건강 검사","검사 수사"],"pos":"명사","note":"多義詞"},
+            {"rank":744,"word":"그쪽","meaning_zh":"那邊","meaning_kr":"그 쪽","examples_zh":["請去那邊。","那邊的人"],"examples_kr":["그쪽으로 가세요.","그쪽 사람"],"pos":"대명사","note":""},
+            {"rank":745,"word":"꾸다","meaning_zh":"做夢、租","meaning_kr":"꾸다","examples_zh":["做夢。","租房子。"],"examples_kr":["꿈을 꾸다.","집을 꾸다."],"pos":"동사","note":"多義詞"},
+            {"rank":746,"word":"내려다보다","meaning_zh":"俯視","meaning_kr":"내려다보다","examples_zh":["從山上俯視。","俯視街道。"],"examples_kr":["산에서 내려다보다.","거리를 내려다보다."],"pos":"동사","note":""},
+            {"rank":747,"word":"눈썹","meaning_zh":"眉毛","meaning_kr":"눈썹","examples_zh":["濃密的眉毛","畫眉毛"],"examples_kr":["짙은 눈썹","눈썹을 그리다"],"pos":"명사","note":""},
+            {"rank":748,"word":"대신하다","meaning_zh":"代替","meaning_kr":"대신하다","examples_zh":["代替出席。","代替工作。"],"examples_kr":["대신 참석하다.","대신 일하다."],"pos":"동사","note":""},
+            {"rank":749,"word":"두렵다","meaning_zh":"害怕","meaning_kr":"무섭다","examples_zh":["害怕黑暗。","害怕失敗。"],"examples_kr":["어둠이 두렵다.","실패가 두렵다."],"pos":"형용사","note":""},
+            {"rank":750,"word":"등장","meaning_zh":"登場","meaning_kr":"등장","examples_zh":["新角色登場。","新產品登場。"],"examples_kr":["새 등장인물이 등장하다.","새 제품이 등장하다."],"pos":"명사","note":""},
+            {"rank":751,"word":"디자인","meaning_zh":"設計","meaning_kr":"디자인","examples_zh":["服裝設計","現代設計"],"examples_kr":["의상 디자인","현대적 디자인"],"pos":"명사","note":""},
+            {"rank":752,"word":"마디","meaning_zh":"節、關節","meaning_kr":"마디","examples_zh":["竹子節","手指關節"],"examples_kr":["대나무 마디","손가락 마디"],"pos":"명사","note":""},
+            {"rank":753,"word":"미처","meaning_zh":"來不及","meaning_kr":"미처","examples_zh":["來不及準備。","沒想到會這樣。"],"examples_kr":["미처 준비하지 못하다.","미처 생각지 못하다."],"pos":"부사","note":""},
+            {"rank":754,"word":"비닐","meaning_zh":"塑膠","meaning_kr":"비닐","examples_zh":["塑膠袋","塑膠製品"],"examples_kr":["비닐 봉지","비닐 제품"],"pos":"명사","note":""},
+            {"rank":755,"word":"비율","meaning_zh":"比例","meaning_kr":"비율","examples_zh":["男女比例","成功率"],"examples_kr":["남녀 비율","성공 비율"],"pos":"명사","note":""},
+            {"rank":756,"word":"생물","meaning_zh":"生物","meaning_kr":"생물","examples_zh":["海洋生物","生物學"],"examples_kr":["해양 생물","생물학"],"pos":"명사","note":""},
+            {"rank":757,"word":"소음","meaning_zh":"噪音","meaning_kr":"소음","examples_zh":["減少噪音","交通噪音"],"examples_kr":["소음을 줄이다","교통 소음"],"pos":"명사","note":""},
+            {"rank":758,"word":"양국","meaning_zh":"兩國","meaning_kr":"두 나라","examples_zh":["韓美兩國","兩國關係"],"examples_kr":["한미 양국","양국 관계"],"pos":"명사","note":""},
+            {"rank":759,"word":"얼핏","meaning_zh":"乍一看","meaning_kr":"얼핏","examples_zh":["乍一看很簡單。","匆匆一看。"],"examples_kr":["얼핏 보면 쉽다.","얼핏 보다."],"pos":"부사","note":""},
+            {"rank":760,"word":"오래되다","meaning_zh":"陳舊","meaning_kr":"오래되다","examples_zh":["陳舊的房子","陳舊的習慣"],"examples_kr":["오래된 집","오래된 습관"],"pos":"형용사","note":""},
+            {"rank":761,"word":"웬","meaning_zh":"什麼","meaning_kr":"왠","examples_zh":["什麼風把你吹來了？","這是什麼？"],"examples_kr":["웬 일이야?","이게 웬일이야?"],"pos":"관형사","note":""},
+            {"rank":762,"word":"조각","meaning_zh":"碎片、雕刻","meaning_kr":"조각","examples_zh":["玻璃碎片","石雕"],"examples_kr":["유리 조각","돌 조각"],"pos":"명사","note":"多義詞"},
+            {"rank":763,"word":"중부","meaning_zh":"中部","meaning_kr":"중부","examples_zh":["韓國中部","中部地區"],"examples_kr":["한국 중부","중부 지역"],"pos":"명사","note":""},
+            {"rank":764,"word":"차","meaning_zh":"茶（重複）","meaning_kr":"차","examples_zh":["綠茶","喝茶"],"examples_kr":["녹차","차를 마시다"],"pos":"명사","note":""},
+            {"rank":765,"word":"채소","meaning_zh":"蔬菜","meaning_kr":"채소","examples_zh":["新鮮蔬菜","種蔬菜"],"examples_kr":["신선한 채소","채소를 재배하다"],"pos":"명사","note":""},
+            {"rank":766,"word":"침","meaning_zh":"唾液","meaning_kr":"침","examples_zh":["流口水","吐痰"],"examples_kr":["침을 흘리다","침을 뱉다"],"pos":"명사","note":""},
+            {"rank":767,"word":"털","meaning_zh":"毛","meaning_kr":"털","examples_zh":["動物毛","頭髮"],"examples_kr":["동물 털","머리털"],"pos":"명사","note":""},
+            {"rank":768,"word":"판매하다","meaning_zh":"銷售","meaning_kr":"판매하다","examples_zh":["銷售產品。","在網上銷售。"],"examples_kr":["제품을 판매하다.","인터넷으로 판매하다."],"pos":"동사","note":""},
+            {"rank":769,"word":"항의","meaning_zh":"抗議","meaning_kr":"항의","examples_zh":["提出抗議","強烈抗議"],"examples_kr":["항의를 제기하다","강력히 항의하다"],"pos":"명사","note":""},
+            {"rank":770,"word":"해당","meaning_zh":"相關","meaning_kr":"해당","examples_zh":["相關人員","相關事項"],"examples_kr":["해당 인원","해당 사항"],"pos":"명사","note":""},
+            {"rank":771,"word":"확보","meaning_zh":"確保","meaning_kr":"확보","examples_zh":["確保資金。","確保位置。"],"examples_kr":["자금을 확보하다.","자리를 확보하다."],"pos":"명사","note":""},
+            {"rank":772,"word":"환경오염","meaning_zh":"環境污染","meaning_kr":"환경오염","examples_zh":["減少環境污染","環境污染問題"],"examples_kr":["환경오염을 줄이다","환경오염 문제"],"pos":"명사","note":""},
+            {"rank":773,"word":"가치관","meaning_zh":"價值觀","meaning_kr":"가치관","examples_zh":["不同的價值觀","傳統價值觀"],"examples_kr":["다른 가치관","전통적 가치관"],"pos":"명사","note":""},
+            {"rank":774,"word":"검은색","meaning_zh":"黑色","meaning_kr":"검은색","examples_zh":["黑色衣服","黑色汽車"],"examples_kr":["검은색 옷","검은색 차"],"pos":"명사","note":""},
+            {"rank":775,"word":"고생하다","meaning_zh":"辛苦","meaning_kr":"고생하다","examples_zh":["辛苦工作。","讓您辛苦了。"],"examples_kr":["일을 고생하다.","고생시키다."],"pos":"동사","note":""},
+            {"rank":776,"word":"기원전","meaning_zh":"公元前","meaning_kr":"기원전","examples_zh":["公元前100年","古代文明"],"examples_kr":["기원전 100년","고대 문명"],"pos":"명사","note":""},
+            {"rank":777,"word":"기타","meaning_zh":"其他","meaning_kr":"기타","examples_zh":["以及其他","其他事項"],"examples_kr":["그리고 기타","기타 사항"],"pos":"명사","note":""},
+            {"rank":778,"word":"긴급","meaning_zh":"緊急","meaning_kr":"긴급","examples_zh":["緊急情況","緊急措施"],"examples_kr":["긴급 상황","긴급 조치"],"pos":"명사","note":""},
+            {"rank":779,"word":"꺾다","meaning_zh":"折斷","meaning_kr":"꺾다","examples_zh":["折斷樹枝。","挫敗銳氣。"],"examples_kr":["나뭇가지를 꺾다.","기세를 꺾다."],"pos":"동사","note":""},
+            {"rank":780,"word":"꿈꾸다","meaning_zh":"做夢","meaning_kr":"꿈꾸다","examples_zh":["夢想未來。","做白日夢。"],"examples_kr":["미래를 꿈꾸다.","백일몽을 꿈꾸다."],"pos":"동사","note":""},
+            {"rank":781,"word":"무려","meaning_zh":"多達","meaning_kr":"무려","examples_zh":["多達100人","多達一千萬韓元"],"examples_kr":["무려 100명","무려 천만 원"],"pos":"부사","note":""},
+            {"rank":782,"word":"묻히다","meaning_zh":"被埋","meaning_kr":"묻히다","examples_zh":["被埋在雪中。","被遺忘。"],"examples_kr":["눈에 묻히다.","잊혀지다."],"pos":"동사","note":""},
+            {"rank":783,"word":"수표","meaning_zh":"支票","meaning_kr":"수표","examples_zh":["開支票","現金支票"],"examples_kr":["수표를 쓰다","현금 수표"],"pos":"명사","note":""},
+            {"rank":784,"word":"실태","meaning_zh":"實際狀況","meaning_kr":"실태","examples_zh":["調查實際狀況","教育實際狀況"],"examples_kr":["실태를 조사하다","교육 실태"],"pos":"명사","note":""},
+            {"rank":785,"word":"아쉽다","meaning_zh":"可惜","meaning_kr":"아쉽다","examples_zh":["真可惜。","時間不夠很可惜。"],"examples_kr":["정말 아쉽다.","시간이 부족해서 아쉽다."],"pos":"형용사","note":""},
+            {"rank":786,"word":"애정","meaning_zh":"愛情","meaning_kr":"애정","examples_zh":["父母的愛情","對工作的熱愛"],"examples_kr":["부모의 애정","일에 대한 애정"],"pos":"명사","note":""},
+            {"rank":787,"word":"얘","meaning_zh":"這孩子","meaning_kr":"이 아이","examples_zh":["這孩子很聰明。","這孩子是誰？"],"examples_kr":["얘는 똑똑하다.","얘는 누구야?"],"pos":"대명사","note":"구어체"},
+            {"rank":788,"word":"어머","meaning_zh":"哎呀","meaning_kr":"어머","examples_zh":["哎呀，嚇我一跳！","哎呀，真漂亮！"],"examples_kr":["어머, 깜짝이야!","어머, 예쁘다!"],"pos":"감탄사","note":"女性用語"},
+            {"rank":789,"word":"여보세요","meaning_zh":"喂","meaning_kr":"여보세요","examples_zh":["喂，請問是哪位？","打電話時說喂。"],"examples_kr":["여보세요, 누구세요?","전화로 여보세요라고 말하다."],"pos":"감탄사","note":""},
+            {"rank":790,"word":"일정","meaning_zh":"日程","meaning_kr":"일정","examples_zh":["安排日程","旅行日程"],"examples_kr":["일정을 짜다","여행 일정"],"pos":"명사","note":""},
+            {"rank":791,"word":"장르","meaning_zh":"類型","meaning_kr":"장르","examples_zh":["音樂類型","電影類型"],"examples_kr":["음악 장르","영화 장르"],"pos":"명사","note":""},
+            {"rank":792,"word":"저렇다","meaning_zh":"那樣","meaning_kr":"저렇다","examples_zh":["情況是那樣的。","那樣的人"],"examples_kr":["상황이 저렇다.","저런 사람"],"pos":"형용사","note":""},
+            {"rank":793,"word":"접하다","meaning_zh":"接觸","meaning_kr":"접하다","examples_zh":["接觸新文化。","面臨困難。"],"examples_kr":["새 문화를 접하다.","어려움을 접하다."],"pos":"동사","note":""},
+            {"rank":794,"word":"정성","meaning_zh":"誠意","meaning_kr":"정성","examples_zh":["滿懷誠意。","誠意十足。"],"examples_kr":["정성을 다하다.","정성이 넘치다."],"pos":"명사","note":""},
+            {"rank":795,"word":"제약","meaning_zh":"制約","meaning_kr":"제약","examples_zh":["時間制約","法律制約"],"examples_kr":["시간적 제약","법적 제약"],"pos":"명사","note":""},
+            {"rank":796,"word":"쫓다","meaning_zh":"追趕","meaning_kr":"쫓다","examples_zh":["追趕小偷。","追隨潮流。"],"examples_kr":["도둑을 쫓다.","유행을 쫓다."],"pos":"동사","note":""},
+            {"rank":797,"word":"천","meaning_zh":"千、布","meaning_kr":"천","examples_zh":["一千韓元","棉布"],"examples_kr":["천 원","면 천"],"pos":"명사","note":"同音異義"},
+            {"rank":798,"word":"추가","meaning_zh":"追加","meaning_kr":"추가","examples_zh":["追加費用","追加訂單"],"examples_kr":["추가 비용","추가 주문"],"pos":"명사","note":""},
+            {"rank":799,"word":"테이프","meaning_zh":"膠帶","meaning_kr":"테이프","examples_zh":["透明膠帶","錄音帶"],"examples_kr":["투명 테이프","녹음 테이프"],"pos":"명사","note":""},
+            {"rank":800,"word":"품","meaning_zh":"懷抱、品質","meaning_kr":"품","examples_zh":["抱在懷裡。","商品品質。"],"examples_kr":["품에 안다.","상품의 품"],"pos":"명사","note":"多義詞"},
+            {"rank":801,"word":"해석","meaning_zh":"解釋","meaning_kr":"의미를 풀이함","examples_zh":["解釋法律條文。","對夢境進行解釋。"],"examples_kr":["법 조문을 해석하다.","꿈을 해석하다."],"pos":"명사","note":""},
+            {"rank":802,"word":"확인되다","meaning_zh":"被確認","meaning_kr":"확인되다","examples_zh":["事實被確認了。","預約被確認了。"],"examples_kr":["사실이 확인되다.","예약이 확인되다."],"pos":"동사","note":""},
+            {"rank":803,"word":"가하다","meaning_zh":"施加","meaning_kr":"행하다","examples_zh":["施加壓力。","施加暴力。"],"examples_kr":["압력을 가하다.","폭력을 가하다."],"pos":"동사","note":""},
+            {"rank":804,"word":"간장","meaning_zh":"醬油","meaning_kr":"간장","examples_zh":["韓國醬油","在食物里加醬油"],"examples_kr":["한국 간장","음식에 간장을 넣다"],"pos":"명사","note":""},
+            {"rank":805,"word":"강의","meaning_zh":"講課","meaning_kr":"강의","examples_zh":["大學講課","聽講課"],"examples_kr":["대학 강의","강의를 듣다"],"pos":"명사","note":""},
+            {"rank":806,"word":"거","meaning_zh":"那個","meaning_kr":"그것의 준말","examples_zh":["那個是什麼？","我需要那個。"],"examples_kr":["거 뭐야?","거 필요해."],"pos":"대명사","note":"구어체"},
+            {"rank":807,"word":"고민하다","meaning_zh":"苦惱","meaning_kr":"고민하다","examples_zh":["為問題苦惱。","苦惱了很久。"],"examples_kr":["문제로 고민하다.","오랫동안 고민하다."],"pos":"동사","note":""},
+            {"rank":808,"word":"과","meaning_zh":"科、課","meaning_kr":"부서 또는 수업","examples_zh":["英語科","數學課"],"examples_kr":["영어과","수학 과"],"pos":"명사","note":""},
+            {"rank":809,"word":"교환","meaning_zh":"交換","meaning_kr":"교환","examples_zh":["交換意見。","商品交換。"],"examples_kr":["의견을 교환하다.","상품을 교환하다."],"pos":"명사","note":""},
+            {"rank":810,"word":"국어","meaning_zh":"國語","meaning_kr":"국어","examples_zh":["韓國國語","國語教育"],"examples_kr":["한국 국어","국어 교육"],"pos":"명사","note":""},
+            {"rank":811,"word":"노랗다","meaning_zh":"黃色","meaning_kr":"노랗다","examples_zh":["黃色的花","黃色襯衫"],"examples_kr":["노란 꽃","노란 셔츠"],"pos":"형용사","note":""},
+            {"rank":812,"word":"다치다","meaning_zh":"受傷","meaning_kr":"다치다","examples_zh":["腳受傷了。","在事故中受傷。"],"examples_kr":["발을 다치다.","사고로 다치다."],"pos":"동사","note":""},
+            {"rank":813,"word":"동양","meaning_zh":"東方","meaning_kr":"동양","examples_zh":["東方文化","東方哲學"],"examples_kr":["동양 문화","동양 철학"],"pos":"명사","note":""},
+            {"rank":814,"word":"동포","meaning_zh":"同胞","meaning_kr":"동포","examples_zh":["海外同胞","在日同胞"],"examples_kr":["해외 동포","재일 동포"],"pos":"명사","note":""},
+            {"rank":815,"word":"뚫다","meaning_zh":"穿透","meaning_kr":"뚫다","examples_zh":["穿透牆壁。","突破難關。"],"examples_kr":["벽을 뚫다.","난관을 뚫다."],"pos":"동사","note":""},
+            {"rank":816,"word":"상","meaning_zh":"獎、上面","meaning_kr":"상 또는 위","examples_zh":["獲得獎項","桌子上面"],"examples_kr":["상을 받다","책상 상"],"pos":"명사","note":"多義詞"},
+            {"rank":817,"word":"새","meaning_zh":"新（重複）","meaning_kr":"새","examples_zh":["新學期","新的一年"],"examples_kr":["새 학기","새해"],"pos":"관형사","note":""},
+            {"rank":818,"word":"악기","meaning_zh":"樂器","meaning_kr":"악기","examples_zh":["演奏樂器","傳統樂器"],"examples_kr":["악기를 연주하다","전통 악기"],"pos":"명사","note":""},
+            {"rank":819,"word":"연말","meaning_zh":"年末","meaning_kr":"연말","examples_zh":["年末結算","年末派對"],"examples_kr":["연말 정산","연말 파티"],"pos":"명사","note":""},
+            {"rank":820,"word":"올려놓다","meaning_zh":"放上去","meaning_kr":"올려놓다","examples_zh":["把書放在書架上。","把食物放在桌上。"],"examples_kr":["책을 책장에 올려놓다.","음식을 식탁에 올려놓다."],"pos":"동사","note":""},
+            {"rank":821,"word":"외면하다","meaning_zh":"無視","meaning_kr":"외면하다","examples_zh":["無視問題。","故意無視。"],"examples_kr":["문제를 외면하다.","일부러 외면하다."],"pos":"동사","note":""},
+            {"rank":822,"word":"원고","meaning_zh":"原稿","meaning_kr":"원고","examples_zh":["寫原稿","提交原稿"],"examples_kr":["원고를 쓰다","원고를 제출하다"],"pos":"명사","note":""},
+            {"rank":823,"word":"정말","meaning_zh":"真的（重複）","meaning_kr":"정말","examples_zh":["真的很好。","真的嗎？"],"examples_kr":["정말 좋다.","정말이야?"],"pos":"부사","note":""},
+            {"rank":824,"word":"줄곧","meaning_zh":"一直","meaning_kr":"줄곧","examples_zh":["一直等待。","一直努力。"],"examples_kr":["줄곧 기다리다.","줄곧 노력하다."],"pos":"부사","note":""},
+            {"rank":825,"word":"지출","meaning_zh":"支出","meaning_kr":"지출","examples_zh":["減少支出","每月支出"],"examples_kr":["지출을 줄이다","월간 지출"],"pos":"명사","note":""},
+            {"rank":826,"word":"차","meaning_zh":"次、茶（重複）","meaning_kr":"번째","examples_zh":["第一次","這次機會"],"examples_kr":["첫 번째 차","이번 차"],"pos":"의존명사","note":"多義詞"},
+            {"rank":827,"word":"치우다","meaning_zh":"收拾","meaning_kr":"치우다","examples_zh":["收拾房間。","把車挪開。"],"examples_kr":["방을 치우다.","차를 치우다."],"pos":"동사","note":""},
+            {"rank":828,"word":"피로","meaning_zh":"疲勞","meaning_kr":"피로","examples_zh":["感到疲勞","消除疲勞"],"examples_kr":["피로를 느끼다","피로를 풀다"],"pos":"명사","note":""},
+            {"rank":829,"word":"향","meaning_zh":"方向、香氣","meaning_kr":"방향 또는 냄새","examples_zh":["朝著家的方向","花的香氣"],"examples_kr":["집을 향하다","꽃 향"],"pos":"명사","note":"多義詞"},
+            {"rank":830,"word":"개선하다","meaning_zh":"改善","meaning_kr":"개선하다","examples_zh":["改善服務。","改善關係。"],"examples_kr":["서비스를 개선하다.","관계를 개선하다."],"pos":"동사","note":""},
+            {"rank":831,"word":"계좌","meaning_zh":"帳戶","meaning_kr":"계좌","examples_zh":["銀行帳戶","開設帳戶"],"examples_kr":["은행 계좌","계좌를 개설하다"],"pos":"명사","note":""},
+            {"rank":832,"word":"당기다","meaning_zh":"拉","meaning_kr":"당기다","examples_zh":["拉門。","拉繩子。"],"examples_kr":["문을 당기다.","줄을 당기다."],"pos":"동사","note":""},
+            {"rank":833,"word":"도","meaning_zh":"也、度","meaning_kr":"또 또는 정도","examples_zh":["我也去。","某種程度。"],"examples_kr":["나도 가다.","어느 정도"],"pos":"부사","note":"多義詞"},
+            {"rank":834,"word":"들다","meaning_zh":"進入（重複）","meaning_kr":"들다","examples_zh":["進入大學。","參加會議。"],"examples_kr":["대학에 들다.","회의에 들다."],"pos":"동사","note":""},
+            {"rank":835,"word":"따르다","meaning_zh":"跟隨（重複）","meaning_kr":"따르다","examples_zh":["跟隨導遊。","按照指示。"],"examples_kr":["가이드를 따라가다.","지시에 따르다."],"pos":"동사","note":""},
+            {"rank":836,"word":"말기","meaning_zh":"末期","meaning_kr":"말기","examples_zh":["世紀末期","疾病末期"],"examples_kr":["세기 말기","병의 말기"],"pos":"명사","note":""},
+            {"rank":837,"word":"말없이","meaning_zh":"沉默地","meaning_kr":"말없이","examples_zh":["沉默地坐著。","沉默地離開。"],"examples_kr":["말없이 앉아 있다.","말없이 떠나다."],"pos":"부사","note":""},
+            {"rank":838,"word":"망하다","meaning_zh":"完蛋","meaning_kr":"망하다","examples_zh":["生意完蛋了。","計劃失敗了。"],"examples_kr":["사업이 망하다.","계획이 망하다."],"pos":"동사","note":""},
+            {"rank":839,"word":"문서","meaning_zh":"文件","meaning_kr":"문서","examples_zh":["重要文件","電子文件"],"examples_kr":["중요 문서","전자 문서"],"pos":"명사","note":""},
+            {"rank":840,"word":"박수","meaning_zh":"鼓掌","meaning_kr":"박수","examples_zh":["熱烈鼓掌","值得鼓掌"],"examples_kr":["열렬한 박수","박수 받을 만하다"],"pos":"명사","note":""},
+            {"rank":841,"word":"부자","meaning_zh":"富人","meaning_kr":"부자","examples_zh":["成為富人","富人和窮人"],"examples_kr":["부자가 되다","부자와 가난한 사람"],"pos":"명사","note":""},
+            {"rank":842,"word":"사흘","meaning_zh":"三天","meaning_kr":"사흘","examples_zh":["三天後","等了三天"],"examples_kr":["사흘 후","사흘을 기다리다"],"pos":"명사","note":""},
+            {"rank":843,"word":"서쪽","meaning_zh":"西邊","meaning_kr":"서쪽","examples_zh":["朝西走","西邊的天空"],"examples_kr":["서쪽으로 가다","서쪽 하늘"],"pos":"명사","note":""},
+            {"rank":844,"word":"성립되다","meaning_zh":"成立","meaning_kr":"성립되다","examples_zh":["合同成立了。","理論成立了。"],"examples_kr":["계약이 성립되다.","이론이 성립되다."],"pos":"동사","note":""},
+            {"rank":845,"word":"손자","meaning_zh":"孫子","meaning_kr":"손자","examples_zh":["我的孫子","孫子和孫女"],"examples_kr":["내 손자","손자와 손녀"],"pos":"명사","note":""},
+            {"rank":846,"word":"신랑","meaning_zh":"新郎","meaning_kr":"신랑","examples_zh":["婚禮新郎","新郎的衣服"],"examples_kr":["결혼식 신랑","신랑 복장"],"pos":"명사","note":""},
+            {"rank":847,"word":"실습","meaning_zh":"實習","meaning_kr":"실습","examples_zh":["進行實習","醫學實習"],"examples_kr":["실습을 하다","의학 실습"],"pos":"명사","note":""},
+            {"rank":848,"word":"일찍이","meaning_zh":"早已","meaning_kr":"일찍이","examples_zh":["早已知道。","早已準備好了。"],"examples_kr":["일찍이 알았다.","일찍이 준비되었다."],"pos":"부사","note":""},
+            {"rank":849,"word":"자율","meaning_zh":"自律","meaning_kr":"자율","examples_zh":["自律學習","自律性"],"examples_kr":["자율 학습","자율성"],"pos":"명사","note":""},
+            {"rank":850,"word":"제법","meaning_zh":"相當","meaning_kr":"제법","examples_zh":["相當不錯。","相當努力。"],"examples_kr":["제법 괜찮다.","제법 열심히 한다."],"pos":"부사","note":""}
         ];
         
         // ===== 功能函數 =====
@@ -230,7 +985,8 @@
                 card.innerHTML = `
                     <div class="word-rank">#${item.rank}</div>
                     <div class="word-main">${item.word}</div>
-                    <div class="word-chinese">${item.chinese}</div>
+                    <div class="word-chinese">${item.meaning_zh}</div>
+                    <div class="word-pos">${item.pos}</div>
                 `;
                 card.onclick = () => {
                     if (colorMode) {
@@ -253,30 +1009,32 @@
         
         function showDetail(item) {
             const detail = document.getElementById('wordDetail');
-            const examplesHTML = item.examples.map(ex => `
-                <div class="phrase-section">
-                    <h3>${ex.phrase} <button class="audio-btn" onclick="speakKorean('${ex.quote}')">🔊 發音</button></h3>
-                    <div class="quote">${ex.quote}</div>
-                    <div class="explanation">
-                        <strong>의미 설명:</strong>
-                        <p>${ex.meaning}</p>
-                    </div>
-                    <div class="explanation">
-                        <strong>中文翻譯:</strong>
-                        <p>${ex.chinese}</p>
-                    </div>
-                    <div class="explanation">
-                        <strong>延伸用法:</strong>
-                        <ul class="usage-list">
-                            ${ex.usage.map(u => `<li>${u} <button class="audio-btn" onclick="speakKorean('${u}')" style="font-size:0.8rem; padding:0.2rem 0.5rem;">🔊</button></li>`).join('')}
-                        </ul>
-                    </div>
+            
+            const examplesHTML = item.examples_kr.map((ex, idx) => `
+                <div class="example-item">
+                    <p><strong>韓文例句：</strong>${ex} 
+                        <button class="audio-btn" onclick="speakKorean('${ex}')">🔊</button>
+                    </p>
+                    <p><strong>中文翻譯：</strong>${item.examples_zh[idx]}</p>
                 </div>
             `).join('');
+            
             detail.innerHTML = `
-                <h2>${item.word} <button class="audio-btn" onclick="speakKorean('${item.word}')">🔊 發音</button></h2>
-                <p style="color: #72777d; margin-bottom: 1.5rem;">순위: #${item.rank} | 中文: ${item.chinese}</p>
-                ${examplesHTML}
+                <h2>${item.word} 
+                    <button class="audio-btn" onclick="speakKorean('${item.word}')">🔊 發音</button>
+                </h2>
+                
+                <div class="detail-info">
+                    <p><strong>詞性：</strong>${item.pos}</p>
+                    <p><strong>中文意思：</strong>${item.meaning_zh}</p>
+                    <p><strong>韓文解釋：</strong>${item.meaning_kr}</p>
+                    ${item.note ? `<p><strong>備註：</strong>${item.note}</p>` : ''}
+                </div>
+                
+                <div class="example-section">
+                    <h3>例句 Examples</h3>
+                    ${examplesHTML}
+                </div>
             `;
             document.getElementById('modal').classList.add('active');
         }
@@ -286,17 +1044,18 @@
         }
         
         function exportRange(start, end) {
-            const rangeWords = ALL_WORDS.filter(w => w.rank >= start && w.rank <= end);
+            const rangeWords = WORD_DATA.filter(w => w.rank >= start && w.rank <= end);
             let exportText = `韓文單字 ${start}-${end}\n\n`;
             rangeWords.forEach(w => {
-                exportText += `#${w.rank} ${w.word} (${w.chinese})\n`;
-                w.examples.forEach(ex => {
-                    exportText += `  片語: ${ex.phrase}\n`;
-                    exportText += `  例句: ${ex.quote}\n`;
-                    exportText += `  說明: ${ex.meaning}\n`;
-                    exportText += `  中文: ${ex.chinese}\n`;
-                    exportText += `  用法: ${ex.usage.join(', ')}\n\n`;
+                exportText += `#${w.rank} ${w.word} (${w.meaning_zh})\n`;
+                exportText += `詞性: ${w.pos}\n`;
+                exportText += `韓文說明: ${w.meaning_kr}\n`;
+                w.examples_kr.forEach((ex, i) => {
+                    exportText += `  例句 ${i+1}: ${ex}\n`;
+                    exportText += `  中文: ${w.examples_zh[i]}\n`;
                 });
+                if (w.note) exportText += `備註: ${w.note}\n`;
+                exportText += `\n`;
             });
             
             const blob = new Blob([exportText], {type: 'text/plain;charset=utf-8'});
@@ -314,14 +1073,16 @@
         
         document.getElementById('searchInput').oninput = (e) => {
             const query = e.target.value.toLowerCase();
-            const filtered = ALL_WORDS.filter(w => 
+            const filtered = WORD_DATA.filter(w => 
                 w.word.toLowerCase().includes(query) || 
-                w.chinese.toLowerCase().includes(query)
+                w.meaning_zh.toLowerCase().includes(query) ||
+                w.meaning_kr.toLowerCase().includes(query)
             );
             renderWords(filtered);
         };
         
-        renderWords(ALL_WORDS);
+        // 初始化
+        renderWords(WORD_DATA);
         selectColor('default');
     </script>
 </body>
